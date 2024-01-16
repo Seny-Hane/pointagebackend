@@ -1,0 +1,111 @@
+<div class="grid" *ngIf="tourner==true">
+    <h5 class="spinner">Veuillez Patienter...</h5>
+    <p-progressSpinner class="spinner"></p-progressSpinner>
+</div>
+<div *ngIf="erreur==true && tourner==false" class="alert alert-danger" >
+    Serveur Indisponible
+</div>
+<div class="grid" *ngIf="pointages">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                            <p-calendar inputId="icon" showIcon="true" dateFormat="dd-mm-yy" placeholder="Choisir une date" [(ngModel)]="date1" (onSelect)="getListPointageByDate(date1)"></p-calendar>
+
+<!--                        <div class="p-field p-col-12 p-md-4">-->
+<!--                            <label for="">Range</label>-->
+<!--                            <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" inputId="range"></p-calendar>-->
+<!--                        </div>-->
+<!--                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="handleNewAgent()"></button>-->
+<!--                        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="handleDeleteAgents()" [disabled]="!selectedAgents || !selectedAgents.length"></button>-->
+                    </div>
+                </ng-template>
+
+<!--                                <ng-template pTemplate="right">-->
+<!--&lt;!&ndash;                                    <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>&ndash;&gt;-->
+<!--                                    <button pButton pRipple label="All"  class="p-button-help" (click)="getAllPointage()"></button>-->
+<!--                                </ng-template>-->
+            </p-toolbar>
+
+
+
+            <p-table #dt [value]="pointages" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['agent.matricule','agent.nomagent','agent.service.nomservice','agent.prenomagent', 'heurearrivee', 'heuredesente', 'motif.motif']" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedPointages" selectionMode="multiple" [rowHover]="true" dataKey="idpointage">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Liste des Pointages</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input  pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Rechercher..." >
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+<!--                        <th style="width: 3rem">-->
+<!--                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>-->
+<!--                        </th>-->
+                        <th>Matricule </th>
+                        <th>Prénom </th>
+                        <th>Nom </th>
+                        <th pSortableColumn="agent.service.nomservice">Service <p-sortIcon field="agent.service.nomservice"></p-sortIcon></th>
+                        <th pSortableColumn="datepointage">Date Pointage <p-sortIcon field="datepointage"></p-sortIcon></th>
+                        <th pSortableColumn="heurearrivee">Heure d'arrivée <p-sortIcon field="heurearrivee"></p-sortIcon></th>
+                        <th pSortableColumn="heuredescente">Heure de Descente <p-sortIcon field="heuresortie"></p-sortIcon></th>
+                        <th pSortableColumn="cumulheure">Cumul Heure <p-sortIcon field="cumulheure"></p-sortIcon></th>
+<!--                        <th pSortableColumn="motif.motif">Status <p-sortIcon field="motif"></p-sortIcon></th>-->
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-pointage>
+                    <tr>
+<!--                        <td>-->
+<!--                            <p-tableCheckbox [value]="selectedPointages"></p-tableCheckbox>-->
+<!--                        </td>-->
+                        <td style="width:14%; min-width:10rem;"><span class="p-column-title">Matricule</span>
+                            {{pointage.agent.matricule}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Prénom</span>
+                            {{pointage.agent.prenomagent}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Nom</span>
+                            {{pointage.agent.nomagent}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Service</span>
+                            {{pointage.agent.service.nomservice}}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">Date Pointage</span>
+                            {{pointage.datepointage}}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">Heure d'arrivée</span>
+                            {{pointage.heurearrivee }}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">heure de descente</span>
+                            {{pointage.heuredescente}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Cumul heure</span>
+                            {{pointage.cumulheure}}
+                        </td>
+<!--                        <td style="width:14%; min-width:10rem;">-->
+<!--                            <span class="p-column-title">Status</span>-->
+<!--                            {{pointage.motif.motif}}-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <div class="flex">-->
+<!--                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="handleDeleteAgent(agent)"></button>-->
+<!--                            </div>-->
+<!--                        </td>-->
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

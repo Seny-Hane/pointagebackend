@@ -1,0 +1,287 @@
+<div class="grid" *ngIf="tourner==true">
+    <h5 class="spinner">Veuillez Patienter...</h5>
+    <p-progressSpinner class="spinner"></p-progressSpinner>
+</div>
+<div *ngIf="erreur==true && tourner==false" class="alert alert-danger" >
+    Serveur Indisponible
+</div>
+<div class="grid" *ngIf="services">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="Nouveau" icon="pi pi-plus" class="p-button-success mr-2" (click)="handleNewService()"></button>
+<!--                        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="handleDeleteAgents()" [disabled]=" !selectedAgents || !selectedAgents.length"></button>-->
+                    </div>
+                </ng-template>
+
+
+
+<!--                                <ng-template pTemplate="right">-->
+<!--&lt;!&ndash;                                    <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>&ndash;&gt;-->
+<!--                                    <button pButton pRipple label="All"  class="p-button-help" (click)="getAllPointage()"></button>-->
+<!--                                </ng-template>-->
+            </p-toolbar>
+            <p-table #dt [value]="services" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['nomservice','numeroservice','codepostal','codeservice', 'codeips', 'telephone', 'email']" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedPointages" selectionMode="multiple" [rowHover]="true" dataKey="idpointage">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Liste des Services</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input  pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Rechercher..." >
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <!--                        <th style="width: 3rem">-->
+                        <!--                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>-->
+                        <!--                        </th>-->
+                        <th pSortableColumn="nomservice">Nom Service <p-sortIcon field="nomservice"></p-sortIcon> </th>
+                        <th>Numero Service </th>
+                        <th>Code Postal </th>
+                       <!-- <th>Code Service </th>-->
+                        <th>codeips </th>
+                        <th>Telephone</th>
+                        <th>Email</th>
+                        <th>Adresse </th>
+                        <th>Drp</th>
+                        <th>Type Service</th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-service>
+                    <tr>
+                        <!--                        <td>-->
+                        <!--                            <p-tableCheckbox [value]="selectedPointages"></p-tableCheckbox>-->
+                        <!--                        </td>-->
+                        <td style="width:14%; min-width:10rem;"><span class="p-column-title">Nom Service</span>
+                            {{service.nomservice}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Numero Service</span>
+                            {{service.numeroservice}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Code Service</span>
+                            {{service.codepostal}}
+                        </td>
+<!--                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Code Service</span>
+                            {{service.codeservice}}
+                        </td>-->
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">Code Ips</span>
+                            {{service.codeips}}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">telephone</span>
+                            {{service.telephone }}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">e_mail</span>
+                            {{service.email}}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">Adresse</span>
+                            {{service.adresse}}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">Drp</span>
+                            {{service.drp.libelle}}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">Drp</span>
+                            {{service.typeService.libelle}}
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="handleEditService(service)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger mr-2" (click)="deleteService(service)" pTooltip="Supprimer un eleve"></button>
+                            </div>
+                        </td>
+                        <!--                        <td style="width:14%; min-width:10rem;">-->
+                        <!--                            <span class="p-column-title">Status</span>-->
+                        <!--                            {{pointage.motif.motif}}-->
+                        <!--                        </td>-->
+                        <!--                        <td>-->
+                        <!--                            <div class="flex">-->
+                        <!--                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="handleDeleteAgent(agent)"></button>-->
+                        <!--                            </div>-->
+                        <!--                        </td>-->
+                    </tr>
+                </ng-template>
+            </p-table>
+
+            <p-dialog *ngIf="services" [(visible)]="agentDialog" [style]="{width: '800px', height: 'auto'}"
+                      header="Informations de service" [modal]="true" class="p-fluid">
+                <ng-template pTemplate="content">
+
+                    <div class="p-formgrid grid">
+                        <div class="field col ">
+                            <label for="nomservice">Nom service<span style="color: red"> *</span></label>
+                            <input type="text" pInputText id="nomservice" [(ngModel)]="service.nomservice" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !service.nomservice}">
+                            <small *ngIf="submitted && !service.nomservice" class="p-error">Le nom du service est obligatoire.</small>
+                        </div>
+                        <div class="field col ">
+                            <label for="numeroservice">Numéro service <span style="color: red"> *</span></label>
+                            <input type="text" pInputText id="numeroservice" [(ngModel)]="service.numeroservice" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !service.numeroservice}">
+                            <small *ngIf="submitted && !service.numeroservice" class="p-error">La numéro service est obligatoire.</small>
+                        </div>
+                    </div>
+                    <div class="p-formgrid grid">
+                        <div class="field col ">
+                            <label for="codepostal">Code Postal</label>
+                            <input type="text" pInputText id="codepostal" [(ngModel)]
+                                ="service.codepostal">
+
+                        </div>
+                        <div class="field col ">
+                            <label for="codeips">Code ips</label>
+                            <input type="text" pInputText id="codeips" [(ngModel)]
+                                ="service.codeips">
+
+                        </div>
+                        <div class="field col ">
+                            <label for="adresse">Adresse</label>
+                            <input type="text" pInputText id="adresse"
+                                   [(ngModel)]="service.adresse" >
+
+                        </div>
+                    </div>
+                    <div class="p-formgrid grid">
+                        <div class="field col ">
+                            <label for="telephone">Telephone</label>
+                            <input type="text" pInputText id="telephone" [(ngModel)]
+                                ="service.telephone"required [ngClass]=
+                                       "{'ng-invalid ng-dirty' : submitted && !service.telephone}">
+
+                        </div>
+                        <div class="field col ">
+                            <label for="email">Mail</label>
+                            <input type="text" pInputText id="email" [(ngModel)]
+                                ="service.email" required [ngClass]=
+                                       "{'ng-invalid ng-dirty' : submitted && !service.email}">
+
+                        </div>
+
+                    </div>
+<!--                    <div class="field col-3 md:col-3">
+                        <h5>Drp</h5>
+
+                        <p-autoComplete placeholder="Choisir un drp" appendTo="body" readonly="false"  [(ngModel)]="drp" [virtualScroll]="true"
+                                        [suggestions]="drps" (completeMethod)="filterItemsDrp($event)"  field="libelle" [dropdown]="true" ></p-autoComplete>
+
+
+
+                        &lt;!&ndash;                        <small *ngIf="submitted && !currentService " class="p-error">Le service est obligatoire.</small>&ndash;&gt;
+                    </div>
+
+                    <div class="field col-3 md:col-3">
+                        <h5>Type de service</h5>
+
+                        <p-autoComplete placeholder="Choisir un type de service" appendTo="body" readonly="false"  [(ngModel)]="typeService" [virtualScroll]="true"
+                                        [suggestions]="typeServices" (completeMethod)="filterItemsTypeService($event)" field="libelle" [dropdown]="true" ></p-autoComplete>
+
+                        &lt;!&ndash;                        <small *ngIf="submitted && !currentService " class="p-error">Le service est obligatoire.</small>&ndash;&gt;
+                    </div>-->
+                    <div class="p-formgrid grid">
+                        <div class="field col">
+                            <h5>Drp</h5>
+
+                            <p-autoComplete placeholder="Choisir un drp" appendTo="body" readonly="false"  [(ngModel)]="drp" [virtualScroll]="true"
+                                            [suggestions]="drps" (completeMethod)="filterItemsDrp($event)"  field="libelle" [dropdown]="true" ></p-autoComplete>
+
+
+
+                            <!--                        <small *ngIf="submitted && !currentService " class="p-error">Le service est obligatoire.</small>-->
+
+                        </div>
+                        <div class="field col ">
+                            <h5>Type de service</h5>
+
+                            <p-autoComplete placeholder="Choisir un type de service" appendTo="body" readonly="false"  [(ngModel)]="typeService" [virtualScroll]="true"
+                                            [suggestions]="typeServices" (completeMethod)="filterItemsTypeService($event)" field="libelle" [dropdown]="true" ></p-autoComplete>
+
+                        </div>
+                      <!--  <div class="field col ">
+                            <label for="dateCreation">Date de Création</label>
+                            <input type="date" pInputText id="dateCreation"
+                                   [(ngModel)]="service.datecreation" required [ngClass]
+                                       ="{'ng-invalid ng-dirty' : submitted && !service.datecreation}">
+
+                        </div>-->
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="footer">
+
+                    <button pButton pRipple type="button" label="Annuler" icon="pi pi-times"  class="p-button-danger" (click)="hideDialog()"></button>
+                    <button pButton pRipple type="button" label="Enregistrer" icon="pi pi-check"  class="p-button-success" (click)="saveService()"></button>
+                </ng-template>
+            </p-dialog>
+            <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+;
+           <!-- <p-table #dt [value]="services" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['nomservice','numeroservice','codepostal','codeservice', 'codeips', 'telephone', 'email']" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedPointages" selectionMode="multiple" [rowHover]="true" dataKey="idpointage">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Liste des Services</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input  pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Rechercher..." >
+                        </span>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-service>
+                    <tr>
+&lt;!&ndash;                        <td>&ndash;&gt;
+&lt;!&ndash;                            <p-tableCheckbox [value]="selectedPointages"></p-tableCheckbox>&ndash;&gt;
+&lt;!&ndash;                        </td>&ndash;&gt;
+                        <td style="width:14%; min-width:10rem;"><span class="p-column-title">Nom Service</span>
+                            {{service.nomservice}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Numero Service</span>
+                            {{service.numeroservice}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Code Service</span>
+                            {{service.codepostal}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Code Service</span>
+                            {{service.codeservice}}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">Code Ips</span>
+                            {{service.codeips}}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">telephone</span>
+                            {{service.telephone }}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">e_mail</span>
+                            {{service.email}}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">Adresse</span>
+                            {{service.adresse}}
+                        </td>
+&lt;!&ndash;                        <td style="width:14%; min-width:10rem;">&ndash;&gt;
+&lt;!&ndash;                            <span class="p-column-title">Status</span>&ndash;&gt;
+&lt;!&ndash;                            {{pointage.motif.motif}}&ndash;&gt;
+&lt;!&ndash;                        </td>&ndash;&gt;
+&lt;!&ndash;                        <td>&ndash;&gt;
+&lt;!&ndash;                            <div class="flex">&ndash;&gt;
+&lt;!&ndash;                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="handleDeleteAgent(agent)"></button>&ndash;&gt;
+&lt;!&ndash;                            </div>&ndash;&gt;
+&lt;!&ndash;                        </td>&ndash;&gt;
+                    </tr>
+                </ng-template>
+            </p-table>
+      -->  </div>
+    </div>
+</div>
