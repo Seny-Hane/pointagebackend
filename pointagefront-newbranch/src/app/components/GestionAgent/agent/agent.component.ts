@@ -61,7 +61,8 @@ export class AgentComponent implements OnInit {
     date2 : Date;
     date3 : Date;
 
-
+    mat: string;
+    agentstatutDialog: boolean;
 
   constructor(public agentService : AgentService,
               public fb : FormBuilder,
@@ -148,6 +149,7 @@ export class AgentComponent implements OnInit {
         this.agentDialog = false;
         this.submitted = false;
     }
+
 
     saveAgent(agent : Agent) {
         this.submitted = true;
@@ -409,6 +411,16 @@ export class AgentComponent implements OnInit {
     hideDialog3() {
         this.ImportTabDialog = false;
         this.submitted = false;
+    }
+
+    hideDialog4() {
+        this.agentstatutDialog = false;
+        this.submitted = false;
+    }
+
+    handleAddStatut(Agent) {
+        this.agent = Agent;
+        this.agentstatutDialog= true;
     }
 
 }

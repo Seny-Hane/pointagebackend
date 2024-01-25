@@ -120,6 +120,13 @@ import { AbsencePeriodiqueComponent } from './components/GestionPointage/absence
 import {ProgressSpinnerModule} from "primeng/progressspinner";
 import { ServicesPosteComponent } from './components/services-poste/services-poste.component';
 import { AbsencePeriodiqueParServiceComponent } from './components/GestionPointage/absence-periodique-par-service/absence-periodique-par-service.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatButtonModule } from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
+import { AttributionRoleComponent } from './components/GestionUtilisateur/attribution-role/attribution-role.component';
+
+
 
 @NgModule({
     imports: [
@@ -213,6 +220,10 @@ import { AbsencePeriodiqueParServiceComponent } from './components/GestionPointa
         StyleClassModule,
         ReactiveFormsModule,
         ProgressSpinnerModule,
+        MatSlideToggleModule,
+        MatButtonModule,
+        MatDividerModule,
+        MatIconModule,
     ],
     declarations: [
         AppComponent,
@@ -235,6 +246,7 @@ import { AbsencePeriodiqueParServiceComponent } from './components/GestionPointa
         AbsencePeriodiqueComponent,
         ServicesPosteComponent,
         AbsencePeriodiqueParServiceComponent,
+        AttributionRoleComponent,
     ],
     providers: [ DatePipe,
         {

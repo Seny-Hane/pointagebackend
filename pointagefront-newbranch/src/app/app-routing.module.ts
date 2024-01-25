@@ -16,6 +16,7 @@ import {SuperviseurComponent} from "./components/GestionPointage/superviseur/sup
 import {AbsencePeriodiqueComponent} from "./components/GestionPointage/absence-periodique/absence-periodique.component";
 import { ServicesPosteComponent } from './components/services-poste/services-poste.component';
 import { AbsencePeriodiqueParServiceComponent } from './components/GestionPointage/absence-periodique-par-service/absence-periodique-par-service.component';
+import { AttributionRoleComponent } from './components/GestionUtilisateur/attribution-role/attribution-role.component';
 @NgModule({
     imports: [
         RouterModule.forRoot([
@@ -42,6 +43,7 @@ import { AbsencePeriodiqueParServiceComponent } from './components/GestionPointa
                     {path: 'gestion/absenceperiodiqueparservice', component: AbsencePeriodiqueParServiceComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_CHEFDESERVICE']},'ROLE_DRH']},
 
                     {path: 'gestion/servicesPoste', component: ServicesPosteComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_DRH']}},
+                    {path: 'gestion/attributionRole', component: AttributionRoleComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_DRH','ROLE_AGENT','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE']}},
                 ],
             },
 
