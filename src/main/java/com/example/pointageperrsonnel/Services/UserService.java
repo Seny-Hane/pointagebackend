@@ -22,5 +22,7 @@ public interface UserService {
     List<User> getUserByServiceCodeservice(int serviceCodeservice);
 
     void deleteUser(User user);
+
+
 }
 

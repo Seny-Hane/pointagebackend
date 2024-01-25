@@ -17,7 +17,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "select u from User u where u.service.codeservice=:serviveCodeservice")
     public List<User> findByService(@Param("serviveCodeservice") int serviveCodeservice);
 
+    /*@Query(value = "select u from User u where u.service.codeservice=:serviceCodeservice")
+    User findByCodeService(@Param("serviceCodeservice") int serviceCodeservice);*/
+
     @Query(value = "SELECT * FROM user WHERE id=:iduser", nativeQuery = true)
     User findUserById();
+
 }
 

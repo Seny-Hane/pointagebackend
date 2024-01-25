@@ -21,7 +21,7 @@ public class MotifController {
          return motifRepository.findAll();
      }
 
-     //Crestion motif
+     //Creation motif
     @PostMapping(value = "/savemotif")
     public Motif save(@RequestBody Motif motif){
        return motifRepository.save(motif);

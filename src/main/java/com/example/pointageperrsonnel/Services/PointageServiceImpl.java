@@ -30,7 +30,6 @@ public class PointageServiceImpl implements PointageService{
     @Override
     public List<Pointage> findByInvervalleDatesAgentPresent(Date datepointage1, Date datepointage2, int idagent, int codeservice) {
       return  pointageRepository.findByIntervalleDatesAgentPresent(datepointage1, datepointage2, idagent, codeservice);
-
     }
 
     @Override
@@ -41,7 +40,6 @@ public class PointageServiceImpl implements PointageService{
     @Override
     public List<Pointage> findByInvervalleDatesAgentRetard(Date datepointage1, Date datepointage2, int idagent, int codeservice) {
         return  pointageRepository.findByIntervalleDatesAgentRetard(datepointage1, datepointage2, idagent, codeservice);
-
     }
 
     @Override
@@ -81,7 +79,6 @@ public class PointageServiceImpl implements PointageService{
         }else {
             poursuivre=true;//L'enregistrement est possible, l'agent n'a pas encore pointe
         }
-
         return poursuivre;
     }
 

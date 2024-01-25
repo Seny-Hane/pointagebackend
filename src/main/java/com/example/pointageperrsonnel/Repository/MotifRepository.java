@@ -6,9 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface MotifRepository extends JpaRepository<Motif, Integer> {
-    //Le motif en recuperqnt son id
+    //Le motif en recuperant son id
     @Query("select m from Motif m where m.motif=:motif")
     Motif findMotifByMotif(@Param("motif") String motif);
-
 
 }

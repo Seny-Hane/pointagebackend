@@ -5,6 +5,7 @@ import com.example.pointageperrsonnel.Entity.User;
 import com.example.pointageperrsonnel.Entity.UserRole;
 import com.example.pointageperrsonnel.KeycloakSecurity.KeyCloakService;
 import com.example.pointageperrsonnel.Repository.UserRepository;
+import com.example.pointageperrsonnel.Repository.UserRoleRepository;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,9 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserRoleService userRoleService;
 
     @Autowired
     private KeyCloakService keyCloakService;
@@ -51,6 +55,7 @@ public class UserServiceImpl implements UserService {
                     userRole.setRole(user.getRole());
                     userRole.setUser(user);
                     userRole.setDateAtribution(new Date());
+                    userRoleService.saveUserRole(userRole);
             }
                 else {
                     this.deleteUser(user);
@@ -98,6 +103,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(User user) {
         userRepository.delete(user);
     }
+
 
 }
 

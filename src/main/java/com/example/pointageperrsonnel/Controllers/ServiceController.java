@@ -44,7 +44,6 @@ public class ServiceController {
         return serviceRepository.findServicesByNumeroservice(numeroservice);
     }
 
-
     //Affichage agents en fonction du nom service
 
 

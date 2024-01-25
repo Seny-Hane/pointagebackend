@@ -21,6 +21,9 @@ public interface AgentRepository extends JpaRepository<Agent, Integer> {
 
     Agent findByFileName(String fileName);
 
+    @Query(value = "select a from Agent a where a.service.codeservice=:serviceCodeservice")
+    Agent findByCodeService(@Param("serviceCodeservice") int serviceCodeservice);
+
     /*//Liste des agent n'ayant pas pointe par service
     @Query("SELECT a FROM Agent a WHERE a.idagent NOT IN (SELECT p.agent.idagent FROM Pointage p WHERE (p.datepointage BETWEEN :datepointage1 AND :datepointage2)) AND a.service.codeservice=:codeservice")
     List<Agent> findAgents(@Param("datepointage1") Date datepointage1, @Param("datepointage2") Date datepointage2, @Param("codeservice") int codeservice);

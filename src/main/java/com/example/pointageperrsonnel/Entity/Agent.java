@@ -48,7 +48,6 @@ public class Agent {
     private Date premierjourtravail;
     private String fileName;
 
-
     @Transient
     private MultipartFile file;
 
@@ -59,6 +58,10 @@ public class Agent {
     @ManyToOne
     @JoinColumn(name="codeservice")
     private Service service;
+
+    @ManyToOne
+    @JoinColumn(name="idstatut")
+    private StatutAgent statutAgent;
 
   /*  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "agent_pointage",
