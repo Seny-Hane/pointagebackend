@@ -8,12 +8,12 @@ import org.keycloak.admin.client.KeycloakBuilder;
 public class KeycloakConfig {
 
     static Keycloak keycloak = null;
-
     final static String serverUrl = "http://10.14.14.232:8180/auth";
     //final static String serverUrl = "http://digipost.sn.post:8082/auth";
     public final static String realm = "Digital-Poste";
-    final static String clientId = "BackEnd_Pointage";
-    final static String clientSecret = "2454520b-3b80-4a76-a8a0-132fbe96c71c";
+    final static String clientId = "Backend_Pointage";
+    //final static String clientSecret = "2454520b-3b80-4a76-a8a0-132fbe96c71c";
+    final static String clientSecret = "ab85cc96-76ed-4e94-8dad-d1b01e8748b5";
     final static String userName = "diago";
     final static String password = "1234";
 

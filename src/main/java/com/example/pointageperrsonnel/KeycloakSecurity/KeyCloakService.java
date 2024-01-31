@@ -11,14 +11,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
+//AJOUT
+import static com.example.pointageperrsonnel.KeycloakSecurity.KeycloakConfig.*;
 
 @AllArgsConstructor
 @Service
 public class KeyCloakService {
 
     public boolean addUser(User user){
+        System.out.println(user.toString());
         boolean result = false;
         CredentialRepresentation credential = Credentials
                 .createPasswordCredentials("1234");
@@ -26,18 +27,21 @@ public class KeyCloakService {
         newUser.setUsername(user.getEmail());
         newUser.setFirstName(user.getPrenom());
         newUser.setLastName(user.getNom());
-        //newUser.setEmail(user.getEmail());
+        newUser.setEmail(user.getEmail());
         newUser.setCredentials(Collections.singletonList(credential));
         newUser.setEnabled(user.isEnable());
+        newUser.setRequiredActions(Collections.singletonList("UPDATE_PASSWORD"));
+        System.out.println(newUser.toString());
 
         UsersResource instance = getInstance();
-        if (instance.create(newUser)!=null){
+        instance.create(newUser);
+        /*if (instance.create(newUser)!=null){
             result = true;
-        }
-        return result;
+        }*/
+        return true;
     }
 
-    public void addUser2(User user){
+    /*public void addUser2(User user){
         boolean result = false;
         CredentialRepresentation credential = Credentials
                 //.createPasswordCredentials(user.getPassword());
@@ -52,9 +56,9 @@ public class KeyCloakService {
 
         UsersResource instance = getInstance();
         instance.create(newUser);
-    }
+    }*/
 
-    @Transactional
+    /*@Transactional
     public void addListUser(List<User> users) {
         int counter = 0;
         for (User emp : users) {
@@ -66,7 +70,7 @@ public class KeyCloakService {
             }
             counter++;
         }
-    }
+    }*/
 
     public List<UserRepresentation> getUser(String userName){
         UsersResource usersResource = getInstance();
@@ -130,7 +134,9 @@ public class KeyCloakService {
     }
 
     private UsersResource getInstance() {
-        return null;
+       // return null;
+        //AJOUT
+        return KeycloakConfig.getInstance().realm(realm).users();
     }
 
     private void getUserIdKeycloak(String email) {}

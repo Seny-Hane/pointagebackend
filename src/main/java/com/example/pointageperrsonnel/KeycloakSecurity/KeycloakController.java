@@ -14,11 +14,11 @@ public class KeycloakController {
     @Autowired
     KeyCloakService service;
 
-    @PostMapping(value = "addlistuser")
+    /*@PostMapping(value = "addlistuser")
     public String addUser(@RequestBody List<User> users){
         service.addListUser(users);
         return "Users Added Successfully.";
-    }
+    }*/
 
     @PostMapping
     public String addListUser(@RequestBody User user){

@@ -1,9 +1,8 @@
 package com.example.pointageperrsonnel.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +11,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,19 +31,20 @@ public class User {
     private String matricule;
     private boolean isEnable;
 
-    @JsonIgnoreProperties(value={"users"},allowSetters = true)
+    /*@JsonIgnoreProperties(value={"users"},allowSetters = true)
     @ManyToMany
     @JoinTable( name = "Users_Roles_Associations",
             joinColumns = @JoinColumn( name = "id_user" ),
             inverseJoinColumns = @JoinColumn( name = "id_role" ) )
-    private List<Role> roles = new ArrayList<>();
+    private List<Role> roles = new ArrayList<>();*/
 
     //@JsonManagedReference
     @JsonIgnoreProperties(value = {"Service"},allowSetters = true)
     @ManyToOne
     private Service service;
 
-    @JsonIgnoreProperties(value = {"Role"},allowSetters = true)
+    /*@JsonIgnoreProperties(value = {"Role"},allowSetters = true)
     @ManyToOne
-    private Role role;
+    private Role role;*/
+
 }

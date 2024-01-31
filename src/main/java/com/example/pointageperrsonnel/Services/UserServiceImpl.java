@@ -37,12 +37,14 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<User>();
         List<User> allUsers = userRepository.findAll();
-        for (User user : allUsers){
+        /*for (User user : allUsers){
             if (user.isEnable()){
                 users.add(user);
+
             }
-        }
-        return users;
+        }*/
+        System.out.println(allUsers.size());
+        return allUsers;
     }
 
     @Override
@@ -51,11 +53,11 @@ public class UserServiceImpl implements UserService {
         try{
             if(this.saveUser(users)){
                     user = users;
-                    UserRole userRole = new UserRole();
+                    /*UserRole userRole = new UserRole();
                     userRole.setRole(user.getRole());
                     userRole.setUser(user);
                     userRole.setDateAtribution(new Date());
-                    userRoleService.saveUserRole(userRole);
+                    userRoleService.saveUserRole(userRole);*/
             }
                 else {
                     this.deleteUser(user);

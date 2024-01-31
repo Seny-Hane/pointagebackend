@@ -35,7 +35,11 @@ public class UserController {
     //Liste de tous les users
     @GetMapping(value = "/alluser")
     public List<User> getAll(){
-        return userRepository.findAll();
+        List<User> user = userService.getAllUsers();
+        System.out.println("utilisateur");
+        System.out.println(user.size());
+        System.out.println(user.get(0).getEmail());
+        return user;
     }
 
     //Afficher en fonction de l'id

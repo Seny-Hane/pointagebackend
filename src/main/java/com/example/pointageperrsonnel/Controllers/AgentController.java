@@ -9,7 +9,7 @@ import com.example.pointageperrsonnel.Services.PointageServiceImpl;
 import com.example.pointageperrsonnel.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import sun.management.resources.agent;
+//import sun.management.resources.agent;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -185,7 +185,6 @@ public class AgentController {
         //System.out.println(date1);
         if (matricule != null) {
             pointage.setHeuredescente(date);
-
             //Calcul cumulheure
             Calendar calArrive=Calendar.getInstance();
             Calendar caldescente=Calendar.getInstance();
@@ -196,7 +195,6 @@ public class AgentController {
             caldescente.add(Calendar.HOUR_OF_DAY,-calArrive.get(Calendar.HOUR_OF_DAY));
             caldescente.add(Calendar.MINUTE,-calArrive.get(Calendar.MINUTE));
             //caldescente.add(Calendar.HOUR,-i);
-
             //System.out.println(caldescente.get(Calendar.HOUR)+caldescente.get(Calendar.MINUTE));
             pointage.setCumulheure(caldescente.get(Calendar.HOUR_OF_DAY)+":"+caldescente.get(Calendar.MINUTE));
         }
