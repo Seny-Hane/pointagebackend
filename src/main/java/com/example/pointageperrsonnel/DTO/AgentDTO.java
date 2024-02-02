@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class AgentDTO {
     private String matricule;
     private String prenomagent;

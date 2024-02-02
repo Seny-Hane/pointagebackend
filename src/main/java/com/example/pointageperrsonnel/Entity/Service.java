@@ -36,6 +36,10 @@ public class Service {
     @OneToMany(mappedBy = "service", fetch=FetchType.LAZY)
     private Collection<Agent> agent;
 
+
+    @OneToMany(mappedBy = "service", fetch=FetchType.LAZY)
+    private Collection<User> users;
+
     @ManyToOne
     @JoinColumn(name="iddrp")
     private Drp drp;

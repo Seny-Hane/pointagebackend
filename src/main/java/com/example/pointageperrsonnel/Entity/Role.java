@@ -21,14 +21,13 @@ public class Role {
     private String authority;
     private String description;
 
-    /*@JsonIgnoreProperties("roles")
+    @JsonIgnoreProperties("roles")
     @ManyToMany
     @JoinTable( name = "Users_Roles_Associations",
             joinColumns = @JoinColumn( name = "id_role" ),
-            inverseJoinColumns = @JoinColumn( name = "id_user" ) )*/
+            inverseJoinColumns = @JoinColumn( name = "id_user" ) )
+
+    private List<User> users = new ArrayList<>();
 
 
-    //private List<User> users = new ArrayList<>();
-    //@ManyToOne
-    //User user;
 }

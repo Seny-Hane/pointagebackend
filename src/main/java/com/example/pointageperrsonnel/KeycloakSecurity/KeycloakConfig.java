@@ -4,6 +4,11 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
 
 public class KeycloakConfig {
 
@@ -36,6 +41,21 @@ public class KeycloakConfig {
                     .build();
         }
         return keycloak;
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(csrf -> csrf.disable())
+                .cors(Customizer.withDefaults())
+                //.authorizeHttpRequests(ar -> ar.requestMatchers("/api/user/**").permitAll())
+                .authorizeHttpRequests(ar -> ar.anyRequest().authenticated())
+                // .httpBasic(Customizer.withDefaults())
+                /***** ces deux methodes se sont les memes */
+                // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                .oauth2ResourceServer(oa -> oa.jwt(Customizer.withDefaults()))
+                .build();
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.pointageperrsonnel.Services;
 
+import com.example.pointageperrsonnel.DTO.UserDTO;
 import com.example.pointageperrsonnel.Entity.User;
 import com.example.pointageperrsonnel.Entity.UserRole;
 
@@ -7,17 +8,18 @@ import java.util.List;
 
 public interface UserService {
 
-    public User findByEmail(String email);
+//    public UserDTO findByEmail(String email);
 
-    public List<User> getAllUsers();
+    public List<UserDTO> getAllUsers();
 
-    public User saveuser(User user);
+    public UserDTO saveuser(UserDTO userDTO);
 
     boolean userExist(int userId);
 
-    User findUserById(int userId);
+    UserDTO  getUserById(long userId) ;
 
-    User updateUser(User user);
+
+    UserDTO updateUser(UserDTO userDTO);
 
     List<User> getUserByServiceCodeservice(int serviceCodeservice);
 

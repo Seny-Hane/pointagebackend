@@ -1,12 +1,16 @@
 
 package com.example.pointageperrsonnel.Services;
 
+import com.example.pointageperrsonnel.DTO.UserDTO;
 import com.example.pointageperrsonnel.Entity.User;
 import com.example.pointageperrsonnel.Entity.UserRole;
 import com.example.pointageperrsonnel.KeycloakSecurity.KeyCloakService;
 import com.example.pointageperrsonnel.Repository.UserRepository;
 import com.example.pointageperrsonnel.Repository.UserRoleRepository;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import javassist.NotFoundException;
+import jdk.nashorn.internal.runtime.options.Option;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,49 +19,57 @@ import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
-    @Autowired
+
     private UserRepository userRepository;
 
-    @Autowired
     private UserRoleService userRoleService;
 
     @Autowired
     private KeyCloakService keyCloakService;
 
-    @Override
-    public User findByEmail(String email){
-        return userRepository.findByEmail(email);
-    }
+
+    UserMapper userMapper;
+
+//    @Override
+//    public User findByEmail(String email){
+//
+//        return userRepository.findByEmail(email);
+//    }
 
     @Override
-    public List<User> getAllUsers() {
-        List<User> users = new ArrayList<User>();
+    public List<UserDTO> getAllUsers() {
+        List<UserDTO> users = new ArrayList<UserDTO>();
         List<User> allUsers = userRepository.findAll();
         /*for (User user : allUsers){
             if (user.isEnable()){
                 users.add(user);
-
             }
         }*/
-        System.out.println(allUsers.size());
-        return allUsers;
+//        System.out.println(allUsers.size());
+//        return allUsers;
+
+        List<UserDTO> userDTOS = allUsers.stream().map(user -> userMapper.mapToUserDto(user))
+                .collect(Collectors.toList());
+        return  userDTOS;
     }
 
     @Override
-    public User saveuser(@RequestBody  User users) {
-        User user = null;
+    public UserDTO saveuser( UserDTO userDTO) {
+        User user =  userMapper.mapToUser(userDTO);
         try{
-            if(this.saveUser(users)){
-                    user = users;
-                    /*UserRole userRole = new UserRole();
+            if(this.saveUser(user)){
+                    UserRole userRole = new UserRole();
                     userRole.setRole(user.getRole());
                     userRole.setUser(user);
                     userRole.setDateAtribution(new Date());
-                    userRoleService.saveUserRole(userRole);*/
+                    userRoleService.saveUserRole(userRole);
             }
                 else {
                     this.deleteUser(user);
@@ -65,7 +77,8 @@ public class UserServiceImpl implements UserService {
         } catch (PersistenceException e){
             e.getMessage();
         }
-        return user;
+        User savedUser = userRepository.save(user);
+        return userMapper.mapToUserDto(savedUser);
     }
 
     public boolean saveUser(User user) {
@@ -81,13 +94,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserById(int userId) {
-        return userRepository.findById(userId).get();
+    public UserDTO getUserById(long userId) {
+//            User user = userRepository.findById(userId);
+//        return  userMapper.mapToUserDto(user);
+       // return userRepository.findById(userId).get();
+        return null;
     }
 
+
+
     @Override
-    public User updateUser(User user) {
-        return userRepository.save(user);
+    public UserDTO updateUser(UserDTO userDTO) {
+        User user = userMapper.mapToUser(userDTO);
+        User saved = userRepository.save(user);
+        return userMapper.mapToUserDto(saved);
     }
 
     public List<User> getUserByServiceCodeservice(int serviceCodeservice) {

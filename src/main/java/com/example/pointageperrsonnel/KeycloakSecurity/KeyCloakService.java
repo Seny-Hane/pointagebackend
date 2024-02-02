@@ -1,5 +1,6 @@
 package com.example.pointageperrsonnel.KeycloakSecurity;
 
+import com.example.pointageperrsonnel.DTO.UserDTO;
 import com.example.pointageperrsonnel.Entity.User;
 import lombok.AllArgsConstructor;
 import org.keycloak.admin.client.resource.UserResource;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 //AJOUT
 import static com.example.pointageperrsonnel.KeycloakSecurity.KeycloakConfig.*;
 
@@ -18,18 +20,18 @@ import static com.example.pointageperrsonnel.KeycloakSecurity.KeycloakConfig.*;
 @Service
 public class KeyCloakService {
 
-    public boolean addUser(User user){
-        System.out.println(user.toString());
+    public boolean addUser(UserDTO userDTO){
+        System.out.println(userDTO.toString());
         boolean result = false;
         CredentialRepresentation credential = Credentials
                 .createPasswordCredentials("1234");
         UserRepresentation newUser = new UserRepresentation();
-        newUser.setUsername(user.getEmail());
-        newUser.setFirstName(user.getPrenom());
-        newUser.setLastName(user.getNom());
-        newUser.setEmail(user.getEmail());
+        newUser.setUsername(userDTO.getEmail());
+        newUser.setFirstName(userDTO.getPrenom());
+        newUser.setLastName(userDTO.getNom());
+        newUser.setEmail(userDTO.getEmail());
         newUser.setCredentials(Collections.singletonList(credential));
-        newUser.setEnabled(user.isEnable());
+        newUser.setEnabled(userDTO.isEnable());
         newUser.setRequiredActions(Collections.singletonList("UPDATE_PASSWORD"));
         System.out.println(newUser.toString());
 
@@ -143,7 +145,7 @@ public class KeyCloakService {
 
     private void addRealmRoleToUser(String username, String roleName) {}
 
-    /*public List<String> getAllRoles(){
+    public List<String> getAllRoles(){
         List<String> availableRoles = KeycloakConfig.getInstance()
                 .realm(realm)
                 .roles()
@@ -154,10 +156,10 @@ public class KeyCloakService {
         return availableRoles;
     }
 
-    *//**
+    /**
      * méthode pour ajouter un nouveau rôle client
      * @param new_role_name
-     *//*
+     */
     public void addRealmRole(String new_role_name, String role_description){
         if(!getAllRoles().contains(new_role_name)){
             RoleRepresentation roleRep = new  RoleRepresentation();
@@ -169,10 +171,10 @@ public class KeyCloakService {
         }
     }
 
-    *//**
+    /**
      * méthode pour supprimer un rôle client
      * @param roleName
-     *//*
+     */
     public void deleteRealmRole(String roleName){
         if(!getAllRoles().contains(roleName)){
             KeycloakConfig.getInstance().realm(realm)
@@ -181,7 +183,7 @@ public class KeyCloakService {
         }
     }
 
-    *//**
+    /**
      * méthode pour ajouter un rôle client spécifié par son nom à un utilisateur spécifié par un nom d'utilisateur
      * @param userName
      * @param role_name

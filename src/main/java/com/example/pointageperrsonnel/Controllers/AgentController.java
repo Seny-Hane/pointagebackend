@@ -7,6 +7,7 @@ import com.example.pointageperrsonnel.Services.AgentServiceImpl;
 import com.example.pointageperrsonnel.Services.PointageService;
 import com.example.pointageperrsonnel.Services.PointageServiceImpl;
 import com.example.pointageperrsonnel.Services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 //import sun.management.resources.agent;
@@ -30,6 +31,7 @@ import java.util.stream.Stream;
 @RestController
 @CrossOrigin("*")
 @RequestMapping(value = "/agent")
+@AllArgsConstructor
 public class AgentController {
   @Autowired
   private AgentRepository agentRepository;
@@ -52,11 +54,11 @@ public class AgentController {
   @Autowired
   private StatutAgentRepository statutAgentRepository;
 
-  @Autowired
-  private UserRepository userRepository;
+  /*@Autowired
+  private UserRepository userRepository;*/
 
-  @Autowired
-  private UserService userService;
+  /*@Autowired
+  private UserService userService;*/
 
   //Liste des agents
     @GetMapping(value = "/allagent")

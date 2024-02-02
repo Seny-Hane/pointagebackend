@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping(path = "/api/user")
 public class KeycloakController {
@@ -20,11 +21,11 @@ public class KeycloakController {
         return "Users Added Successfully.";
     }*/
 
-    @PostMapping
+    /*@PostMapping
     public String addListUser(@RequestBody User user){
         service.addUser(user);
         return "User Added Successfully.";
-    }
+    }*/
 
     @GetMapping(path = "/{userName}")
     public List<UserRepresentation> getUser(@PathVariable("userName") String userName){
@@ -68,10 +69,10 @@ public class KeycloakController {
         return "Reset Password Link Send Successfully to Registered E-mail Id.";
     }
 
-    /*@GetMapping(value = "/getroles")
+    @GetMapping(value = "/getroles")
     public List<String> getAllRoles(){
         return service.getAllRoles();
-    }*/
+    }
 
     /*@GetMapping(value = "/getuerid/{username}")
     public String getUserid(@PathVariable String username){

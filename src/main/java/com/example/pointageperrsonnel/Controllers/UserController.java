@@ -1,10 +1,12 @@
 package com.example.pointageperrsonnel.Controllers;
 
+import com.example.pointageperrsonnel.DTO.UserDTO;
 import com.example.pointageperrsonnel.Entity.User;
 import com.example.pointageperrsonnel.KeycloakSecurity.KeyCloakService;
 import com.example.pointageperrsonnel.Repository.UserRepository;
 import com.example.pointageperrsonnel.Services.UserService;
 import com.example.pointageperrsonnel.Services.UserServiceImpl;
+import lombok.AllArgsConstructor;
 import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate;
 import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +20,12 @@ import java.util.Optional;
 @RestController
 @CrossOrigin("*")
 @RequestMapping(value = "/user")
+@AllArgsConstructor
 public class UserController {
-    @Autowired
+
     private UserRepository userRepository;
 
-    @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Autowired
     private KeycloakRestTemplate keycloakRestTemplate;
@@ -34,20 +36,30 @@ public class UserController {
 
     //Liste de tous les users
     @GetMapping(value = "/alluser")
-    public List<User> getAll(){
-        List<User> user = userService.getAllUsers();
+    public List<UserDTO> getAll(){
+        List<UserDTO> userDTOS = userService.getAllUsers();
         System.out.println("utilisateur");
-        System.out.println(user.size());
-        System.out.println(user.get(0).getEmail());
-        return user;
+        System.out.println(userDTOS.size());
+        System.out.println(userDTOS.get(0).getEmail());
+        return userDTOS;
+    }
+
+//    //Afficher en fonction de l'id
+//    @GetMapping(value = "/user/{id}")
+//    public Object getUserById(@PathVariable Long id){
+//        return keycloakRestTemplate.getForObject("/User/"+id, Object.class);
+//    }
+    //Afficher en fonction de l'id
+    @GetMapping(value = "/user/{id}")
+    public UserDTO getUserById(@PathVariable Long id){
+        return userService.getUserById(id);
     }
 
     //Afficher en fonction de l'id
-    @GetMapping(value = "/user/{id}")
-    public Object getUserById(@PathVariable int id){
-        return keycloakRestTemplate.getForObject("/User/"+id, Object.class);
-    }
-
+//    @GetMapping(value = "/user")
+//    public UserDTO getUser(@PathVariable ){
+//        return keycloakRestTemplate.getForObject("/User/"+id, Object.class);
+//    }
     //Afficher en fonction de l'email
     @GetMapping(value="/email/{email}")
     public Object findByEmail(@PathVariable String email){
@@ -56,15 +68,15 @@ public class UserController {
 
     //Save user
     @PostMapping("/user1")
-    public User saveuser(@RequestBody User users){
+    public UserDTO saveuser(@RequestBody UserDTO userDTO){
         try {
             //userRepository.save(users);
-            userService.saveuser(users);
-            keyCloakService.addUser(users);
+            userService.saveuser(userDTO);
+            keyCloakService.addUser(userDTO);
         }catch (PersistenceException e) {
             e.getMessage();
         }
-        return users;
+        return userDTO;
     }
 
     @GetMapping(value = "/service/{codeservice}")
