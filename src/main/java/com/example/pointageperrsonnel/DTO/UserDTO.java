@@ -1,5 +1,7 @@
 package com.example.pointageperrsonnel.DTO;
 
+import com.example.pointageperrsonnel.Entity.Role;
+import com.example.pointageperrsonnel.Entity.Service;
 import lombok.Data;
 
 
@@ -14,6 +16,6 @@ public class UserDTO {
     private String telephone ;
     private String matricule;
     private boolean isEnable;
-    private ServiceDTO serviceDTO;
-    private RoleDTO roleDTO;
+    private int service;
+    private int role;
 }

@@ -11,17 +11,11 @@ import javax.jws.soap.SOAPBinding;
 @Service
 public class UserMapper {
 
-
-
     public   UserDTO mapToUserDto(User user){
         UserDTO userDTO = new UserDTO();
                 BeanUtils.copyProperties(user,userDTO);
         return  userDTO;
-
-
-
     }
-
 
     public   User mapToUser(UserDTO userDTO){
         User user = new User();

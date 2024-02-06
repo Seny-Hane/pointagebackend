@@ -2,15 +2,19 @@
 package com.example.pointageperrsonnel.Services;
 
 import com.example.pointageperrsonnel.DTO.UserDTO;
+import com.example.pointageperrsonnel.Entity.Role;
 import com.example.pointageperrsonnel.Entity.User;
 import com.example.pointageperrsonnel.Entity.UserRole;
 import com.example.pointageperrsonnel.KeycloakSecurity.KeyCloakService;
+import com.example.pointageperrsonnel.Repository.RoleRepository;
+import com.example.pointageperrsonnel.Repository.ServiceRepository;
 import com.example.pointageperrsonnel.Repository.UserRepository;
 import com.example.pointageperrsonnel.Repository.UserRoleRepository;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import javassist.NotFoundException;
 import jdk.nashorn.internal.runtime.options.Option;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,12 +32,14 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
-
+    private RoleRepository roleRepository;
+    private ServiceRepository serviceRepository;
     private UserRoleService userRoleService;
 
     @Autowired
     private KeyCloakService keyCloakService;
 
+    //private ModelMapper mapper;
 
     UserMapper userMapper;
 
@@ -63,6 +69,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO saveuser( UserDTO userDTO) {
         User user =  userMapper.mapToUser(userDTO);
+        Role role = roleRepository.getById(userDTO.getRole());
+        user.setRole(role);
+        com.example.pointageperrsonnel.Entity.Service service = serviceRepository.getById(userDTO.getService());
+        user.setService(service);
         try{
             if(this.saveUser(user)){
                     UserRole userRole = new UserRole();

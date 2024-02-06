@@ -1,5 +1,6 @@
 package com.example.pointageperrsonnel.Entity;
 
+import com.example.pointageperrsonnel.DTO.UserDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,6 +40,7 @@ public class Service {
 
     @OneToMany(mappedBy = "service", fetch=FetchType.LAZY)
     private Collection<User> users;
+
 
     @ManyToOne
     @JoinColumn(name="iddrp")
