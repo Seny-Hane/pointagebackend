@@ -1,18 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-//import { Service } from '../models/service.model';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { error, log } from 'console';
-
-//import { TypeService } from '../models/typeService.model';
-
 import { TypeService } from '../../models/typeService.model';
-import { Service } from '../../models/service.model';
 import {ServicesService} from "../../service/services.service";
 import {Drp} from "../../models/drp";
-import {Agent} from "../../models/agent.model";
-//import { Service } from '../models/service.model';
+import {Service} from "../../models/service.model";
 
 
 @Component({
@@ -28,7 +21,7 @@ export class ServicesPosteComponent implements OnInit {
   tourner:boolean;
   erreur:boolean;
   submitted: boolean;
-  services: Service[];
+  services: any[];
   service:Service;
   agentDialog: boolean;
   agentDialogEdit: boolean;

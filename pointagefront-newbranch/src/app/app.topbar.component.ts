@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { MenuItem } from 'primeng/api';
 import {KeycloakService} from "keycloak-angular";
 import {UserService} from "./service/user.service";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../environments/environment";
 
 @Component({
     selector: 'app-topbar',
@@ -19,23 +21,25 @@ export class AppTopBarComponent {
 
     constructor(public appMain: AppMainComponent,
                 private userService: UserService,
-                public keycloak: KeycloakService) {
+                public keycloak: KeycloakService,
+                private http:HttpClient) {
         this.keycloak.loadUserProfile().then( res =>
         {
             // console.log(res);
             this.users = res;
             this.username= res.username;
-            // console.log(res.username);
-            this.getStructure(res.username);
+             console.log(res.username);
+            this.getStructure(this.username);
         });
     }
 
     public getStructure(username){
         // console.log(username);
-        return this.userService.getUserByUsername(username).subscribe(data =>
+        return  this.http.get(environment.apiUrl +'/user/email/'+username).subscribe(data =>
         {
-            // console.log(data);
+
             this.user = data;
+            console.log( this.user );
         })
     }
 

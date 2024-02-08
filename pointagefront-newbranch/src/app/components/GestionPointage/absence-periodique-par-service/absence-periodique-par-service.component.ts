@@ -15,7 +15,7 @@ import {UserService} from "../../../service/user.service";
   styleUrls: ['./absence-periodique-par-service.component.scss']
 })
 export class AbsencePeriodiqueParServiceComponent implements OnInit {
-    services: Service[];
+    services: any[];
     currentService: Service;
     resultabsence : any[];
     results: any;

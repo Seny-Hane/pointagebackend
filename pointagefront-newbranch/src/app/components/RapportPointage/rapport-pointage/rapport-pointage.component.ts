@@ -20,7 +20,7 @@ import {Agent} from "../../../models/agent.model";
   styleUrls: ['./rapport-pointage.component.scss']
 })
 export class RapportPointageComponent implements OnInit {
-    services: Service[];
+    services:any[];
     currentService: Service;
     resultabsence : any[];
     result : any;

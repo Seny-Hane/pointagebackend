@@ -3,7 +3,6 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Agent} from "../models/agent.model";
 import {Pointage} from "../models/pointage.model";
-import {Service} from "../models/service.model";
 import {environment} from "../../environments/environment";
 
 @Injectable({

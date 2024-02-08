@@ -27,7 +27,7 @@ export class AppMenuComponent implements OnInit {
     findRole(rolearray: Array<String>) {
 
         this.listRoles=this.keycloak.getKeycloakInstance().realmAccess.roles
-        // console.log(this.listRoles)
+        //console.log(this.listRoles)
         let menut= false
         const length=rolearray.length-1
 
@@ -83,7 +83,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Gestion Utilisateur',
                 rootroles: this.findRole(['ROLE_DRH','ROLE_AGENT','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE']),
                 items: [
-                    {label: 'Attribution Rôle(s)', icon: 'pi  pi-fw pi-user-plus',routerLink: ['/gestion/attributionRole'],roles: this.findRole(['ROLE_DRH','ROLE_AGENT','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE'])},
+                    {label: 'Ajouter Utilisateur', icon: 'pi  pi-fw pi-user-plus',routerLink: ['/gestion/attributionRole'],roles: this.findRole(['ROLE_DRH','ROLE_AGENT','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE'])},
                 ]
             },
 

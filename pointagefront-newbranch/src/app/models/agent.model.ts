@@ -1,4 +1,5 @@
 import {Service} from "./service.model";
+import {StatutAgent} from "./statutAgent";
 
 export class Agent {
     idagent? : number;
@@ -13,6 +14,7 @@ export class Agent {
     email? : string;
     telephone? : string;
     genre? : string;
+    statutAgent?: StatutAgent;
     service? : Service;
 
 }

@@ -15,7 +15,7 @@ import {Pointage} from "../../../models/pointage.model";
 export class AbsenceJournalierComponent implements OnInit {
 
 
-    services: Service[];
+    services: any[];
     currentService: Service;
     result : any;
     absences : any;

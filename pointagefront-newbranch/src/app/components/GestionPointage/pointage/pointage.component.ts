@@ -8,6 +8,8 @@ import {Agent} from "../../../models/agent.model";
 import { ConfirmationService, MessageService } from 'primeng/api';
 import {DatePipe} from "@angular/common";
 import {Subject} from "rxjs";
+import {UserService} from "../../../service/user.service";
+import {KeycloakService} from "keycloak-angular";
 
 
 
@@ -37,6 +39,9 @@ export class PointageComponent implements OnInit {
     mat: string;
     focus : any;
     dateVendredi = new Date();
+    user : any;
+    users:any;
+    username:any;
 
 
 
@@ -45,7 +50,27 @@ export class PointageComponent implements OnInit {
               private pointageService : PointageService,
               private agentService : AgentService,
               private messageService: MessageService,
-              private route : ActivatedRoute,) { }
+              private route : ActivatedRoute,
+              private userService: UserService,
+              public keycloak: KeycloakService) {
+      this.keycloak.loadUserProfile().then( res =>
+      {
+          // console.log(res);
+          this.users = res;
+          this.username= res.username;
+          // console.log(res.username);
+          this.getUser(res.username);
+      });
+  }
+    public getUser(username){
+        // console.log(username);
+        return this.userService.getUserByUsername(username).subscribe(data =>
+        {
+
+            this.user = data;
+            console.log( this.user );
+        })
+    }
 
   ngOnInit(): void {
 
@@ -131,7 +156,8 @@ export class PointageComponent implements OnInit {
     }
 
 
-    savePointageMatin() {
+    savePointageMatin(agent) {
+        console.log(agent)
 
         this.pointageService.controlePointage(this.mat).subscribe(data =>{
             if(data == false){
@@ -158,7 +184,8 @@ export class PointageComponent implements OnInit {
 
     }
 
-    savePointageSoir() {
+    savePointageSoir(agent) {
+        console.log(agent)
 
         this.pointageService.controlePointage(this.mat).subscribe(data =>{
             if(data == true){

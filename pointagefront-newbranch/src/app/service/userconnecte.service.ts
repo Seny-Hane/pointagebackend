@@ -30,6 +30,7 @@ async getUser() {
 
     return  await firstValueFrom(this.http.get(environment.apiUrl+"/dg_User/email/"+this.email))
 
+
   }
 
 

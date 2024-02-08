@@ -10,6 +10,10 @@ import * as xlsx from 'xlsx';
 import {Fichier} from "../../../models/fichier.model";
 import {DatePipe} from "@angular/common";
 import {Subject} from "rxjs";
+import {Users} from "../../../models/users";
+import {environment} from "../../../../environments/environment";
+import {HttpClient} from "@angular/common/http";
+import {StatutAgent} from "../../../models/statutAgent";
 
 
 @Component({
@@ -26,14 +30,18 @@ export class AgentComponent implements OnInit {
     cols: any;
     selectedAgents: Agent[];
     agentDialog: boolean;
+    modifagentDialog: boolean;
     submitted: boolean;
     statuses: any[];
     deleteAgentDialog: boolean = false;
     deleteAgentsDialog: boolean = false;
     rowsPerPageOptions = [5, 10, 20];
-    services: Service[];
+    services: any[];
+    statutAgent: any[];
     id : number;
-    currentService : Service;
+    currentService : any;
+    currentSatut : StatutAgent;
+
     genrefilter:any;
     genre : any[];
     genree : any;
@@ -45,6 +53,8 @@ export class AgentComponent implements OnInit {
     truc2: string;
 
     AgentSubject = new Subject<void>();
+
+    StatutAgent = new Subject<void>();
 
     ws: any[];
     wb: xlsx.WorkBook;
@@ -70,7 +80,8 @@ export class AgentComponent implements OnInit {
               public router : Router,
               private messageService: MessageService,
               private route : ActivatedRoute,
-              private confirmationService: ConfirmationService) {
+              private confirmationService: ConfirmationService,
+              private http : HttpClient) {
   }
 
   ngOnInit(): void {
@@ -108,6 +119,13 @@ export class AgentComponent implements OnInit {
 
       this.getAllService()
 
+      this.StatutAgent.subscribe(
+          (data)=>{
+              this.getAllStatutAgent()
+
+      }
+      )
+      this.getAllStatutAgent()
       this.cols = [
           {field: 'prenom', header: 'prenom'},
           {field: 'nom', header: 'nom'},
@@ -120,11 +138,13 @@ export class AgentComponent implements OnInit {
         this.agent = {service: null};
         this.submitted = false;
         this.agentDialog = true;
+       // this.modifagentDialog= true;
+
     }
 
     handleEditAgent(agent: Agent) {
         this.agent = {...agent};
-        // console.log(this.agent)
+         console.log(this.agent)
         this.date1 = new Date(this.agent.daterecrutement);
         this.agent.daterecrutement= this.date1;
         this.date2 = new Date(this.agent.datenaissance);
@@ -132,6 +152,7 @@ export class AgentComponent implements OnInit {
         this.date3 = new Date(this.agent.premierjourtravail);
         this.agent.premierjourtravail= this.date3;
         this.currentService=this.agent.service
+        this.currentSatut = this.agent.statutAgent
         this.agentDialog = true;
 
     }
@@ -147,13 +168,14 @@ export class AgentComponent implements OnInit {
 
     hideDialog() {
         this.agentDialog = false;
+    //    this.modifagentDialog= false;
         this.submitted = false;
     }
 
 
     saveAgent(agent : Agent) {
         this.submitted = true;
-        // console.log(this.agent)
+         console.log(this.agent)
         // this.agent.genre=this.genree.value;
         this.agent.ccPpal=this.currentService.numeroservice;
 
@@ -161,15 +183,18 @@ export class AgentComponent implements OnInit {
             this.truc=""+this.agent.datenaissance;
             this.truc2=""+this.agent.daterecrutement;
             this.truc1=""+this.agent.reference;
+
         }
         if (this.agent.matricule.trim() && this.truc1.trim() && this.agent.prenomagent.trim() && this.agent.nomagent.trim() && this.truc.trim() && this.truc2.trim() && this.currentService.nomservice.trim() && this.agent.genre.trim()) {
             if (this.agent.idagent) {
                 agent.service = this.currentService;
+                agent.statutAgent.idstatut = this.currentSatut.idstatut;
                 agent.service.codeservice = this.currentService.codeservice;
                 this.agentService.updateAgent(agent, this.agent.idagent).subscribe( data => {
                         this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Agent mis à jour', life: 3000});
                         this.AgentSubject.next();
                         //location.reload()
+                        console.log(data)
                     },
                     error =>{
                         console.log(error)
@@ -224,8 +249,9 @@ export class AgentComponent implements OnInit {
 
     getAllAgent() {
         console.log("e")
-      this.agentService.getAllAgent().subscribe(data => {
+        this.http.get<any>(environment.apiUrl+'/agent/allagent').subscribe(data => {
           this.agents = data;
+              console.log(data)
               console.log(this.agents)
       },
           error => {
@@ -242,6 +268,16 @@ export class AgentComponent implements OnInit {
           error => {
           console.log(error)
           })
+    }
+    getAllStatutAgent() {
+        this.service.getAllStatut().subscribe( data => {
+                this.statutAgent = data;
+                console.log(this.statutAgent)
+               // this.services.sort((a,b) => a.nomservice.localeCompare(b.nomservice));
+            },
+            error => {
+                console.log(error)
+            })
     }
 
     filterItems(event) {
@@ -265,6 +301,18 @@ export class AgentComponent implements OnInit {
             }
         }
         this.services = filtered;
+    }
+
+    filterItems3(event) {
+        let filtered : any[] = [];
+        let query = event.query;
+        for(let i = 0; i < this.statutAgent.length; i++) {
+            let item = this.statutAgent[i];
+            if (item.description.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+                filtered.push(item);
+            }
+        }
+        this.statutAgent = filtered;
     }
     // getServiceByCodeservice(codeservice : number) {
     //   this.service.getServiceByCodeService(codeservice).subscribe(data => {

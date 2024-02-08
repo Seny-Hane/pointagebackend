@@ -18,13 +18,13 @@ import { Service } from 'src/models/service';
                 <div class="p-fluid">
                     <p-autoComplete placeholder="Choisir une service" id="services" [dropdown]="true" [multiple]="false" [suggestions]="filteredservices" (completeMethod)="filterServices($event)" field="libelle" [(ngModel)]="Service" ></p-autoComplete>
                     <small *ngIf="(submitted)" class="p-error">Selectionnez une service.</small>
-    
+
                 </div>
     <br><br>
                 <div class="grid grid-nogutter justify-content-end">
                         <p-button label="Suivant" (onClick)="nextPage()" icon="pi pi-angle-right" iconPos="right"></p-button>
                 </div>
-    
+
             </div>
     </div>`,
 
@@ -82,7 +82,7 @@ export class ServicesComponent implements OnInit {
               this.erreur=true;
               console.log(error)
               },
-    
+
           )
             }
         getAllTypeService(){

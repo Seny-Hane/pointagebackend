@@ -25,8 +25,8 @@ export class AuthGuard extends KeycloakAuthGuard {
         if (!this.authenticated) {
             await this.keycloak.login({
                // redirectUri: window.location.origin
-               redirectUri: window.location.origin + "/pointageFront"
-            //   redirectUri: window.location.origin + "pointageTest"
+              // redirectUri: window.location.origin + "/pointageFront"
+              redirectUri: window.location.origin + "pointageTest"
 
             });
         }

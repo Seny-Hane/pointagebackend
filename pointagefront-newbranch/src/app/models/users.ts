@@ -1,8 +1,8 @@
-import {Directions} from "./directions";
 import {Fonctions} from "./fonctions";
 import {Roles} from "./roles";
+import {Service} from "./service";
 
-export interface Users {
+export class Users {
     id?: number;
     email?: string;
     nom?: string;
@@ -10,16 +10,8 @@ export interface Users {
     prenom?: string;
     reference?: string;
     telephone?: string;
-    id_fonction?: string;
-    libelle?: string;
     matricule?: string;
-    dg_structure?: Directions;
-    dg_fonction?: Fonctions;
-    roles?: Roles[];
-    dg_userRoles?: any;
-    lib_structure?: string;
-    fonction?: string;
+    service?:any;
+    role?:any;
     enable?:boolean;
-
-
 }
