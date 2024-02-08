@@ -44,7 +44,7 @@ public class Agent {
    // private String photo;
     //private String photocni;
     //private String cniVerso;
-    private String services;
+   // private String services;
     private Date premierjourtravail;
     private String fileName;
 
@@ -78,7 +78,7 @@ public class Agent {
     @OneToMany(mappedBy = "agent", fetch=FetchType.LAZY)
     private Collection<Pointage> pointages;
 
-    public Agent(int idagent, String matricule, String prenomagent, String nomagent, String genre, Date datenaissance, Date daterecrutement, String ccPpal, int reference, String services, String fileName, MultipartFile file, Service service) {
+    public Agent(int idagent, String matricule, String prenomagent, String nomagent, String genre, Date datenaissance, Date daterecrutement, String ccPpal, int reference, String fileName, MultipartFile file, Service service) {
         this.idagent = idagent;
         this.matricule = matricule;
         this.prenomagent = prenomagent;
@@ -88,11 +88,10 @@ public class Agent {
         this.daterecrutement = daterecrutement;
         this.ccPpal = ccPpal;
         this.reference = reference;
-        this.services = services;
         this.fileName = fileName;
         this.file = file;
         //this.indisponibilites = indisponibilites;
-        this.service = service;
+        //this.service = service;
         //this.pointages = pointages;
     }
 

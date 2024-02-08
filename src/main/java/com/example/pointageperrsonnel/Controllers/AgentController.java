@@ -4,34 +4,25 @@ import com.example.pointageperrsonnel.DTO.AgentDTO;
 import com.example.pointageperrsonnel.Entity.*;
 import com.example.pointageperrsonnel.Repository.*;
 import com.example.pointageperrsonnel.Services.AgentServiceImpl;
-import com.example.pointageperrsonnel.Services.PointageService;
+
 import com.example.pointageperrsonnel.Services.PointageServiceImpl;
-import com.example.pointageperrsonnel.Services.UserService;
-import lombok.AllArgsConstructor;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-//import sun.management.resources.agent;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+
+
 import java.util.*;
 
-
-import java.util.Vector;
-import java.util.Iterator;
-import java.util.stream.Stream;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping(value = "/agent")
-@AllArgsConstructor
 public class AgentController {
   @Autowired
   private AgentRepository agentRepository;
@@ -63,7 +54,7 @@ public class AgentController {
   //Liste des agents
     @GetMapping(value = "/allagent")
     public List<Agent> getAll(){
-      return agentRepository.findAll();
+      return agentService.findAllAgent();
     }
 
   //Creation d'agent

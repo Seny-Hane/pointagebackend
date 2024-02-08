@@ -14,4 +14,6 @@ public interface AgentService {
 
     //Liste agents en fonction du matricule
     //boolean verifierExistanceMatricule(String matricule);
+
+    List<Agent> findAllAgent();
 }

@@ -50,6 +50,11 @@ public class UserServiceImpl implements UserService {
 //    }
 
     @Override
+    public User findByEmail(String email) {
+        return findByEmail(email);
+    }
+
+    @Override
     public List<UserDTO> getAllUsers() {
         List<UserDTO> users = new ArrayList<UserDTO>();
         List<User> allUsers = userRepository.findAll();
@@ -97,6 +102,10 @@ public class UserServiceImpl implements UserService {
         else
             return false;
     }
+//    @Override
+//    public User findUserByEmail(String email) {
+//        return userRepository.findByEmail(email);
+//    }
 
     @Override
     public boolean userExist(int userId) {
@@ -129,6 +138,11 @@ public class UserServiceImpl implements UserService {
             }
         }
         return users;
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.pointageperrsonnel.KeycloakSecurity;
 
 import com.example.pointageperrsonnel.DTO.UserDTO;
 import com.example.pointageperrsonnel.Entity.User;
+import com.example.pointageperrsonnel.Services.UserMapper;
 import lombok.AllArgsConstructor;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
@@ -19,6 +20,8 @@ import static com.example.pointageperrsonnel.KeycloakSecurity.KeycloakConfig.*;
 @AllArgsConstructor
 @Service
 public class KeyCloakService {
+
+    UserMapper userMapper;
 
     public boolean addUser(UserDTO userDTO){
         System.out.println(userDTO.toString());
@@ -86,8 +89,9 @@ public class KeyCloakService {
         return user;
     }
 
-    public void updateUser(String userId, User user){
+    public void updateUser(String userId, UserDTO  userDTO){
         UserRepresentation newUser = new UserRepresentation();
+        User user =  userMapper.mapToUser(userDTO);
         newUser.setUsername(user.getEmail());
         newUser.setFirstName(user.getPrenom());
         newUser.setLastName(user.getNom());

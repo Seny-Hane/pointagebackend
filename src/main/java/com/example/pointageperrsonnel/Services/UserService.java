@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserService {
 
-//    public UserDTO findByEmail(String email);
+  public User findByEmail(String email);
 
     public List<UserDTO> getAllUsers();
 
@@ -22,6 +22,8 @@ public interface UserService {
     UserDTO updateUser(UserDTO userDTO);
 
     List<User> getUserByServiceCodeservice(int serviceCodeservice);
+
+    public User findUserByEmail(String email);
 
     void deleteUser(User user);
 

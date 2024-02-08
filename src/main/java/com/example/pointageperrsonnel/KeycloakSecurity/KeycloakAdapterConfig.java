@@ -6,6 +6,7 @@ import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
 @Configuration
 public class KeycloakAdapterConfig {
     @Bean
@@ -17,4 +18,5 @@ public class KeycloakAdapterConfig {
     KeycloakRestTemplate keycloakRestTemplate(KeycloakClientRequestFactory keycloakClientRequestFactory){
         return  new KeycloakRestTemplate(keycloakClientRequestFactory);
     }
+
 }

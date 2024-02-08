@@ -31,20 +31,20 @@ public class User {
     private String matricule;
     private boolean isEnable;
 
-
-    @JsonIgnoreProperties(value={"users"},allowSetters = true)
+    /* @JsonIgnoreProperties(value={"users"},allowSetters = true)
     @ManyToMany
     @JoinTable( name = "Users_Roles_Associations",
             joinColumns = @JoinColumn( name = "id_user" ),
             inverseJoinColumns = @JoinColumn( name = "id_role" ) )
-    private List<Role> roles = new ArrayList<>();
+    private List<Role> roles = new ArrayList<>();*/
 
-    //@JsonManagedReference
-    @JsonIgnoreProperties(value = {"Service"})
+    // @JsonManagedReference
+    @JsonIgnoreProperties(value = {"Service"},allowSetters = true)
     @ManyToOne
     private Service service;
 
-    @JsonIgnoreProperties(value = {"Role"})
+
+    @JsonIgnoreProperties(value = {"Role"},allowSetters = true)
     @ManyToOne
     private Role role;
 

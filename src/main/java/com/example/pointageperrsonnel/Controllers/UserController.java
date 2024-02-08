@@ -63,7 +63,11 @@ public class UserController {
     //Afficher en fonction de l'email
     @GetMapping(value="/email/{email}")
     public Object findByEmail(@PathVariable String email){
-        return keycloakRestTemplate.getForObject("/User/email/"+email, Object.class);
+        return keyCloakService.getUser(email);
+    }
+    @GetMapping(value = "/emails/{email}")
+    public User findUserByEmail(@PathVariable String email){
+        return userService.findUserByEmail(email);
     }
 
     //Save user
@@ -73,6 +77,17 @@ public class UserController {
             //userRepository.save(users);
             userService.saveuser(userDTO);
             keyCloakService.addUser(userDTO);
+        }catch (PersistenceException e) {
+            e.getMessage();
+        }
+        return userDTO;
+    }
+    @PutMapping("/user1/{userDtoId}")
+    public UserDTO  updateUser(@PathVariable("userDtoId") String userDtoId,@RequestBody UserDTO userDTO){
+        try {
+            //userRepository.save(users);
+            userService.updateUser(userDTO);
+            keyCloakService.updateUser(userDtoId,userDTO);
         }catch (PersistenceException e) {
             e.getMessage();
         }

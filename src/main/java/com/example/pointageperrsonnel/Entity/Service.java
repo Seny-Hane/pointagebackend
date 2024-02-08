@@ -1,7 +1,7 @@
 package com.example.pointageperrsonnel.Entity;
 
-import com.example.pointageperrsonnel.DTO.UserDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,18 +29,17 @@ public class Service {
 
 
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "service", fetch=FetchType.LAZY)
-    private Collection<TypeHoraire> typeHoraires;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "service", fetch=FetchType.LAZY)
-    private Collection<Agent> agent;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "service", fetch=FetchType.LAZY)
+//    private Collection<TypeHoraire> typeHoraires;
 
 
-    @OneToMany(mappedBy = "service", fetch=FetchType.LAZY)
-    private Collection<User> users;
+//    @OneToMany(mappedBy = "service", fetch=FetchType.LAZY)
+//    private Collection<Agent> agent;
 
+
+//    @OneToMany(mappedBy = "service", fetch=FetchType.LAZY)
+//    private Collection<User> users;
 
     @ManyToOne
     @JoinColumn(name="iddrp")

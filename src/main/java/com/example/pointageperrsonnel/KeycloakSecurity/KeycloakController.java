@@ -1,5 +1,6 @@
 package com.example.pointageperrsonnel.KeycloakSecurity;
 
+import com.example.pointageperrsonnel.DTO.UserDTO;
 import com.example.pointageperrsonnel.Entity.User;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,8 @@ public class KeycloakController {
     }
 
     @PutMapping(path = "/update/{userId}")
-    public String updateUser(@PathVariable("userId") String userId, @RequestBody User user){
-        service.updateUser(userId, user);
+    public String updateUser(@PathVariable("userId") String userId, @RequestBody UserDTO userDTO){
+        service.updateUser(userId, userDTO);
         return "User Details Updated Successfully.";
     }
 

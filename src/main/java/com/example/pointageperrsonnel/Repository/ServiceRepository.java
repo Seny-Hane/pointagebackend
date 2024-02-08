@@ -13,6 +13,7 @@ public interface ServiceRepository extends JpaRepository<Service, Integer> {
     @Query("select s from Service s where s.numeroservice=:numeroservice")
     Service findServicesByNumeroservice(@Param("numeroservice") String numeroservice);
 
+    Service findServiceByCodeservice(@Param("codeservice") int codeservice);
 
 
 }

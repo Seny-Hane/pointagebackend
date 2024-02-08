@@ -68,8 +68,13 @@ public class AgentServiceImpl implements AgentService{
         return agentRepository.listAgents(codeservice);
     }
 
+    @Override
+    public  List<Agent> findAllAgent() {
+        return agentRepository.findAll();
+    }
 
-   //Controle matricule
+
+    //Controle matricule
    /*@Override
     public boolean verifierExistanceMatricule(String matricule){
        Optional<Agent> agentOptional = agentRepository.findByMatriculeVerif(matricule);

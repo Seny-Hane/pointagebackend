@@ -43,4 +43,6 @@ public interface AgentRepository extends JpaRepository<Agent, Integer> {
     //Verification d'existence agent
     @Query("select ag from Agent ag where ag.matricule=:matricule")
     Optional<Agent> findByMatriculeVerif(String matricule);
+
+
 }
