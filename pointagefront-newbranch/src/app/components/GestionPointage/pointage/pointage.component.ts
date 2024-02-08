@@ -10,6 +10,9 @@ import {DatePipe} from "@angular/common";
 import {Subject} from "rxjs";
 import {UserService} from "../../../service/user.service";
 import {KeycloakService} from "keycloak-angular";
+import {UserconnecteService} from "../../../service/userconnecte.service";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../../environments/environment";
 
 
 
@@ -47,6 +50,7 @@ export class PointageComponent implements OnInit {
 
   constructor(private fb : FormBuilder,
               private router: Router,
+              private http: HttpClient,
               private pointageService : PointageService,
               private agentService : AgentService,
               private messageService: MessageService,
@@ -57,14 +61,14 @@ export class PointageComponent implements OnInit {
       {
           // console.log(res);
           this.users = res;
-          this.username= res.username;
-          // console.log(res.username);
-          this.getUser(res.username);
+          this.username= res.email;
+           console.log(this.username);
+          this.getUser(this.username);
       });
   }
-    public getUser(username){
+    public getUser(email){
         // console.log(username);
-        return this.userService.getUserByUsername(username).subscribe(data =>
+        return  this.http.get(environment.apiUrl +'/user/emails/'+email).subscribe(data =>
         {
 
             this.user = data;
@@ -158,6 +162,11 @@ export class PointageComponent implements OnInit {
 
     savePointageMatin(agent) {
         console.log(agent)
+        console.log(this.user)
+        console.log(agent.service.codeservice)
+        console.log(this.user.service.codeservice)
+        agent.service.codeservice = this.user.service.codeservice
+        console.log(agent)
 
         this.pointageService.controlePointage(this.mat).subscribe(data =>{
             if(data == false){
@@ -185,6 +194,9 @@ export class PointageComponent implements OnInit {
     }
 
     savePointageSoir(agent) {
+        console.log(agent.service.codeservice)
+        console.log(this.user.service.codeservice)
+        agent.service.codeservice = this.user.service.codeservice
         console.log(agent)
 
         this.pointageService.controlePointage(this.mat).subscribe(data =>{

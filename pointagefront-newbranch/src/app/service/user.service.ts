@@ -22,7 +22,7 @@ export class UserService {
         };
 
     getUserByUsername(email): Observable<any> {
-        return this.http.get(environment.apiUrl +'/user/email/'+email)
+        return this.http.get(environment.apiUrl +'/user/emails/'+email)
     }
 
     getAllUser(): Observable<any> {

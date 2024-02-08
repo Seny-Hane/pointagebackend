@@ -15,6 +15,7 @@ import {environment} from "../environments/environment";
 export class AppTopBarComponent {
 
     user : any;
+    utilisateur : any;
     users:any;
     username:any;
     items: MenuItem[];
@@ -30,6 +31,7 @@ export class AppTopBarComponent {
             this.username= res.username;
              console.log(res.username);
             this.getStructure(this.username);
+            this.getUserByEmail(res.email);
         });
     }
 
@@ -40,6 +42,15 @@ export class AppTopBarComponent {
 
             this.user = data;
             console.log( this.user );
+        })
+    }
+    public getUserByEmail(email){
+        // console.log(username);
+        return  this.http.get(environment.apiUrl +'/user/emails/'+email).subscribe(data =>
+        {
+
+            this.utilisateur = data;
+            console.log( this.utilisateur );
         })
     }
 
