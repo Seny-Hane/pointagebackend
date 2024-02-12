@@ -6,13 +6,8 @@ export const environment = {
     production: false,
     // apiUrl: "http://10.14.14.232:8084/pointageTest"
     //apiUrl: "http://digipost.sn.post:8085/pointageperrsonnel-backend"
-<<<<<<< HEAD
-    // apiUrl: "http://digipost.sn.post:8085/pointageTest"
-    apiUrl: "http://digipost.sn.post:8085/pointage"
-=======
-      apiUrl: "http://digipost.sn.post:8085/pointageTest"
-    //apiUrl: "http://digipost.sn.post:8085/pointage",
->>>>>>> e053ead0f3ebaff1c7917f48ce7272af759ea0c4
+    apiUrl: "http://digipost.sn.post:8085/pointageTest"
+    //apiUrl: "http://digipost.sn.post:8085/pointage"
     //apiUrl: "http://localhost:8081"
     //apiUrl: "http://localhost:8081"
 };
