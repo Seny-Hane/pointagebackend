@@ -9,4 +9,7 @@ export class Service
     telephone?:number;
     numeroservice?: string;
     nomservice? : string;
+
+
+
 }

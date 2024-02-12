@@ -44,8 +44,8 @@ export class AgentService {
         return this.http.put<Agent>(environment.apiUrl+'/agent/editagent/'+idagent, agent);
     }
 
-    public addPointageEntree( matricule : string) : Observable<Pointage> {
-        return this.http.post<Pointage>(environment.apiUrl+'/agent/matin/'+matricule, matricule);
+    public addPointageEntree( matricule : string,codeservice: number) : Observable<Pointage> {
+        return this.http.post<Pointage>(environment.apiUrl+'/agent/matin/'+matricule,codeservice );
     }
 
     public addPointageSortie( matricule : string) : Observable<Pointage> {

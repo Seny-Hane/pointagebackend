@@ -4,10 +4,8 @@ import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
 import { Drp } from '../models/drp';
 import { TypeService } from '../models/typeService.model';
-import {Agent} from "../models/agent.model";
-//import {Service} from "../models/service.model";
- import {Service} from "../models/service";
 import {StatutAgent} from "../models/statutAgent";
+import {Service} from "../models/service";
 
 @Injectable({
   providedIn: 'root'

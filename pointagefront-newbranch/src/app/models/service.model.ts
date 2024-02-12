@@ -1,7 +1,7 @@
 import {TypeService} from "./typeService.model";
 import {Drp} from "./drp";
 
-export interface Service {
+export class Service {
     codeservice?: number;
     datecreation?: Date;
     codeips?:string;
