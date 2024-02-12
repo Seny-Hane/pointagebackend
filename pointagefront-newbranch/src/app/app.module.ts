@@ -125,7 +125,11 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import { AttributionRoleComponent } from './components/GestionUtilisateur/attribution-role/attribution-role.component';
-
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import { UtilisateursComponent } from './components/GestionUtilisateur/utilisateurs/utilisateurs.component';
+import { AjouterutilisateurComponent } from './components/GestionUtilisateur/ajouterutilisateur/ajouterutilisateur.component';
 
 
 @NgModule({
@@ -224,6 +228,12 @@ import { AttributionRoleComponent } from './components/GestionUtilisateur/attrib
         MatButtonModule,
         MatDividerModule,
         MatIconModule,
+        // MatButtonModule,
+        MatStepperModule,
+        // FormsModule,
+        // ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
     ],
     declarations: [
         AppComponent,
@@ -247,6 +257,10 @@ import { AttributionRoleComponent } from './components/GestionUtilisateur/attrib
         ServicesPosteComponent,
         AbsencePeriodiqueParServiceComponent,
         AttributionRoleComponent,
+        UtilisateursComponent,
+        AjouterutilisateurComponent,
+        
+        
     ],
     providers: [ DatePipe,
         {

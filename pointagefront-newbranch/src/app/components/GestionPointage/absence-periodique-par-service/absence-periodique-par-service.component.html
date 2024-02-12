@@ -39,6 +39,7 @@
 
                 <ng-template pTemplate="right">
                     <button pButton pRipple label="Export excel" icon="pi pi-upload" (click)="exportAsXLSX(results)" class="mr-2 inline-block" ></button>
+                    <button pButton pRipple label="Export PDF" icon="pi pi-upload" class="p-button-success mr-2"  (click)="exportPDF(result)"></button>
                 </ng-template>
             </p-toolbar>
             <p-table #dt [value]="results"  responsiveLayout="scroll" [rows]="10"

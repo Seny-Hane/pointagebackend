@@ -13,6 +13,8 @@ import {ExcelService} from "../../../service/excel.service";
 import {KeycloakService} from "keycloak-angular";
 import {UserService} from "../../../service/user.service";
 import {Agent} from "../../../models/agent.model";
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-rapport-pointage',
@@ -43,6 +45,7 @@ export class RapportPointageComponent implements OnInit {
     num: number;
     tourner:boolean;
     erreur:boolean;
+    cols: any;
 
     //absence= {matricule : null, prenom: null, nom : null, datepointage: null,service: null, status:"ABSENT(E)"}
 
@@ -69,6 +72,18 @@ export class RapportPointageComponent implements OnInit {
       });
 
       this.getAllService();
+
+      this.cols= [
+        {field: 'matricule', header: 'matricule'},
+        {field: 'prenom', header: 'prenom'},
+        {field: 'nom', header: 'nom'},
+        {field: 'service', header: 'service'},
+        {field: 'datepointage', header: 'datepointage'},
+        {field: 'heurearrivee', header: 'heurearrivee'},
+        {field: 'heuredescente', header: 'heuredescente'},
+        {field: 'cumulheure', header: 'cumulheure'},
+        {field: 'motif', header: 'motif'},
+      ];
   }
 
     public getUser(username){
@@ -208,6 +223,36 @@ export class RapportPointageComponent implements OnInit {
         this.excelService.exportAsExcelFile(this.tab);
         console.log(this.tab)
     }
+    exportPDF(result){
+        this.tab=[];
+        for (let i = 0; i < this.result.length; i++) {
+            this.json.matricule = this.result[i].agent.matricule,
+                this.json.prenom = this.result[i].agent.prenomagent,
+                this.json.nom = this.result[i].agent.nomagent,
+                this.json.service = this.result[i].agent.service.nomservice,
+                this.json.datepointage = this.result[i].datepointage,
+                this.json.heureArrivee = this.result[i].heurearrivee,
+                this.json.heureDescente = this.result[i].heuredescente,
+                this.json.cumulHeure= this.result[i].cumulheure,
+                this.json.status = this.result[i].motif.motif,
+
+                this.tab.push({...this.json});
+        }
+        console.log(this.tab)
+        
+        const colums= this.cols.map(col => col.field);
+        const data = this.tab.map(row => colums.map(col => row[col]));
+        console.log(data)
+        const doc = new jsPDF();
+
+        autoTable(doc,{
+            head: [colums],
+            body: data,
+            
+        })
+        doc.save('Rapportperiodiqueservice.pdf');
+    }
+
 
     getAbsencesParService(date1: Date, date2 :Date ,currentService: Service) {
     this.num=0;

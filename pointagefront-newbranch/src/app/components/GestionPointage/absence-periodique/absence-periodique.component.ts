@@ -3,6 +3,9 @@ import {Service} from "../../../models/service.model";
 import {PointageService} from "../../../service/pointage.service";
 import {DatePipe} from "@angular/common";
 import {ExcelService} from "../../../service/excel.service";
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { log } from 'console';
 
 @Component({
   selector: 'app-absence-periodique',
@@ -26,13 +29,21 @@ export class AbsencePeriodiqueComponent implements OnInit {
     tab = [];
     json= {dateAbsente : null};
     date:any;
+    cols: any;
+
     constructor(public pointagesService: PointageService,
                 public datepipe: DatePipe,public excelService: ExcelService,) {
     }
 
     ngOnInit(): void {
         console.log(this.erreur);
+        this.cols= [
+            {field: 'Date(s)Absence', header: 'Date(s)Absence'},
+            
+
+        ];
     }
+
     getChange()
     {
         this.disabled=false;
@@ -52,6 +63,30 @@ export class AbsencePeriodiqueComponent implements OnInit {
         this.excelService.exportAsExcelFile(this.tab);
         //console.log(this.json.date)
     }
+
+    exportPDF(result){
+        this.tab=[];
+        for (let i = 0; i< this.result.length; i++){
+            this.json.dateAbsente=this.datepipe.transform(this.result[i], 'dd-MM-yyyy');
+            
+;            this.tab.push({...this.json});
+            console.log(this.tab);
+        }
+
+        const colums= this.cols.map(col => col.field);
+        const data = this.tab.map(row => colums.map(col => row[col]));
+        // const data= this.tab;
+        console.log(data);
+        const doc = new jsPDF();
+
+        autoTable(doc,{
+            head: [colums],
+            body: data,
+            
+        })
+        doc.save('AbsencePeriodiqueAgent.pdf');
+    }
+
     rechercheByMatricule(date1: Date, date2: Date, matricule: any) {
         this.submitted = true;
         this.result=null;

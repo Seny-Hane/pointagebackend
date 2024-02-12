@@ -6,6 +6,11 @@ import {AgentService} from "../../../service/agent.service";
 import {ServicesService} from "../../../service/services.service";
 import {Service} from "../../../models/service.model";
 import {Pointage} from "../../../models/pointage.model";
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+// import * as jsPDF from 'jspdf';
+// import * as autoTable from 'jspdf-autotable';
+// import 'jspdf-autotable';
 
 @Component({
   selector: 'app-absence-journalier',
@@ -29,7 +34,10 @@ export class AbsenceJournalierComponent implements OnInit {
     submitted: boolean;
     selectedPointages: Pointage[];
     tabAbsence = [];
-    absence= {matricule : null, prenom: null, nom : null, datepointage: null,service: null, status:null}
+    absence= {matricule : null, prenom: null, nom : null, datepointage: null,service: null, status:null};
+    logo=localStorage.getItem('logo');
+    dt: any;
+    cols: any;
 
   constructor(public pointagesService: PointageService,
               public datepipe : DatePipe,
@@ -40,6 +48,15 @@ export class AbsenceJournalierComponent implements OnInit {
   ngOnInit(): void {
 
       this.getAllService()
+      
+      this.cols= [
+        {field: 'matricule', header: 'matricule'},
+        {field: 'prenom', header: 'prenom'},
+        {field: 'nom', header: 'nom'},
+        {field: 'datepointage', header: 'datepointage'},
+        {field: 'service', header: 'service'},
+        {field: 'motif', header: 'motif'},
+      ];
   }
 
     getAllService() {
@@ -112,6 +129,62 @@ export class AbsenceJournalierComponent implements OnInit {
         console.log(this.tabAbsence)
 
     }
+
+    exportPDF(result){
+        //let doc= new jsPDF()
+        //  doc.addImage(this.logo,'JPEG',15,5,25,25)
+        //  doc.setFontSize(20)
+        //  doc.rect(10, 35, 275, 35)
+        // doc.text("Liste des absences journalères",75,50)
+        
+        // let cols=[['matricule', 'prenom', 'nom', 'datepointage','service', 'status']]
+         this.tabAbsence=[];
+         for (let i = 0; i < this.result.length; i++) {
+             this.absence.matricule = this.result[i].matricule,
+             this.absence.prenom = this.result[i].prenomagent,
+             this.absence.nom = this.result[i].nomagent,
+             this.absence.service = this.result[i].service.nomservice,
+             this.absence.datepointage = this.datepipe.transform(this.date1, 'dd-MM-yyyy'),
+             this.absence.status ="ABSENT(E)",
+
+             this.tabAbsence.push({...this.absence});
+              
+            
+         }
+         console.log(this.tabAbsence)
+        // autoTable(doc,{
+
+        //     styles: { fontSize:10 },
+      
+        //    startY: 75,
+        //    head: cols,
+        //    body:this.tabAbsence,
+      
+        // })
+
+        // doc.setFontSize(10)
+        // window.open(doc.output('bloburl'))
+        // doc.save('table.pdf');
+
+        // if(this.dt){
+            //console.log("ttttttyyhjjhfhgg");
+            
+            const colums= this.cols.map(col => col.field);
+            const data = this.tabAbsence.map(row => colums.map(col => row[col]));
+            //const data= this.tabAbsence;
+
+            const doc = new jsPDF();
+
+            autoTable(doc,{
+                head: [colums],
+                body: data,
+                
+            })
+            doc.save('tabAbsencesjounaliere.pdf');
+        // }
+    }
+        
+
 
 
 }

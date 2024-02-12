@@ -8,6 +8,8 @@ import {DatePipe} from "@angular/common";
 import {ExcelService} from "../../../service/excel.service";
 import {KeycloakService} from "keycloak-angular";
 import {UserService} from "../../../service/user.service";
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-absence-periodique-par-service',
@@ -34,6 +36,8 @@ export class AbsencePeriodiqueParServiceComponent implements OnInit {
     truc2: string;
     tab = [];
     json= {matricule : null, prenom: null, nom : null, datenaissance: null,dateabsence: null, genre: null};
+    cols: any;
+
   constructor(public agentService : AgentService,
               public fb : FormBuilder,
               public service : ServicesService,
@@ -54,6 +58,15 @@ export class AbsencePeriodiqueParServiceComponent implements OnInit {
       });
 
       this.getAllService();
+
+      this.cols= [
+        {field: 'matricule', header: 'matricule'},
+        {field: 'prenom', header: 'prenom'},
+        {field: 'nom', header: 'nom'},
+        {field: 'datenaissance', header: 'datenaissance'},
+        {field: 'dateabsence', header: 'dateabsence'},
+        {field: 'genre', header: 'genre'},
+      ];
   }
     public getUser(username){
         // console.log(username);
@@ -176,6 +189,33 @@ export class AbsencePeriodiqueParServiceComponent implements OnInit {
         }
         this.excelService.exportAsExcelFile(this.tab);
         console.log(this.tab)
+    }
+
+    exportPDF(results){
+        this.tab=[];
+        for (let i = 0; i < this.results.length; i++) {
+            this.json.matricule = this.results[i].matricule,
+            this.json.prenom = this.results[i].prenomagent,
+            this.json.nom = this.results[i].nomagent,
+            this.json.datenaissance = this.results[i].datenaissance,
+            this.json.dateabsence = this.results[i].dateabsence,
+            this.json.genre = this.results[i].genre,
+            this.tab.push({...this.json});
+         console.log(this.json)
+        }
+
+        const colums= this.cols.map(col => col.field);
+        const data = this.tab.map(row => colums.map(col => row[col]));
+        console.log(data)
+
+        const doc = new jsPDF();
+
+        autoTable(doc,{
+            head: [colums],
+            body: data,
+            
+        })
+        doc.save('Absenceperiodiqueservice.pdf');
     }
 
 }

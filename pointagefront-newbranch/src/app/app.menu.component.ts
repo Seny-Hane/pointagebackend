@@ -83,7 +83,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Gestion Utilisateur',
                 rootroles: this.findRole(['ROLE_DRH','ROLE_AGENT','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE']),
                 items: [
-                    {label: 'Attribution Rôle(s)', icon: 'pi  pi-fw pi-user-plus',routerLink: ['/gestion/attributionRole'],roles: this.findRole(['ROLE_DRH','ROLE_AGENT','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE'])},
+                    {label: 'Ajouter Utilisateur', icon: 'pi  pi-fw pi-user-plus',routerLink: ['/gestion/ajouterutilisateur'],roles: this.findRole(['ROLE_DRH','ROLE_AGENT','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE'])},
                 ]
             },
 

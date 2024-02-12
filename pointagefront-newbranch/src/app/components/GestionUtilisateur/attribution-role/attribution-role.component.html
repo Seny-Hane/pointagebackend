@@ -1,7 +1,43 @@
-<div class="structures-content">
-    <div class="card">
-         <p-toast></p-toast>
-    <p-steps [model]="items" [readonly]="false"></p-steps>
 
+<button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+  {{!isLinear ? 'Services' : 'Disable linear mode'}}
+</button>
+<mat-stepper [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <!-- <form [formGroup]="firstFormGroup"> -->
+      <ng-template matStepLabel>Services</ng-template>
+      <!-- <mat-form-field> -->
+        <!-- <mat-label>Services</mat-label> -->
+        <p-autoComplete placeholder="Choisir un service" appendTo="body" readonly="false"  [(ngModel)]="currentService" [virtualScroll]="true"
+                            [suggestions]="services" (completeMethod)="filterItemsService($event)" field="nomservice" [dropdown]="true" ></p-autoComplete>
+        <!-- <small *ngIf="(submitted)" class="p-error">Selectionnez une structure.</small> -->
+        <!-- <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required> -->
+      <!-- </mat-form-field> -->
+      <div>
+        <button mat-button matStepperNext>Suivant</button>
+      </div>
+    <!-- </form> -->
+  </mat-step>
+ <mat-step [stepControl]="secondFormGroup" label="Utilisateur">
+    <!-- <form [formGroup]="secondFormGroup"> -->
+      <!-- <mat-form-field> -->
+        <!-- <mat-label>Utilisateur</mat-label> -->
+        <!-- <p-autoComplete placeholder="Choisir un service" appendTo="body" readonly="false"  [(ngModel)]="currentService" [virtualScroll]="true"
+                            [suggestions]="services" (completeMethod)="filterItemsService($event)" field="nomservice" [dropdown]="true" [multiple]="false"></p-autoComplete> -->
+       <!-- <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"required> -->
+      <!-- </mat-form-field> -->
+      <div>
+        <button mat-button matStepperPrevious>Precedent</button>
+        <button mat-button matStepperNext>Suivant</button>
+      </div>
+    <!-- </form> -->
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Role</ng-template>
+    <p>Role.</p>
+    <div>
+      <button mat-button matStepperPrevious>Precedent</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
     </div>
-</div> 
+  </mat-step>
+</mat-stepper>

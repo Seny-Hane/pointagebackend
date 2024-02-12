@@ -23,6 +23,9 @@
     "@angular/router": "~13.0.0",
     "bootstrap": "^5.1.3",
     "chart.js": "^3.3.2",
+    "file-saver": "latest",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.1",
     "keycloak-angular": "^9.1.0",
     "keycloak-js": "^16.1.1",
     "primeflex": "^3.1.0",
@@ -33,8 +36,7 @@
     "tslib": "^2.3.0",
     "web-animations-js": "^2.3.2",
     "xlsx": "^0.18.5",
-    "zone.js": "~0.11.4",
-    "file-saver": "latest"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^13.3.9",
