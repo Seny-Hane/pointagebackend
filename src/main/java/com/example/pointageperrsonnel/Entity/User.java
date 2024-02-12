@@ -22,7 +22,7 @@ public class User {
     private String reference ;
     private String nom ;
     private String prenom;
-    private String password ;
+   //private String password ;
     @Column(unique = true)
     private String email;
     @Column(unique = true)
@@ -43,9 +43,9 @@ public class User {
     @ManyToOne
     private Service service;
 
-
-    @JsonIgnoreProperties(value = {"Role"},allowSetters = true)
-    @ManyToOne
-    private Role role;
+//
+//    @JsonIgnoreProperties(value = {"Role"},allowSetters = true)
+//    @ManyToOne
+//    private Role role;
 
 }

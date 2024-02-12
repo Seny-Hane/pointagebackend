@@ -4,6 +4,7 @@ import com.example.pointageperrsonnel.DTO.UserDTO;
 import com.example.pointageperrsonnel.Entity.User;
 import com.example.pointageperrsonnel.KeycloakSecurity.KeyCloakService;
 import com.example.pointageperrsonnel.Repository.UserRepository;
+import com.example.pointageperrsonnel.Services.UserMapper;
 import com.example.pointageperrsonnel.Services.UserService;
 import com.example.pointageperrsonnel.Services.UserServiceImpl;
 import lombok.AllArgsConstructor;
@@ -32,7 +33,7 @@ public class UserController {
 
     @Autowired
     private KeyCloakService keyCloakService;
-
+    UserMapper userMapper;
 
     //Liste de tous les users
     @GetMapping(value = "/alluser")
@@ -74,7 +75,7 @@ public class UserController {
     @PostMapping("/user1")
     public UserDTO saveuser(@RequestBody UserDTO userDTO){
         try {
-            //userRepository.save(users);
+
             userService.saveuser(userDTO);
             keyCloakService.addUser(userDTO);
         }catch (PersistenceException e) {
@@ -83,11 +84,15 @@ public class UserController {
         return userDTO;
     }
     @PutMapping("/user1/{userDtoId}")
-    public UserDTO  updateUser(@PathVariable("userDtoId") String userDtoId,@RequestBody UserDTO userDTO){
+    public UserDTO  updateUser(@PathVariable("userDtoId") int userDtoId,@RequestBody UserDTO userDTO){
         try {
             //userRepository.save(users);
-            userService.updateUser(userDTO);
-            keyCloakService.updateUser(userDtoId,userDTO);
+            String UserId = keyCloakService.getUserIdKeycloak(userDTO.getEmail());
+            keyCloakService.updateUser(UserId,userDTO);
+            userDTO.setId(userDtoId);
+            userService.updateUser(userDtoId,userDTO);
+
+
         }catch (PersistenceException e) {
             e.getMessage();
         }

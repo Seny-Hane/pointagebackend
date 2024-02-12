@@ -19,7 +19,7 @@ public interface UserService {
     UserDTO  getUserById(long userId) ;
 
 
-    UserDTO updateUser(UserDTO userDTO);
+    UserDTO updateUser(int userId,UserDTO userDTO);
 
     List<User> getUserByServiceCodeservice(int serviceCodeservice);
 

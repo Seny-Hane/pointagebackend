@@ -44,7 +44,7 @@ public class Agent {
    // private String photo;
     //private String photocni;
     //private String cniVerso;
-   // private String services;
+    private String services;
     private Date premierjourtravail;
     private String fileName;
 
@@ -91,7 +91,7 @@ public class Agent {
         this.fileName = fileName;
         this.file = file;
         //this.indisponibilites = indisponibilites;
-        //this.service = service;
+        this.service = service;
         //this.pointages = pointages;
     }
 

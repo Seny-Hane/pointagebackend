@@ -145,7 +145,7 @@ public class KeyCloakService {
         return KeycloakConfig.getInstance().realm(realm).users();
     }
 
-    private void getUserIdKeycloak(String email) {}
+
 
     private void addRealmRoleToUser(String username, String roleName) {}
 
@@ -185,6 +185,15 @@ public class KeyCloakService {
                     .roles()
                     .deleteRole(roleName);
         }
+    }
+    public String getUserIdKeycloak(String userName){
+        String userId = KeycloakConfig.getInstance()
+                .realm(realm)
+                .users()
+                .search(userName)
+                .get(0)
+                .getId();
+        return userId;
     }
 
     /**

@@ -18,8 +18,8 @@ public class TypeService {
     private int idtypeservice;
     private String libelle;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "typeService", fetch=FetchType.LAZY)
-    private Collection<Service> services;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "typeService", fetch=FetchType.LAZY)
+//    private Collection<Service> services;
 }
 

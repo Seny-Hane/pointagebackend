@@ -23,7 +23,7 @@ public class Drp {
     private String libelle;
     private String telephone;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "drp", fetch=FetchType.LAZY)
-    private Collection<Service> services;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "drp", fetch=FetchType.LAZY)
+//    private Collection<Service> services;
 }

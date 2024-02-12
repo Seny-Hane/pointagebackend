@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -74,24 +75,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO saveuser( UserDTO userDTO) {
         User user =  userMapper.mapToUser(userDTO);
-        Role role = roleRepository.getById(userDTO.getRole());
-        user.setRole(role);
-        com.example.pointageperrsonnel.Entity.Service service = serviceRepository.getById(userDTO.getService());
+       // Role role = roleRepository.getById(userDTO.getRole());
+      //  user.setRole(role);
+        com.example.pointageperrsonnel.Entity.Service service = serviceRepository.getById(userDTO.getService().getCodeservice());
         user.setService(service);
-        try{
-            if(this.saveUser(user)){
-                    UserRole userRole = new UserRole();
-                    userRole.setRole(user.getRole());
-                    userRole.setUser(user);
-                    userRole.setDateAtribution(new Date());
-                    userRoleService.saveUserRole(userRole);
-            }
-                else {
-                    this.deleteUser(user);
-                }
-        } catch (PersistenceException e){
-            e.getMessage();
-        }
+        user.setNom(userDTO.getNom());
+        user.setEmail(userDTO.getEmail());
+        user.setPrenom(userDTO.getPrenom());
+        user.setMatricule(userDTO.getMatricule());
+        user.setReference(userDTO.getReference());
+        user.setTelephone(userDTO.getTelephone());
+        user.setEnable(userDTO.isEnable());
+
+//        try{
+//            if(this.saveUser(user)){
+//                    UserRole userRole = new UserRole();
+//                 //   userRole.setRole(user.getRole());
+//                    userRole.setUser(user);
+//                    userRole.setDateAtribution(new Date());
+//                    userRoleService.saveUserRole(userRole);
+//            }
+//                else {
+//                    this.deleteUser(user);
+//                }
+//        } catch (PersistenceException e){
+//            e.getMessage();
+//        }
         User savedUser = userRepository.save(user);
         return userMapper.mapToUserDto(savedUser);
     }
@@ -123,10 +132,29 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserDTO updateUser(UserDTO userDTO) {
-        User user = userMapper.mapToUser(userDTO);
-        User saved = userRepository.save(user);
-        return userMapper.mapToUserDto(saved);
+    public UserDTO updateUser(int userId,UserDTO userDTO) {
+       // User user = userMapper.mapToUser(userDTO);
+        com.example.pointageperrsonnel.Entity.Service service = serviceRepository.getById(userDTO.getService().getCodeservice());
+
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            User user1=user.get();
+            user1.setService(service);
+            user1.setNom(userDTO.getNom());
+            user1.setEmail(userDTO.getEmail());
+            user1.setPrenom(userDTO.getPrenom());
+            user1.setMatricule(userDTO.getMatricule());
+            user1.setReference(userDTO.getReference());
+            user1.setTelephone(userDTO.getTelephone());
+            user1.setEnable(userDTO.isEnable());
+
+
+            User saved = userRepository.save(user1);
+            return userMapper.mapToUserDto(saved);
+        }else {
+            throw new EntityNotFoundException("Objet non trouvé avec l'ID : " + userId);
+
+        }
     }
 
     public List<User> getUserByServiceCodeservice(int serviceCodeservice) {

@@ -20,16 +20,16 @@ public class UserMapper {
 
     public   UserDTO mapToUserDto(User user){
         UserDTO userDTO = new UserDTO();
-        userDTO.setRole(user.getRole().getId());
-        userDTO.setService(user.getService().getCodeservice());
+       // userDTO.setRole(user.getRole().getId());
+        userDTO.setService(user.getService());
                 BeanUtils.copyProperties(user,userDTO);
         return  userDTO;
     }
 
     public   User mapToUser(UserDTO userDTO){
         User user = new User();
-        user.setRole(roleService.getRoleByID(userDTO.getRole()));
-        user.setService(serviceRepository.findServiceByCodeservice(userDTO.getService()));
+     //   user.setRole(roleService.getRoleByID(userDTO.getRole()));
+        user.setService(serviceRepository.findServiceByCodeservice(userDTO.getService().getCodeservice()));
                BeanUtils.copyProperties(userDTO,user);
         return user;
     }
