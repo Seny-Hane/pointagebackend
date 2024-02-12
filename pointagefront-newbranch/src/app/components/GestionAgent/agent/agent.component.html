@@ -54,8 +54,12 @@
 <!--                        <td>-->
 <!--                            <p-tableCheckbox></p-tableCheckbox>-->
 <!--                        </td>-->
+
                         <td style="width:14%; min-width:10rem;"><span class="p-column-title">Référence</span>
-                            {{agent.reference}}
+
+                            <p-badge *ngIf="agent.statutAgent?.idstatut==1"  class="user"  value=" {{agent.reference}}" size="large" severity="success"></p-badge>
+                            <p-badge  *ngIf="agent.statutAgent?.idstatut==2" class="user"  value=" {{agent.reference}}" size="large" severity="danger"></p-badge>
+
                         </td>
                         <td style="width:14%; min-width:10rem;"><span class="p-column-title">Matricule</span>
                             {{agent.matricule}}
@@ -83,31 +87,96 @@
                             <span class="p-column-title">Date de Recrutement</span>
                             {{agent.daterecrutement | date: 'dd-MM-YYYY' }}
                         </td>
-                        <!-- <td style="width:14%; min-width:8rem;">
-                            <span class="p-column-title">1er Jour de Travail</span>
-                            {{agent.premierjourtravail | date: 'dd-MM-YYYY' }}
-                        </td> -->
-                        <td>
-                            <!-- <mat-slide-toggle></mat-slide-toggle> -->
-                            <div class="example-button-container">
-                                <button mat-mini-fab color="warn" aria-label="Statut" (click)="handleAddStatut(agent)">
-                                    <mat-icon>filter_list</mat-icon>
-                                </button>
-                            </div>
-                        </td>
+
                         <td>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="handleEditAgent(agent)"></button>
                             </div>
                         </td>
-                        
+
                     </tr>
                 </ng-template>
-                
+
             </p-table>
         </div>
+<!--        <p-dialog *ngIf="agents" [(visible)]="modifagentDialog" [style]="{width: '800px', height: '50rem'}" header=" Ajouter un Employé" [modal]="true" class="p-fluid">-->
+<!--            <ng-template pTemplate="content">-->
+<!--                <div class="p-formgrid grid">-->
+<!--                    <div class="field col ">-->
+<!--                        <label for="matricule">Matricule <span style="color: red"> *</span></label>-->
+<!--                        <p-inputMask mask="999999a" [(ngModel)]="agent.matricule" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !agent.matricule}"></p-inputMask>-->
+<!--                        <small *ngIf="submitted && !agent.matricule" class="p-error">Le matricule est obligatoire.</small>-->
+<!--                    </div>-->
+<!--                    <div class="field col ">-->
+<!--                        <label for="reference">Référence <span style="color: red"> *</span></label>-->
+<!--                        <input type="text" pInputText id="reference" [(ngModel)]="agent.reference" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !agent.reference}">-->
+<!--                        <small *ngIf="submitted && !agent.reference" class="p-error">La référence est obligatoire.</small>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="p-formgrid grid">-->
+<!--                    <div class="field col ">-->
+<!--                        <label for="prenom">Prénom <span style="color: red"> *</span></label>-->
+<!--                        <input type="text" pInputText id="prenom" [(ngModel)]="agent.prenomagent"required [ngClass]="{'ng-invalid ng-dirty' : submitted && !agent.prenomagent}">-->
+<!--                        <small *ngIf="submitted && !agent.prenomagent" class="p-error">Le prénom est obligatoire.</small>-->
+<!--                    </div>-->
+<!--                    <div class="field col ">-->
+<!--                        <label for="nom">Nom <span style="color: red"> *</span></label>-->
+<!--                        <input type="text" pInputText id="nom" [(ngModel)]="agent.nomagent" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !agent.nomagent}">-->
+<!--                        <small *ngIf="submitted && !agent.nomagent" class="p-error">Le nom est obligatoire.</small>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="p-formgrid grid">-->
+<!--                    <div class="field col ">-->
+<!--                        <label for="datenaiss">Date de naissance <span style="color: red"> *</span></label>-->
+<!--                        <p-calendar appendTo="body" [(ngModel)]="agent.datenaissance" dateFormat="dd/mm/yy" inputId="annee" id="datenaiss"  required [ngClass]="{'ng-invalid ng-dirty' : submitted && !agent.datenaissance}"></p-calendar>-->
+<!--                        <small *ngIf="submitted && !agent.datenaissance" class="p-error">La date de naissance est obligatoire.</small>-->
+<!--                    </div>-->
+<!--                    <div class="field col ">-->
+<!--                        <label for="daterecrut">Date de recrutement <span style="color: red"> *</span></label>-->
+<!--                        <p-calendar appendTo="body" [(ngModel)]="agent.daterecrutement" dateFormat="dd/mm/yy" id="daterecrut" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !agent.daterecrutement}"></p-calendar>-->
+<!--                        <small *ngIf="submitted && !agent.daterecrutement" class="p-error">La date de recrutement est obligatoire.</small>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="p-formgrid grid">-->
+<!--                    <div class="field col ">-->
+<!--                        <label for="service">Service <span style="color: red"> *</span></label>-->
+<!--                        <p-autoComplete  readonly="false" id="service" appendTo="body" [(ngModel)]="currentService" [size]="2" [virtualScroll]="true" [suggestions]="services" (completeMethod)="filterItems2($event)" field="nomservice" [dropdown]="true" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !currentService}"></p-autoComplete>-->
+<!--                        <small *ngIf="submitted && !currentService" class="p-error">Le service est obligatoire.</small>-->
+<!--                        <br>-->
+<!--                    </div>-->
+<!--                    <div class="field col ">-->
+<!--                        <label for="genre">Genre <span style="color: red"> *</span></label>-->
+<!--                        &lt;!&ndash;                        <p-dropdown [(ngModel)]="agent.genre"  [options]="genre" optionLabel="label" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !agent.genre}"></p-dropdown>&ndash;&gt;-->
+<!--                        <select id="genre" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"  #name="ngModel" name="genre" [(ngModel)]="agent.genre" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !agent.genre}">-->
+<!--                            <option value="M" >Masculin</option>-->
+<!--                            <option value="F" >Féminin</option>-->
+<!--                        </select>-->
+<!--                        <small *ngIf="submitted && !agent.genre" class="p-error">Le genre est obligatoire.</small>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="p-formgrid grid">-->
+<!--                    <div class="field col ">-->
+<!--                        <label for="premierjourtravail">1er jour de travail <span style="color: red"> *</span></label>-->
+<!--                        <p-calendar appendTo="body" [(ngModel)]="agent.premierjourtravail" dateFormat="dd/mm/yy" inputId="annee" id="premierjourtravail"  required [ngClass]="{'ng-invalid ng-dirty' : submitted && !agent.premierjourtravail}"></p-calendar>-->
+<!--                        <small *ngIf="submitted && !agent.premierjourtravail" class="p-error">La 1er jour de travail est obligatoire.</small>-->
+<!--                    </div>-->
+<!--                    <div class="field col ">-->
+<!--                        <h5>Etat compte <span style="color: red"> *</span></h5>-->
+<!--                        <p-autoComplete  readonly="false" id="statut" appendTo="body" [(ngModel)]="currentSatut" [size]="2" [virtualScroll]="true" [suggestions]="statutAgent"  placeholder="selectionné un Statut" (completeMethod)="filterItems3($event)" field="description" [dropdown]="true" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !currentSatut}"></p-autoComplete>-->
+<!--                        <small *ngIf="submitted && !currentSatut" class="p-error">Le statut est obligatoire.</small>-->
+<!--                        <br>-->
+<!--                    </div>-->
+<!--                </div>-->
 
-        <p-dialog *ngIf="agents" [(visible)]="agentDialog" [style]="{width: '800px', height: '50rem'}" header="Informations de l'Employé" [modal]="true" class="p-fluid">
+<!--            </ng-template>-->
+<!--            <ng-template pTemplate="footer">-->
+
+<!--                <button pButton pRipple type="button" label="Annuler" icon="pi pi-times"  class="p-button-danger" (click)="hideDialog()"></button>-->
+<!--                <button pButton pRipple type="button" label="Enregistrer" icon="pi pi-check"  class="p-button-success" (click)="saveAgent(agent)"></button>-->
+<!--            </ng-template>-->
+<!--        </p-dialog>-->
+
+        <p-dialog *ngIf="agents" [(visible)]="agentDialog" [style]="{width: '800px', height: '50rem'}" header="Modifier un Employé" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
 <!--                <form [formGroup]="agentForm">-->
 <!--                    <div class="field">-->
@@ -210,11 +279,13 @@
                         <small *ngIf="submitted && !agent.premierjourtravail" class="p-error">La 1er jour de travail est obligatoire.</small>
                     </div>
                     <div class="field col ">
-<!--                        <label for="CC_Ppal">CC_PPAL <span style="color: red"> *</span></label>-->
-<!--                        <input type="text" pInputText id="CC_Ppal" [(ngModel)]="agent.ccPpal" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !agent.ccPpal}">-->
-<!--                        <small *ngIf="submitted && !agent.ccPpal" class="p-error">Le CC_Ppal est obligatoire.</small>-->
+                    <h5>Etat compte <span style="color: red"> *</span></h5>
+                        <p-autoComplete  readonly="false" id="statut" appendTo="body" [(ngModel)]="currentSatut" [size]="2" [virtualScroll]="true" [suggestions]="statutAgent" (completeMethod)="filterItems3($event)" field="description" [dropdown]="true" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !currentSatut}"></p-autoComplete>
+                        <small *ngIf="submitted && !currentSatut" class="p-error">Le statut est obligatoire.</small>
+                        <br>
                     </div>
                 </div>
+
             </ng-template>
             <ng-template pTemplate="footer">
 
@@ -271,7 +342,7 @@
                         <mat-slide-toggle> </mat-slide-toggle>
                     </td>
                 </tr>
-            
+
             </ng-template>
             <ng-template pTemplate="footer">
                 <button pButton pRipple type="button" label="Annuler" icon="pi pi-times"  class="p-button-danger" (click)="hideDialog4()"></button>
@@ -304,7 +375,7 @@
 <!--            -->
 <!--        </p-dialog>-->
 
-        
+
 
         <p-dialog [(visible)]="importDialog" [style]="{width: '800px'}" header="Charger un fichier" [modal]="true" styleClass="p-fluid">
             <ng-template pTemplate="content" >

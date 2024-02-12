@@ -20,7 +20,7 @@ import autoTable from 'jspdf-autotable';
 export class AbsenceJournalierComponent implements OnInit {
 
 
-    services: Service[];
+    services: any[];
     currentService: Service;
     result : any;
     absences : any;

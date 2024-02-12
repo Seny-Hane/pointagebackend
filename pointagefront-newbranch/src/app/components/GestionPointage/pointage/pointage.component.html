@@ -66,8 +66,8 @@
             </ng-template>
             <ng-template pTemplate="footer">
                 <button pButton pRipple type="button" label="Annuler" icon="pi pi-times"  class="p-button-danger" (click)="hideDialog()"></button>
-                <button pButton pRipple type="button" label="Arrivée" icon="pi pi-sign-in"  class="p-button-info" [disabled]="!buttonDisabled" (click)="savePointageMatin()" ></button>
-                <button pButton pRipple type="button" label="Descente" icon="pi pi-sign-out"  class="p-button-success" [disabled]="buttonDisabled"  (click)="savePointageSoir()" ></button>
+                <button pButton pRipple type="button" label="Arrivée" icon="pi pi-sign-in"  class="p-button-info" [disabled]="!buttonDisabled" (click)="savePointageMatin(agent)" ></button>
+                <button pButton pRipple type="button" label="Descente" icon="pi pi-sign-out"  class="p-button-success" [disabled]="buttonDisabled"  (click)="savePointageSoir(agent)" ></button>
 
 
                 <!--                <button pButton pRipple label="Arrivée" icon="pi pi-check" class="p-button-text"  (click)="savePointageMatin()" ></button>-->

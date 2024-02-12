@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Agent} from "../models/agent.model";
 import {Pointage} from "../models/pointage.model";
-import {Service} from "../models/service.model";
 import {environment} from "../../environments/environment";
 
 @Injectable({
@@ -12,9 +11,17 @@ import {environment} from "../../environments/environment";
 export class AgentService {
 
     constructor(private http : HttpClient) { }
+    httpOptions =
+        {
+            headers: new HttpHeaders({
+                'Access-Control-Allow-Origin':'*',
+                'Content-Type': 'application/JSON',
+                'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT'
+            })
+        };
 
     public getAllAgent() : Observable<Agent[]> {
-        return this.http.get<Agent[]>(environment.apiUrl+'/agent/allagent');
+        return this.http.get<Agent[]>(environment.apiUrl+'/agent/allagent', this.httpOptions);
     }
 
     public getAgentByMatricule(matricule : string) : Observable<Agent> {

@@ -28,7 +28,12 @@ export class UserconnecteService {
 
 async getUser() {
 
-    return  await firstValueFrom(this.http.get(environment.apiUrl+"/dg_User/email/"+this.email))
+    return  await firstValueFrom(this.http.get(environment.apiUrl+"/dg_User/email/"+this.email)).then(
+        (data)=>{
+            console.log(data)
+        }
+    )
+
 
   }
 

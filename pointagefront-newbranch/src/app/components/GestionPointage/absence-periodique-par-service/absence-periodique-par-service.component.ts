@@ -17,7 +17,7 @@ import autoTable from 'jspdf-autotable';
   styleUrls: ['./absence-periodique-par-service.component.scss']
 })
 export class AbsencePeriodiqueParServiceComponent implements OnInit {
-    services: Service[];
+    services: any[];
     currentService: Service;
     resultabsence : any[];
     results: any;

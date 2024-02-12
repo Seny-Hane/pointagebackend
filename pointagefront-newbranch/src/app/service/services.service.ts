@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Service} from "../models/service.model";
 import {environment} from "../../environments/environment";
 import { Drp } from '../models/drp';
 import { TypeService } from '../models/typeService.model';
 import {Agent} from "../models/agent.model";
+//import {Service} from "../models/service.model";
+ import {Service} from "../models/service";
+import {StatutAgent} from "../models/statutAgent";
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,10 @@ export class ServicesService {
 
     public getAllService() : Observable<Service[]> {
         return this.http.get<Service[]>(environment.apiUrl+'/service/allservice');
+    }
+
+    public getAllStatut() : Observable<StatutAgent[]> {
+        return this.http.get<StatutAgent[]>(environment.apiUrl+'/statut/allstatut');
     }
 
     public getServiceByCodeService(codeservice : number) : Observable<Service> {

@@ -15,6 +15,12 @@
     <a class="p-link layout-topbar-menu-button layout-topbar-button" href="#" (click)="appMain.toggleTopMenu($event)">
         <i class="pi pi-ellipsis-v"></i>
     </a>
+    <div class="ms-5">
+                    <p-badge class="user"  value="{{utilisateur.service.nomservice}}" size="large" severity="info"></p-badge>
+
+        <h4 class="user"><h5  style="color: white; margin-left:30%;"></h5>{{users?.service?.nomservice}} </h4>
+    </div>
+
 
     <div class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active':appMain.topMenuActive}">
 <!--         <a href="#" class="p-link layout-topbar-button">-->
@@ -30,9 +36,8 @@
 <!--            <span>Profile</span>-->
 <!--        </a>-->
 
-<!--        <div>-->
-<!--            <p-badge class="structure" value="{{user.libelle}}" size="large" severity="info"></p-badge>-->
-<!--        </div>-->
+
+
         <div>
 <!--            <p-badge class="user"  value="{{users.firstName}} {{ users.lastName}}" size="large" severity="info"></p-badge>-->
 
