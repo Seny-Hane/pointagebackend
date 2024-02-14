@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-<<<<<<< HEAD
-import { FormBuilder, Validators } from '@angular/forms';
-import { MenuItem } from 'primeng/api';
-=======
 import {MenuItem, MessageService} from 'primeng/api';
->>>>>>> e053ead0f3ebaff1c7917f48ce7272af759ea0c4
 import { ServicesService } from 'src/app/service/services.service';
 import { Service } from 'src/models/service';
 import {Drp} from "../../../models/drp";
@@ -26,54 +21,6 @@ import {Directions} from "../../../../models/directions";
   templateUrl: './attribution-role.component.html',
 })
 export class AttributionRoleComponent implements OnInit {
-<<<<<<< HEAD
-  firstFormGroup = this._formBuilder.group({
-    firstCtrl: ['', Validators.required],
-  });
-  secondFormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
-  });
-  isLinear = false;
-
-  services: any;
-  currentService: Service;
-
-
-  constructor(private _formBuilder: FormBuilder,
-              public service : ServicesService,) {}
-
-  
-  
-  ngOnInit(): void {
-    this.getAllService();
-  
-  }
-
-  getAllService() {
-    this.service.getAllService().subscribe( data => {
-            this.services = data;
-            this.services.sort((a,b) => a.nomservice.localeCompare(b.nomservice));
-        },
-        error => {
-            console.log(error)
-        })
-}
-
-  filterItemsService(event) {
-    let filtered : any[] = [];
-    let query = event.query;
-    for(let i = 0; i < this.services.length; i++) {
-        let item = this.services[i];
-        if (item.nomservice.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-            filtered.push(item);
-        }
-    }
-    this.services = filtered;
-}
-
-
-
-=======
     productDialog: boolean;
     productDialog2: boolean;
     productDialog3: boolean;
@@ -131,7 +78,7 @@ export class AttributionRoleComponent implements OnInit {
     user : Users[];
     usere : Users[];
     //utilisatreur: Users;
-    utilisateur: Users;
+    utilisateur: any;
     rol: Roles[];
     roleSelect ?: string;
     usr:any[];
@@ -520,5 +467,4 @@ export class AttributionRoleComponent implements OnInit {
     editStru(utilisateur: any) {
 
     }
->>>>>>> e053ead0f3ebaff1c7917f48ce7272af759ea0c4
 }

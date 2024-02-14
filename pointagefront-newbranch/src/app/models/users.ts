@@ -1,12 +1,8 @@
-<<<<<<< HEAD
 
 import {Roles} from "./roles";
 import { Service } from "./service.model";
-=======
 import {Fonctions} from "./fonctions";
-import {Roles} from "./roles";
-import {Service} from "./service";
->>>>>>> e053ead0f3ebaff1c7917f48ce7272af759ea0c4
+
 
 export class Users {
     id?: number;
@@ -17,7 +13,6 @@ export class Users {
     email?: string;
     telephone?: string;
     matricule?: string;
-<<<<<<< HEAD
     enable?:boolean;
     userRoles?: any;
     login?: string;
@@ -26,9 +21,5 @@ export class Users {
     service? : Service;
     
 
-=======
-    service?:any;
-    role?:any;
-    enable?:boolean;
->>>>>>> e053ead0f3ebaff1c7917f48ce7272af759ea0c4
+   
 }
