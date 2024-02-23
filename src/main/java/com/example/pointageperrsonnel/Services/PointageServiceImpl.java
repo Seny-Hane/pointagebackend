@@ -115,4 +115,9 @@ public class PointageServiceImpl implements PointageService{
 
 
     }
+
+    @Override
+    public List<Pointage> listPointageDateIntervallByService(Date datepointage1, Date datepointage2,int codeservice) {
+        return pointageRepository.listPointageDatesIntervalleByService(datepointage1,datepointage2,codeservice);
+    }
 }

@@ -88,6 +88,7 @@ public class UserController {
         try {
             //userRepository.save(users);
             String UserId = keyCloakService.getUserIdKeycloak(userDTO.getEmail());
+            System.out.println(UserId);
             keyCloakService.updateUser(UserId,userDTO);
             userDTO.setId(userDtoId);
             userService.updateUser(userDtoId,userDTO);

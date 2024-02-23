@@ -49,4 +49,6 @@ public interface PointageService {
 
      //Liste pointage en fonction du matricule
     List<Pointage>listPointageAgent(Date datepointage1, Date datepointage2, String matricule);
+
+    List<Pointage> listPointageDateIntervallByService(Date datepointage1, Date datepointage2,int codeservice);
 }

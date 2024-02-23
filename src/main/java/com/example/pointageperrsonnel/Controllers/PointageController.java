@@ -188,5 +188,14 @@ public class PointageController {
         pointageRepository.deleteById(idpointage);
     }
 
+    @GetMapping(value = "/listPointageDateInvterByService/{datepointage1}/{datepointage2}/{codeservice}")
+    public Collection<Pointage> getListePointageByService(@PathVariable String datepointage1, @PathVariable String datepointage2, @PathVariable int codeservice)throws ParseException{
+        Date datedebut= new SimpleDateFormat("dd-MM-yyyy").parse(datepointage1);
+        Date datefin= new SimpleDateFormat("dd-MM-yyyy").parse(datepointage2);
+
+
+        return pointageService.listPointageDateIntervallByService(datedebut,datefin,codeservice);
+    }
+
 }
 

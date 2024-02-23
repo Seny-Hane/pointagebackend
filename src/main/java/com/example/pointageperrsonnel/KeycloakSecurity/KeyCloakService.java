@@ -175,6 +175,7 @@ public class KeyCloakService {
         }
     }
 
+
     /**
      * méthode pour supprimer un rôle client
      * @param roleName

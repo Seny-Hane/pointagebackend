@@ -38,7 +38,16 @@ public class RoleController {
 
     @PostMapping(value = "")
     public Role saveRole(@RequestBody Role role) {
-        return roleService.saverole(role);
+        Role role1=null;
+        try{
+            keyCloakService.addRealmRole(role.getAuthority(), role.getDescription());
+            role1=roleService.saverole(role);
+
+        } catch (Exception e){
+            e.getMessage();
+            e.getCause();
+        }
+        return role1;
     }
 
     @GetMapping(value = "/{id}")
@@ -60,6 +69,14 @@ public class RoleController {
     @PutMapping(value = "/{id}")
     public Role update(@PathVariable("id")int id , @RequestBody Role role){
         role.setId(id);
+        try{
+            keyCloakService.addRealmRole(role.getAuthority(), role.getDescription());
+            roleService.saverole(role);
+
+        } catch (Exception e){
+            e.getMessage();
+            e.getCause();
+        }
         return  roleRepository.save(role);
     }
 

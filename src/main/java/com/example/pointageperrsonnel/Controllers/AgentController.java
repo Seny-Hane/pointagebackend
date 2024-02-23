@@ -137,26 +137,22 @@ public class AgentController {
    @PostMapping(value = "/matin/{matricule}/{codeservice}")
    public Pointage fairePointageMatin(@PathVariable String matricule, @PathVariable int codeservice){
        Agent agent = agentRepository.findAgentByMatricule(matricule);
-       Service service = serviceRepository.getById(codeservice);
+       Service service = serviceRepository.findServiceByCodeservice(codeservice);
        agent.setService(service);
-
        Pointage pointage=new Pointage();
        Date date=new Date();
        pointage.setDatepointage((new Date()));
        pointage.setHeurearrivee((new Date()));
        //pointage.setHeuredescente(new Date());
        pointage.setAgent(agent);
-
-       if(agent!=null){
-           if(5<date.getHours() && date.getHours()<14){
-               pointage.setMotif(motifRepository.findById(1).get());
-           }/*else if(9<date.getHours()&&date.getHours()<14){
-               pointage.setMotif(motifRepository.findById(2).get());
-           } else {
-               pointage.setMotif(motifRepository.findById(3).get());
-           }*/
-           return pointageRepository.save(pointage);
-       }else return null;
+       if (5 < date.getHours() && date.getHours() < 14) {
+           pointage.setMotif(motifRepository.findById(1).get());
+       }/*else if(9<date.getHours()&&date.getHours()<14){
+           pointage.setMotif(motifRepository.findById(2).get());
+       } else {
+           pointage.setMotif(motifRepository.findById(3).get());
+       }*/
+       return pointageRepository.save(pointage);
    }
 
    //Verification doublons pointage
@@ -236,6 +232,14 @@ public class AgentController {
            }
         }
         return agentListAbsent;
+    }
+
+
+    //list agents par service
+    @GetMapping(value = "listttAgent/{codeService}")
+    public List<Agent> listAgentParService(@PathVariable int codeService){
+        List<Agent> agents = agentService.listAgents(codeService);
+        return  agents;
     }
 
     //Liste absents periodique par service

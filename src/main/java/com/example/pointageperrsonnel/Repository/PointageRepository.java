@@ -62,6 +62,9 @@ public interface PointageRepository extends JpaRepository<Pointage, Integer> {
     /*//Liste des agnts n'ayant pas pointe par service
     @Query("SELECT p FROM Pointage p WHERE p.agent.idagent NOT IN (SELECT a.idagent FROM Agent a) AND p.agent.service.codeservice=:codeservice")
     List<Pointage> findAgents(@Param("codeservice") int codeservice);*/
+    //Liste des agents  presents  par service
+//    @Query("SELECT p FROM Pointage p WHERE p.agent.idagent=:idagent AND p.agent.service.codeservice=:codeservice")
+//    List<Pointage> findAgentpresentByService(@Param("idagent") int idagent,@Param("codeservice") int codeservice);
 
     //Liste pointage en fonction d'une date pour les absents
     @Query("SELECT p FROM Pointage p WHERE p.datepointage=:datepointage")
@@ -70,6 +73,9 @@ public interface PointageRepository extends JpaRepository<Pointage, Integer> {
    //Liste pointage perriodique pour les absents
    @Query("SELECT p FROM Pointage p WHERE (p.datepointage BETWEEN :datepointage1 AND :datepointage2)")
    List<Pointage> listPointageDatesIntervalle(@Param("datepointage1") Date datepointage1, @Param("datepointage2") Date datepointage2);
+
+    @Query("SELECT p FROM Pointage p WHERE   (p.datepointage BETWEEN :datepointage1 AND :datepointage2) AND  p.agent.service.codeservice=:codeservice")
+    List<Pointage> listPointageDatesIntervalleByService(@Param("datepointage1") Date datepointage1, @Param("datepointage2") Date datepointage2,@Param("codeservice") int codeservice);
 
     //Les agents n'ayant pas pointes par service en fonction d'une date
     @Query(value ="SELECT * FROM agent WHERE codeservice=:codeservice AND (idagent NOT IN (SELECT idagent FROM pointage WHERE datepointage=:datepointage))", nativeQuery = true)
