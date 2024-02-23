@@ -8,7 +8,7 @@
         </div>
         <div class="field col-4 md:col-4">
             <h5>Services</h5>
-            <p-autoComplete appendTo="body" readonly="false"  [(ngModel)]="currentService" [virtualScroll]="true" [suggestions]="services" (completeMethod)="filterItems2($event)" field="nomservice" [dropdown]="true" ></p-autoComplete>
+            <p-autoComplete appendTo="body"  [(ngModel)]="currentService" [virtualScroll]="true" [suggestions]="services" (completeMethod)="filterItems2($event)" field="nomservice" [dropdown]="true" ></p-autoComplete>
             <!--                        <small *ngIf="submitted && !currentService " class="p-error">Le service est obligatoire.</small>-->
         </div>
         <div >

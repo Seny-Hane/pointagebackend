@@ -8,7 +8,7 @@
                     <div class="my-2">
                         <button pButton pRipple label="Nouveau" icon="pi pi-plus" class="p-button-primary mr-2" (click)="openNew()"></button>
                         <button pButton pRipple label="Management Role" icon="pi pi-plus" class="p-button-primary mr-2" (click)="openNewRole()"></button>
-                        <button pButton pRipple label="Management Fonction" icon="pi pi-plus" class="p-button-primary mr-2" (click)="openNewF()"></button>
+<!--                        <button pButton pRipple label="Management Fonction" icon="pi pi-plus" class="p-button-primary mr-2" (click)="openNewF()"></button>-->
                     </div>
                 </ng-template>
 
@@ -87,9 +87,9 @@
                             </div>
                         </td>
                         <td>
-                            <div class="flex">
-                                <button pButton pRipple icon="pi pi-bookmark" class="p-button-rounded p-button-secondary mr-2 mb-2" (click)="editStru(utilisateur)" pTooltip="Modifier Structures et Fonctions"></button>
-                            </div>
+<!--                            <div class="flex">-->
+<!--                                <button pButton pRipple icon="pi pi-bookmark" class="p-button-rounded p-button-secondary mr-2 mb-2" (click)="editStru(utilisateur)" pTooltip="Modifier Structures et Fonctions"></button>-->
+<!--                            </div>-->
                         </td>
                     </tr>
                 </ng-template>
@@ -316,50 +316,50 @@
                 <ng class="p-formgrid grid">
                     <div class="field col">
                         <label for="authority">Libelle</label>
-                        <input type="text" pInputText id="authority"  [(ngModel)]="rol.authority"/>
-                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !rol.authority">Le libelle est obligatoire.</small>
+                        <input type="text" pInputText id="authority"  [(ngModel)]="rolauthority"/>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !rolauthority">Le libelle est obligatoire.</small>
                     </div>
                     <div class="field col">
                         <label for="description">Description</label>
-                        <input type="text" pInputText id="description" [(ngModel)]="rol.description" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !rol.description}"/>
-                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !rol.description">La description est obligatoire.</small>
+                        <input type="text" pInputText id="description" [(ngModel)]="roldescription" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !rol.description}"/>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !roldescription">La description est obligatoire.</small>
                     </div>
                 </ng>
                 <div class="grid grid-nogutter justify-content-start">
-                    <button pButton pRipple label="Nouveau" iconPos="right" [disabled]="!rol.authority || !rol.description" (click)="saveRole()" ></button>
+                    <button pButton pRipple label="Nouveau" iconPos="right" [disabled]="!rolauthority || !roldescription" (click)="saveRole()" ></button>
 
                 </div>
                 <br><br>
-                <p-table [value]="roles" dataKey="id" editMode="row" responsiveLayout="scroll">
+                <p-table [value]="rol" dataKey="id" editMode="row" responsiveLayout="scroll">
                     <ng-template pTemplate="header">
                         <h5>Liste des roles disponible</h5>
                     </ng-template>
-                    <ng-template pTemplate="body" let-rol let-editing="editing" let-ri="rowIndex">
-                        <tr [pEditableRow]="rol">
+                    <ng-template pTemplate="body" let-rolle let-editing="editing" let-ri="rowIndex">
+                        <tr [pEditableRow]="rolle">
                             <td>
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
-                                        <input pInputText type="text" [(ngModel)]="rol.authority">
+                                        <input pInputText type="text" [(ngModel)]="rolle.authority">
                                     </ng-template>
                                     <ng-template pTemplate="output">
-                                        Role: <b>{{rol.authority}}</b>
+                                        Role: <b>{{rolle.authority}}</b>
                                     </ng-template>
                                 </p-cellEditor>
                             </td>
                             <td>
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
-                                        <input pInputText type="text" [(ngModel)]="rol.description" required>
+                                        <input pInputText type="text" [(ngModel)]="rolle.description" required>
                                     </ng-template>
                                     <ng-template pTemplate="output">
-                                        Description: <b>{{rol.description}}</b>
+                                        Description: <b>{{rolle.description}}</b>
                                     </ng-template>
                                 </p-cellEditor>
                             </td>
                             <td style="text-align:center">
-                                <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="UpdateRole(rol)" class="p-button-rounded p-button-text"></button>
-                                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="UpdateRoleSave(rol)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
-                                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="Cancel(rol)" class="p-button-rounded p-button-text p-button-danger"></button>
+                                <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="UpdateRole(rolle)" class="p-button-rounded p-button-text"></button>
+                                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="UpdateRoleSave(rolle)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="Cancel(rolle)" class="p-button-rounded p-button-text p-button-danger"></button>
                             </td>
                         </tr>
                     </ng-template>

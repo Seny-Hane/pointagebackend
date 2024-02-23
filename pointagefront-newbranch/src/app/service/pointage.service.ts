@@ -61,4 +61,7 @@ export class PointageService {
         return this.http.get<any>(environment.apiUrl+'/pointage/heureserveur')
     }
 
+    public getListPointageByService(date1: string, date2: string, codeservice: number) : Observable<Agent[]> {
+        return this.http.get<Agent[]>(environment.apiUrl+'/pointage/listPointageDateInvterByService/'+date1+'/'+date2+'/'+codeservice);
+    }
 }

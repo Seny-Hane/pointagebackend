@@ -13,7 +13,7 @@
         <div class="field col-3 md:col-3">
             <h5>Services</h5>
 
-                <p-autoComplete placeholder="Choisir un service" appendTo="body" readonly="false"  [(ngModel)]="currentService" [virtualScroll]="true"
+                <p-autoComplete placeholder="Choisir un service" appendTo="body"  [(ngModel)]="currentService" [virtualScroll]="true"
                                 [suggestions]="services" (completeMethod)="filterItems2($event)" field="nomservice" [dropdown]="true" ></p-autoComplete>
 
 

@@ -100,11 +100,13 @@ export class RapportPointageComponent implements OnInit {
     getAllService() {
         this.service.getAllService().subscribe( data => {
                 this.services = data;
-                this.services.sort((a,b) => a.nomservice.localeCompare(b.nomservice));
-            },
-            error => {
-                console.log(error)
-            })
+                //this.services.sort((a,b) => a.nomservice.localeCompare(b.nomservice));
+            // },
+            // error => {
+            //     console.log(error)
+             })
+
+        this.ngOnInit()
     }
 
     load(index) {
@@ -149,7 +151,7 @@ export class RapportPointageComponent implements OnInit {
             })
         }
         else if(currentService && this.truc.trim() && this.truc2.trim() ){
-            // console.log(this.date1, this.date2, this.currentService)
+            console.log(this.date1, this.date2, this.currentService)
             this.tourner=true;
             this.erreur=true;
             this.pointagesService.getRapport(this.datepipe.transform(this.date1, 'dd-MM-yyyy'),this.datepipe.transform(this.date2, 'dd-MM-yyyy'),currentService.codeservice).subscribe(data => {
@@ -239,7 +241,7 @@ export class RapportPointageComponent implements OnInit {
                 this.tab.push({...this.json});
         }
         console.log(this.tab)
-        
+
         const colums= this.cols.map(col => col.field);
         const data = this.tab.map(row => colums.map(col => row[col]));
         console.log(data)
@@ -248,7 +250,7 @@ export class RapportPointageComponent implements OnInit {
         autoTable(doc,{
             head: [colums],
             body: data,
-            
+
         })
         doc.save('Rapportperiodiqueservice.pdf');
     }

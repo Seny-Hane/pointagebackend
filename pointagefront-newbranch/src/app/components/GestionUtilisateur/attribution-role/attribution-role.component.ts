@@ -78,6 +78,7 @@ export class AttributionRoleComponent implements OnInit {
     utilisateur: Users;
 
     rol: Roles[];
+    rolle:Roles
     roleSelect ?: string;
     usr:any[];
     user$!: Observable<Users[]>;
@@ -99,7 +100,10 @@ export class AttributionRoleComponent implements OnInit {
     serviceUser: Users
     utilisateurService: any;
      filtereddirections: any[];
-
+    rolauthority
+    roldescription
+    rolees:Roles= new  Roles();
+    Clonesrol:Roles;
     constructor(private http: HttpClient,private productService: ProductService, private messageService: MessageService,
                 private userService: UserService, private roleService : RoleService, private serviceServices: ServicesService) {
     }
@@ -328,39 +332,44 @@ export class AttributionRoleComponent implements OnInit {
     //
     // }
     saveRole() {
-        console.log(this.rol)
-        this.http.post<Roles>(environment.apiUrl+'/role', this.rol).subscribe(data => {
+
+        this.rolees.authority=this.rolauthority;
+        this.rolees.description=this.roldescription;
+        console.log(this.rolees)
+
+        this.http.post<Roles>(environment.apiUrl+'/role', this.rolees).subscribe(data => {
                 this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Role Créé', life: 3000});
                 this.roleSubject.next();
             },
             (error)=>
             {this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Role Non créé', life: 3000});
             })
+        this.ngOnInit()
     }
-    // UpdateRole(rol: Roles){
-    //     this.Clonesrol=this.rol;
-    //     this.rol = {...rol};
-    // }
-    // UpdateRoleSave(rol: Roles){
-    //     if(this.rol){
-    //         this.rol = {...rol};
-    //         console.log(this.rol)
-    //         this.http.put<Roles>(environment.apiUrl+`/dg_Role/${this.rol.id}`, this.rol).subscribe((data) =>{
-    //                 this.messageService.add({severity:'success', summary: 'Success', detail:'Le role a été mis à jour'})
-    //                 this.roleSubject.next();
-    //             },
-    //             (error)=>
-    //             {this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Role Non modifié', life: 3000});
-    //             })
-    //     }
-    //     else{
-    //         this.messageService.add({severity:'error', summary: 'Error', detail:'Role invalide'});
-    //     }
-    // }
-    // Cancel(rol: Roles){
-    //     this.rol= {...rol};
-    //     this.rol=this.Clonesrol;
-    // }
+    UpdateRole(rolle: Roles){
+       this.Clonesrol=this.rolle;
+        this.rolle = {...rolle};
+    }
+    UpdateRoleSave(rolle: Roles){
+        if(this.rolle){
+            this.rolle = {...rolle};
+            console.log(this.rol)
+            this.http.put<Roles>(environment.apiUrl+`/dg_Role/${this.rolle.id}`, this.rol).subscribe((data) =>{
+                    this.messageService.add({severity:'success', summary: 'Success', detail:'Le role a été mis à jour'})
+                    this.roleSubject.next();
+                },
+                (error)=>
+                {this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Role Non modifié', life: 3000});
+                })
+        }
+        else{
+            this.messageService.add({severity:'error', summary: 'Error', detail:'Role invalide'});
+        }
+    }
+    Cancel(rolle: Roles){
+        this.rolle= {...rolle};
+        this.rolle=this.Clonesrol;
+    }
     // saveFonction(){
     //     this.http.post<Fonctions>(environment.apiUrl+'/dg_Fonction', this.fonctions).subscribe(data => {
     //             this.messageService.add({severity: 'success', summary: 'Successful', detail: 'La Fonction Créé', life: 3000});
