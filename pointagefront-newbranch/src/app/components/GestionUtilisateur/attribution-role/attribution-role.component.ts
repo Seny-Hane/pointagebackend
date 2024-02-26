@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MenuItem, MessageService} from 'primeng/api';
 import { ServicesService } from 'src/app/service/services.service';
-import { Service } from 'src/models/service';
 import {Drp} from "../../../models/drp";
 import {Roles} from "../../../models/roles";
 import {Fonctions} from "../../../models/fonctions";
@@ -13,12 +12,12 @@ import {ProductService} from "../../../service/productservice";
 import {HttpClient} from "@angular/common/http";
 import {Observable, Subject} from "rxjs";
 import {Product} from "../../../api/product";
-import {Directions} from "../../../../models/directions";
+import {Service} from "../../../models/service";
 
 @Component({
   selector: 'app-attribution-role',
-  styleUrls: ['./attribution-role.component.scss'],
   templateUrl: './attribution-role.component.html',
+  styleUrls: ['./attribution-role.component.scss']
 })
 export class AttributionRoleComponent implements OnInit {
     productDialog: boolean;
@@ -58,7 +57,6 @@ export class AttributionRoleComponent implements OnInit {
 
     selecteddirectioon: Drp[];
 
-    directioon: Directions[];
     roles: Roles[];
     id:number;
     dg_fonction:Fonctions;
@@ -66,10 +64,9 @@ export class AttributionRoleComponent implements OnInit {
     fonctions: Fonctions;
     fonctionsC: Fonctions;
     fonctionsP: Fonctions;
-    filtereddirections: Directions[];
+
     filteredRole:Roles[];
-    filteredroles:Directions[];
-    directioon$!: Observable<Directions[]>;
+
    // historique: Modif;
 
     userSubject = new Subject<void>();
@@ -77,8 +74,9 @@ export class AttributionRoleComponent implements OnInit {
     roleSubject = new Subject<void>();
     user : Users[];
     usere : Users[];
-    //utilisatreur: Users;
-    utilisateur: any;
+    utilisatreur: Users;
+    utilisateur: Users;
+
     rol: Roles[];
     roleSelect ?: string;
     usr:any[];
@@ -94,12 +92,13 @@ export class AttributionRoleComponent implements OnInit {
     options = [];
     temp: string;
 
-    listeServices:any[];
+    listeServices:Service[];
 
     roless:any[]=[]
     roleUser: Users
     serviceUser: Users
-
+    utilisateurService: any;
+     filtereddirections: any[];
 
     constructor(private http: HttpClient,private productService: ProductService, private messageService: MessageService,
                 private userService: UserService, private roleService : RoleService, private serviceServices: ServicesService) {
@@ -190,6 +189,7 @@ export class AttributionRoleComponent implements OnInit {
         this.utilisateur = {};
         this.submitted = false;
         this.productDialog = true;
+
     }
     openNewRole(){
       //  this.rol={}
@@ -205,18 +205,46 @@ export class AttributionRoleComponent implements OnInit {
         this.deleteProductsDialog = true;
     }
 
-    editUser(utilisateur: any) {
-        console.log(this.utilisateur)
+    editUser(utilisateur: Users) {
+        console.log(utilisateur)
+
         this.utilisateur = {...utilisateur};
-        this.serviceUser= utilisateur.service.nomservice
-        this.roleUser = utilisateur.role.authority
+        this.utilisatreur=utilisateur
+        this.utilisatreur.service.drp=null
+        this.utilisatreur.service.typeService=null
+        this.utilisatreur.service.email=null
+        //this.utilisatreur.service.nomservice=null
+        this.utilisatreur.service.numeroservice=null
+        this.utilisatreur.service.telephone=null
+        this.utilisatreur.service.adresse=null
+        this.utilisatreur.service.codepostal=null
+        this.utilisatreur.service.codeips=null
+        this.utilisatreur.service.datecreation=null
+        this.utilisatreur.service.numeroservice=null
+
+
+        this.utilisateurService= this.utilisateur.service
+        this.utilisateur.service = this.utilisatreur.service;
+        this.utilisateur.enable = this.utilisatreur.enable;
+        this.utilisateur.nom = this.utilisatreur.nom
+        this.utilisateur.prenom = this.utilisatreur.prenom
+        this.utilisateur.matricule = this.utilisatreur.matricule
+        this.utilisateur.email = this.utilisatreur.email
+        this.utilisateur.reference = this.utilisatreur.reference
+        this.utilisateur.telephone = this.utilisatreur.telephone
+
+
         this.productDialog2 = true;
+        console.log(this.utilisateur)
+        console.log(this.utilisatreur)
+
     }
-    // editStru(utilisatreur: Users) {
-    //     this.utilisateur = utilisatreur;
-    //     this.utilisatreur = {...utilisatreur};
-    //     this.structDialog = true;
-    // }
+    editStru(utilisateur:any) {
+        console.log(utilisateur)
+     //   this.utilisateur = utilisatreur;
+        this.utilisateur = {...utilisateur};
+        this.structDialog = true;
+    }
     // deleteProduct(product: Product) {
     //     this.deleteProductDialog = true;
     //     this.product = {...product};
@@ -244,21 +272,8 @@ export class AttributionRoleComponent implements OnInit {
         this.submitted = false;
     }
 
-    saveUser() {
-        this.submitted = true;
-       // this.users.enable= false;
-         this.utilisateur.service =this.utilisateur.service.codeservice
-        this.utilisateur.role=  this.utilisateur.role.id
-        // this.utilisateur.id = this.utilisatreur.id
-        // this.utilisateur.nom = this.utilisatreur.nom
-        // this.utilisateur.prenom = this.utilisatreur.prenom
-        // this.utilisateur.matricule = this.utilisatreur.matricule
-        // this.utilisateur.email = this.utilisatreur.email
-        // this.utilisateur.reference = this.utilisatreur.reference
-        // this.utilisateur.telephone = this.utilisatreur.telephone
-
-
-        //console.log(this.users)
+    saveUser(utilisateur) {
+        console.log(utilisateur)
         console.log(this.utilisateur)
 
         if (this.utilisateur.nom.trim()) {
@@ -464,7 +479,5 @@ export class AttributionRoleComponent implements OnInit {
         console.log(this.filteredroles)
     }*/
 
-    editStru(utilisateur: any) {
 
-    }
 }

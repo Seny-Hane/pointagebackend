@@ -62,8 +62,7 @@
                             {{utilisateur.email}}
                         </td>
                         <td style="min-width:10rem;">
-                            <span class="p-column-title">Matricule</span>
-                            {{utilisateur.matricule}}
+                            <span class="p-column-title">Matricule</span>                            {{utilisateur.matricule}}
                         </td>
                         <td style="min-width:10rem;">
                             <span class="p-column-title">Telephone</span>
@@ -76,15 +75,9 @@
                         </td>
 
                         <td style="min-width:10rem;">
-                            <span class="p-column-title">Etat</span>
-                            <span *ngIf="utilisateur.enable != undefined">
-                                <span *ngIf="utilisateur.enable==true" style="background-color: green; color: white; border-radius: 5px; width: 15px;font-weight: bold">
-                                     Actif
-                                </span>
-                                 <span *ngIf="utilisateur.enable!=true"  style="background-color: red;color: white; border-radius: 5px;width: 15px; font-weight: bold">
-                                     Inactif
-                                </span>
-                            </span>
+                            <p-badge *ngIf="utilisateur.enable!=true"  class="user"  value=" Inactif" size="large" severity="danger"></p-badge>
+                            <p-badge *ngIf="utilisateur.enable==true" class="user"  value="Actif" size="large" severity="success"></p-badge>
+
                         </td>
                         <td>
                             <div class="flex">
@@ -141,13 +134,13 @@
                         <input type="text" pInputText id="reference" [(ngModel)]="utilisateur.reference" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !utilisateur.reference}"/>
                         <small class="ng-dirty ng-invalid" *ngIf="submitted && !utilisateur.reference">Reference est obligatoire.</small>
                     </div>
-                    <div class="field col">
-                        <label for="reference">PassWord</label>
+<!--                    <div class="field col">-->
+<!--                        <label for="reference">PassWord</label>-->
 
-                        <p-password [(ngModel)]="utilisateur.password" [feedback]="false"  required [ngClass]="{'ng-invalid ng-dirty' : submitted && !utilisateur.password}"ng></p-password>
+<!--                        <p-password [(ngModel)]="utilisateur.password" [feedback]="false"  required [ngClass]="{'ng-invalid ng-dirty' : submitted && !utilisateur.password}"ng></p-password>-->
 
-                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !utilisateur.password">password est obligatoire.</small>
-                    </div>
+<!--                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !utilisateur.password">password est obligatoire.</small>-->
+<!--                    </div>-->
                 </div>
                 <div class="p-formgrid grid">
                     <div class="field col">
@@ -156,12 +149,12 @@
                         <p-autoComplete placeholder="Choisir un service" appendTo="body"  [(ngModel)]="utilisateur.service" [virtualScroll]="true"
                                         [suggestions]="filtereddirections" (completeMethod)="filterDirections($event)" field="nomservice" [dropdown]="true" ></p-autoComplete>
                     </div>
-                    <div class="field col">
-                        <label>Role</label>
-                        <p-autoComplete placeholder="Choisir un service" appendTo="body"  [(ngModel)]="utilisateur.role" [virtualScroll]="true"
-                                        [suggestions]="filteredRole" (completeMethod)="filterRoles($event)" field="authority" [dropdown]="true" ></p-autoComplete>
+<!--                    <div class="field col">-->
+<!--                        <label>Role</label>-->
+<!--                        <p-autoComplete placeholder="Choisir un service" appendTo="body"  [(ngModel)]="utilisateur.role" [virtualScroll]="true"-->
+<!--                                        [suggestions]="filteredRole" (completeMethod)="filterRoles($event)" field="authority" [dropdown]="true" ></p-autoComplete>-->
 
-                    </div>
+<!--                    </div>-->
                 </div>
                 <h5>Etat compte</h5>
                 <p-toggleButton [(ngModel)]="utilisateur.enable" onLabel="Actif" offLabel="Inactif" [style]="{width:'10em'}"></p-toggleButton>
@@ -169,7 +162,7 @@
 
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <button pButton pRipple label="Save" [disabled]="!utilisateur.nom || !utilisateur.prenom || !utilisateur.email  || !utilisateur.matricule  || !utilisateur.service || !utilisateur.reference"  icon="pi pi-check" class="p-button-text" (click)="saveUser()"></button>
+                <button pButton pRipple label="Save" [disabled]="!utilisateur.nom || !utilisateur.prenom || !utilisateur.email  || !utilisateur.matricule  || !utilisateur.service || !utilisateur.reference"  icon="pi pi-check" class="p-button-text" (click)="saveUser(utilisateur)"></button>
             </ng-template>
         </p-dialog>
         <p-dialog [(visible)]="productDialog2" [style]="{width: '700px'}" header="Modifier Utilisateurs" [modal]="true" class="p-fluid">
@@ -215,19 +208,13 @@
                   </div>
 
                     <div class="p-formgrid grid">
-                        <div class="field col">
+                        <div class="field col ms-2">
                             <label for="directions">Service</label>
                             <br>
-                            <p-autoComplete placeholder="Choisir un service" appendTo="body"  [(ngModel)]="utilisateur.service" [virtualScroll]="true"
+                            <p-autoComplete placeholder="Choisir un service" appendTo="body"  [(ngModel)]="utilisateurService" [virtualScroll]="true"
                                             [suggestions]="filtereddirections" (completeMethod)="filterDirections($event)" field="nomservice" [dropdown]="true" ></p-autoComplete>
                         </div>
-                        <div class="field col">
-                            <label>Role</label>
 
-                                <label>Role</label>
-                                <p-autoComplete placeholder="Choisir un service" appendTo="body"  [(ngModel)]="utilisateur.role" [virtualScroll]="true"
-                                                [suggestions]="filteredRole" (completeMethod)="filterRoles($event)" field="authority" [dropdown]="true" ></p-autoComplete>
-                        </div>
                     </div>
                 <h5>Etat compte</h5>
                 <p-toggleButton [(ngModel)]="utilisateur.enable" onLabel="Actif" offLabel="Inactif" [style]="{width:'10em'}"></p-toggleButton>
@@ -235,7 +222,7 @@
 
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <button pButton pRipple label="Save" [disabled]="!utilisateur.nom || !utilisateur.prenom || !utilisateur.email || !utilisateur.telephone || !utilisateur.matricule || !utilisateur.reference"  icon="pi pi-check" class="p-button-text" (click)="saveUser()"></button>
+                <button pButton pRipple label="Save" [disabled]="!utilisateur.nom || !utilisateur.prenom || !utilisateur.email || !utilisateur.telephone || !utilisateur.matricule || !utilisateur.reference"  icon="pi pi-check" class="p-button-text" (click)="saveUser(utilisateur)"></button>
             </ng-template>
         </p-dialog>
 

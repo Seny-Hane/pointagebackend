@@ -30,6 +30,7 @@ export class AppTopBarComponent {
             this.users = res;
             this.username= res.username;
              console.log(res.username);
+             console.log(res.email);
             this.getStructure(this.username);
             this.getUserByEmail(res.email);
         });
@@ -39,7 +40,6 @@ export class AppTopBarComponent {
         // console.log(username);
         return  this.http.get(environment.apiUrl +'/user/email/'+username).subscribe(data =>
         {
-
             this.user = data;
             console.log( this.user );
         })

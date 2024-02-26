@@ -173,7 +173,7 @@ export class PointageComponent implements OnInit {
                 this.hideDialog();
                 this.messageService.add({severity: 'error', summary: 'Erreur', detail: this.agent.prenomagent+' '+this.agent.nomagent+' a déjà pointé ce matin. ', life: 8000});
             }else if (data == true){
-                this.agentService.addPointageEntree(this.mat).subscribe(data => {
+                this.agentService.addPointageEntree(this.mat,agent.service.codeservice,).subscribe(data => {
 
                         this.hideDialog();
                         // this.mot = this.currentDate.transform(this.heureDate, 'HH:mm');

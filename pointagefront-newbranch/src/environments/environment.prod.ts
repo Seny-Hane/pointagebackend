@@ -4,7 +4,7 @@ export const environment = {
    // apiUrl: "http://digipost.sn.post:8085/pointageperrsonnel-backend",
     // apiUrl: "http://digipost.sn.post:8085/pointage-test"
     //apiUrl: "http://digipost.sn.post:8085/pointage",
-    apiUrl: "http://localhost:8081"
+    //apiUrl: "http://localhost:8081"
 
 
 };

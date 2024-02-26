@@ -22,15 +22,19 @@ export class UserService {
         };
 
     getUserByUsername(email): Observable<any> {
-        return this.http.get(environment.apiUrl +'/user/emails/'+email)
+        return this.http.get(environment.apiUrl +'/user/emails/'+email , this.httpOptions)
     }
 
     getAllUser(): Observable<any> {
-        return this.http.get(environment.apiUrl +'/user/alluser')
+        return this.http.get(environment.apiUrl +'/user/alluser', this.httpOptions)
     }
 
     saveUser(user:any): Observable<any> {
         return this.http.post<any>(environment.apiUrl +'/user/user1', this.httpOptions)
+    }
+
+    updateUser(userId: number,user:Users): Observable<any> {
+        return this.http.post<any>(environment.apiUrl +'/user/user1/'+userId, user, this.httpOptions)
     }
 
 

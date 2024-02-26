@@ -1,25 +1,17 @@
-
-import {Roles} from "./roles";
-import { Service } from "./service.model";
 import {Fonctions} from "./fonctions";
-
+import {Roles} from "./roles";
+import {Service} from "./service";
 
 export class Users {
     id?: number;
-    reference?: string;
-    nom?: string;
-    prenom?: string;
-    password?: string;
     email?: string;
+    nom?: string;
+    password?: string;
+    prenom?: string;
+    reference?: string;
     telephone?: string;
     matricule?: string;
+    service?:any;
+    role?:any;
     enable?:boolean;
-    userRoles?: any;
-    login?: string;
-    roles?: Roles[];
-    role?: Roles;
-    service? : Service;
-    
-
-   
 }
