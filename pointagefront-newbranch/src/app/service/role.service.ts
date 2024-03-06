@@ -32,4 +32,8 @@ export class RoleService {
         return this.http.get(environment.apiUrl +'/role')
     }
 
+    saveRole(role:Roles): Observable<any> {
+        return this.http.post(environment.apiUrl +'/role',role)
+    }
+
 }

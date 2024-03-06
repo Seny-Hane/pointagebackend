@@ -17,7 +17,8 @@ import {AbsencePeriodiqueComponent} from "./components/GestionPointage/absence-p
 import { ServicesPosteComponent } from './components/services-poste/services-poste.component';
 import { AbsencePeriodiqueParServiceComponent } from './components/GestionPointage/absence-periodique-par-service/absence-periodique-par-service.component';
 import { AttributionRoleComponent } from './components/GestionUtilisateur/attribution-role/attribution-role.component';
-import { AjouterutilisateurComponent } from './components/GestionUtilisateur/ajouterutilisateur/ajouterutilisateur.component';
+import { AjouterutilisateurComponent } from './components/GestionUtilisateur/listePointageParService/ajouterutilisateur.component';
+import {UtilisateursComponent} from "./components/GestionUtilisateur/utilisateurs/utilisateurs.component";
 @NgModule({
     imports: [
         RouterModule.forRoot([
@@ -30,7 +31,8 @@ import { AjouterutilisateurComponent } from './components/GestionUtilisateur/ajo
                     //  Routing
 
                     {path: 'gestion/agent', component: AgentComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_DRH']}},
-                    {path: 'gestion/pointage', component: PointageComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_AGENT',]}},
+                   // {path: 'gestion/pointage', component: PointageComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_AGENT']}},
+                    {path: 'gestion/pointage', component: PointageComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_AGENT']},'ROLE_VIGILE']},
                     {path: 'gestion/listpointage', component: ListPointageComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_DRH']}},
                     {path: 'gestion/supervisionpointage', component: SupervisionPointageComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_SUPERVISEUR']}},
                     {path: 'gestion/superviseur', component: SuperviseurComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_CHEFDESERVICE']}},
@@ -46,7 +48,8 @@ import { AjouterutilisateurComponent } from './components/GestionUtilisateur/ajo
                      {path: 'gestion/attributionroles', component: AttributionRoleComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_DRH','ROLE_AGENT','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE']}},
 
                     {path: 'gestion/servicesPoste', component: ServicesPosteComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_DRH']}},
-               //    {path: 'gestion/ajouterutilisateur', component: AjouterutilisateurComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_DRH','ROLE_AGENT','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE']}},
+                    {path: 'gestion/utilisateur', component: UtilisateursComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_AGENT']}},
+                    {path: 'gestion/ListPointageByService', component: AjouterutilisateurComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_AGENT']}},
                 ],
             },
 

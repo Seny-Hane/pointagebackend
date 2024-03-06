@@ -3,9 +3,9 @@ import {Service} from "../../../models/service.model";
 import {PointageService} from "../../../service/pointage.service";
 import {DatePipe} from "@angular/common";
 import {ExcelService} from "../../../service/excel.service";
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
 import { log } from 'console';
+import autoTable from "jspdf-autotable";
+import jsPDF from "jspdf";
 
 @Component({
   selector: 'app-absence-periodique',
@@ -30,7 +30,9 @@ export class AbsencePeriodiqueComponent implements OnInit {
     json= {dateAbsente : null};
     date:any;
     cols: any;
+    // title = 'PDFGenerator';
 
+   
     constructor(public pointagesService: PointageService,
                 public datepipe: DatePipe,public excelService: ExcelService,) {
     }
@@ -39,7 +41,7 @@ export class AbsencePeriodiqueComponent implements OnInit {
         console.log(this.erreur);
         this.cols= [
             {field: 'Date(s)Absence', header: 'Date(s)Absence'},
-            
+
 
         ];
     }
@@ -64,27 +66,52 @@ export class AbsencePeriodiqueComponent implements OnInit {
         //console.log(this.json.date)
     }
 
-    exportPDF(result){
+//     exportPDF(result){
+//         this.tab=[];
+//         for (let i = 0; i< this.result.length; i++){
+//             this.json.dateAbsente=this.datepipe.transform(this.result[i], 'dd-MM-yyyy');
+//
+// ;            this.tab.push({...this.json});
+//             console.log(this.tab);
+//         }
+//
+//         const colums= this.cols.map(col => col.field);
+//         const data = this.tab.map(row => colums.map(col => row[col]));
+//         // const data= this.tab;
+//         console.log(data);
+//         const doc = new jsPDF();
+//
+//         autoTable(doc,{
+//             head: [colums],
+//             body: data,
+//
+//         })
+//         doc.save('AbsencePeriodiqueAgent.pdf');
+//     }
+    exportTableToPDF() {
+        const pdf = new jsPDF();
         this.tab=[];
         for (let i = 0; i< this.result.length; i++){
             this.json.dateAbsente=this.datepipe.transform(this.result[i], 'dd-MM-yyyy');
-            
-;            this.tab.push({...this.json});
+
+            this.tab.push({...this.json});
             console.log(this.tab);
         }
 
-        const colums= this.cols.map(col => col.field);
-        const data = this.tab.map(row => colums.map(col => row[col]));
-        // const data= this.tab;
-        console.log(data);
-        const doc = new jsPDF();
+        // Définissez les en-têtes du tableau
+        const headers = [['DateAbsente']];
 
-        autoTable(doc,{
-            head: [colums],
-            body: data,
-            
-        })
-        doc.save('AbsencePeriodiqueAgent.pdf');
+        // Utilisez la méthode jsPDF pour générer le tableau
+        const texte = "Liste des absences periodiques de l'agent: " + this.matricule;
+        pdf.text(texte, 40, 20);
+        autoTable(pdf,{
+            head: headers,
+            body: this.tab.map(data => [data.dateAbsente]),
+            startY: 30,
+        });
+
+        // Sauvegardez le fichier PDF avec un nom spécifique
+        pdf.save('AbsencePeriodiqueAgent.pdf');
     }
 
     rechercheByMatricule(date1: Date, date2: Date, matricule: any) {

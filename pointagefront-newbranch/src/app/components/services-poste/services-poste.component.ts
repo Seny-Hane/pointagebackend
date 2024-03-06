@@ -32,6 +32,9 @@ export class ServicesPosteComponent implements OnInit {
   //service:Service[];
 
 
+    serviceZone :string='ZONE';
+
+
   constructor(
     public serviceService : ServicesService,
     public router:Router,private confirmationService: ConfirmationService,
@@ -68,11 +71,13 @@ export class ServicesPosteComponent implements OnInit {
           this.erreur=true;
           console.log(error)
           })
+     //this.ngOnInit()
   }
     getAllDrp(){
       this.serviceService.getAllDrp().subscribe (data =>{
         this.drps=data;
-        console.log(this.drps)},
+             this.drps =  this.drps.filter(drp=>drp?.libelle.includes("DR ZONE"));
+              console.log(this.drps)},
         error => {
           this.tourner=false;
           this.erreur=true;

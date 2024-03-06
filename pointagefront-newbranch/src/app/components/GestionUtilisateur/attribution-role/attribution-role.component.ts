@@ -13,6 +13,9 @@ import {HttpClient} from "@angular/common/http";
 import {Observable, Subject} from "rxjs";
 import {Product} from "../../../api/product";
 import {Service} from "../../../models/service";
+import {ExcelService} from "../../../service/excel.service";
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-attribution-role',
@@ -78,6 +81,7 @@ export class AttributionRoleComponent implements OnInit {
     utilisateur: Users;
 
     rol: Roles[];
+    rolle:Roles
     roleSelect ?: string;
     usr:any[];
     user$!: Observable<Users[]>;
@@ -99,10 +103,18 @@ export class AttributionRoleComponent implements OnInit {
     serviceUser: Users
     utilisateurService: any;
      filtereddirections: any[];
+    rolauthority
+    roldescription
+    rolees:Roles= new  Roles();
+    Clonesrol:Roles;
+    tab = [];
+    result:any;
+    json= {nom : null, prenom: null, email: null, matricule: null, telephone: null, reference: null, etat: null};
+
 
     constructor(private http: HttpClient,private productService: ProductService, private messageService: MessageService,
-                private userService: UserService, private roleService : RoleService, private serviceServices: ServicesService) {
-    }
+                private userService: UserService, private roleService : RoleService, private serviceServices: ServicesService,
+                public excelService: ExcelService, ){}
 
     ngOnInit() {
         this.usere=[];
@@ -137,6 +149,16 @@ export class AttributionRoleComponent implements OnInit {
             }
         )
         this.haveAllService();
+
+        this.cols= [
+            {field: 'nom', header: 'nom'},
+            {field: 'prenom', header: 'prenom'},
+            {field: 'email', header: 'email'},
+            {field: 'matricule', header: 'matricule'},
+            {field: 'telephone', header: 'telephone'},
+            {field: 'reference', header: 'reference'},
+            {field: 'etat', header: 'etat'},
+          ];
     }
 
     // haveAllFonction() {
@@ -328,39 +350,44 @@ export class AttributionRoleComponent implements OnInit {
     //
     // }
     saveRole() {
-        console.log(this.rol)
-        this.http.post<Roles>(environment.apiUrl+'/role', this.rol).subscribe(data => {
+
+        this.rolees.authority=this.rolauthority;
+        this.rolees.description=this.roldescription;
+        console.log(this.rolees)
+
+        this.http.post<Roles>(environment.apiUrl+'/role', this.rolees).subscribe(data => {
                 this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Role Créé', life: 3000});
                 this.roleSubject.next();
             },
             (error)=>
             {this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Role Non créé', life: 3000});
             })
+        this.ngOnInit()
     }
-    // UpdateRole(rol: Roles){
-    //     this.Clonesrol=this.rol;
-    //     this.rol = {...rol};
-    // }
-    // UpdateRoleSave(rol: Roles){
-    //     if(this.rol){
-    //         this.rol = {...rol};
-    //         console.log(this.rol)
-    //         this.http.put<Roles>(environment.apiUrl+`/dg_Role/${this.rol.id}`, this.rol).subscribe((data) =>{
-    //                 this.messageService.add({severity:'success', summary: 'Success', detail:'Le role a été mis à jour'})
-    //                 this.roleSubject.next();
-    //             },
-    //             (error)=>
-    //             {this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Role Non modifié', life: 3000});
-    //             })
-    //     }
-    //     else{
-    //         this.messageService.add({severity:'error', summary: 'Error', detail:'Role invalide'});
-    //     }
-    // }
-    // Cancel(rol: Roles){
-    //     this.rol= {...rol};
-    //     this.rol=this.Clonesrol;
-    // }
+    UpdateRole(rolle: Roles){
+       this.Clonesrol=this.rolle;
+        this.rolle = {...rolle};
+    }
+    UpdateRoleSave(rolle: Roles){
+        if(this.rolle){
+            this.rolle = {...rolle};
+            console.log(this.rol)
+            this.http.put<Roles>(environment.apiUrl+`/dg_Role/${this.rolle.id}`, this.rol).subscribe((data) =>{
+                    this.messageService.add({severity:'success', summary: 'Success', detail:'Le role a été mis à jour'})
+                    this.roleSubject.next();
+                },
+                (error)=>
+                {this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Role Non modifié', life: 3000});
+                })
+        }
+        else{
+            this.messageService.add({severity:'error', summary: 'Error', detail:'Role invalide'});
+        }
+    }
+    Cancel(rolle: Roles){
+        this.rolle= {...rolle};
+        this.rolle=this.Clonesrol;
+    }
     // saveFonction(){
     //     this.http.post<Fonctions>(environment.apiUrl+'/dg_Fonction', this.fonctions).subscribe(data => {
     //             this.messageService.add({severity: 'success', summary: 'Successful', detail: 'La Fonction Créé', life: 3000});
@@ -479,5 +506,52 @@ export class AttributionRoleComponent implements OnInit {
         console.log(this.filteredroles)
     }*/
 
+    exportAsXLSX(result):void{
+        this.tab=[];
+        for (let i = 0; i < this.result?.length; i++) {
+            this.json.nom = this.result[i].utilisateur.nom,
+            this.json.prenom = this.result[i].utilisateur.prenom,
+            this.json.email= this.result[i].utilisateur.email,
+            this.json.matricule = this.result[i].utilisateur.matricule,
+            this.json.telephone= this.result[i].utilisateur.telephone,
+            this.json.reference= this.result[i].utilisateur.reference,
+            this.json.etat= this.result[i].utilisateur.enable,
+  
+            this.tab.push({...this.json});
+            console.log(this.result[i].utilisateur.matricule)
+        }
+        this.excelService.exportAsExcelFile(this.tab);
+         console.log(this.tab)
+    }
 
+    exportPDF(result){
+        this.tab=[];
+        for (let i = 0; i < this.result?.length; i++) {
+            this.json.nom = this.result[i].utilisateur.nom,
+            this.json.prenom = this.result[i].utilisateur.prenom,
+            this.json.email= this.result[i].utilisateur.email,
+            this.json.matricule = this.result[i].utilisateur.matricule,
+            this.json.telephone= this.result[i].utilisateur.telephone,
+            this.json.reference= this.result[i].utilisateur.reference,
+            this.json.etat= this.result[i].utilisateur.enable,
+  
+            this.tab.push({...this.json});
+            // console.log(this.json)
+        }
+        const colums= this.cols.map(col => col.field);
+        const data = this.tab.map(row => colums.map(col => row[col]));
+        console.log(data)
+        
+        const doc = new jsPDF();
+
+        const texte = "Liste des utilisateur:  "+ this.utilisateur.service.nomservice;
+        doc.text(texte, 40, 20);
+        autoTable(doc,{
+            head: [colums],
+            body: data,
+
+        })
+        doc.save('ListeUtilisateur.pdf');
+
+    }
 }

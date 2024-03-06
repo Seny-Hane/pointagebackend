@@ -191,7 +191,7 @@
                         <div class="field col">
                             <h5>Drp</h5>
 
-                            <p-autoComplete placeholder="Choisir un drp" appendTo="body" readonly="false"  [(ngModel)]="drp" [virtualScroll]="true"
+                            <p-autoComplete placeholder="Choisir un drp" appendTo="body" [(ngModel)]="drp" [virtualScroll]="true"
                                             [suggestions]="drps" (completeMethod)="filterItemsDrp($event)"  field="libelle" [dropdown]="true" ></p-autoComplete>
 
 

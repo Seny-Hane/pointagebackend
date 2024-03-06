@@ -82,8 +82,8 @@ export class RapportPointageComponent implements OnInit {
         {field: 'heurearrivee', header: 'heurearrivee'},
         {field: 'heuredescente', header: 'heuredescente'},
         {field: 'cumulheure', header: 'cumulheure'},
-        {field: 'motif', header: 'motif'},
-      ];
+        {field: 'status', header: 'status'},
+       ];
   }
 
     public getUser(username){
@@ -100,11 +100,13 @@ export class RapportPointageComponent implements OnInit {
     getAllService() {
         this.service.getAllService().subscribe( data => {
                 this.services = data;
-                this.services.sort((a,b) => a.nomservice.localeCompare(b.nomservice));
-            },
-            error => {
-                console.log(error)
-            })
+                //this.services.sort((a,b) => a.nomservice.localeCompare(b.nomservice));
+            // },
+            // error => {
+            //     console.log(error)
+             })
+
+        this.ngOnInit()
     }
 
     load(index) {
@@ -149,7 +151,7 @@ export class RapportPointageComponent implements OnInit {
             })
         }
         else if(currentService && this.truc.trim() && this.truc2.trim() ){
-            // console.log(this.date1, this.date2, this.currentService)
+            console.log(this.date1, this.date2, this.currentService)
             this.tourner=true;
             this.erreur=true;
             this.pointagesService.getRapport(this.datepipe.transform(this.date1, 'dd-MM-yyyy'),this.datepipe.transform(this.date2, 'dd-MM-yyyy'),currentService.codeservice).subscribe(data => {
@@ -221,8 +223,9 @@ export class RapportPointageComponent implements OnInit {
                             // console.log(this.json)
                 }
         this.excelService.exportAsExcelFile(this.tab);
-        console.log(this.tab)
+        // console.log(this.tab)
     }
+
     exportPDF(result){
         this.tab=[];
         for (let i = 0; i < this.result.length; i++) {
@@ -238,19 +241,22 @@ export class RapportPointageComponent implements OnInit {
 
                 this.tab.push({...this.json});
         }
-        console.log(this.tab)
+           console.log(this.tab)
+
+          const colums= this.cols?.map(col => col.field);
+          const data = this.tab?.map(row => colums?.map(col => row[col]));
+            console.log(data)
         
-        const colums= this.cols.map(col => col.field);
-        const data = this.tab.map(row => colums.map(col => row[col]));
-        console.log(data)
         const doc = new jsPDF();
 
+        const texte = "Rapport de présence du Servicve:  " + this.currentService.nomservice;
+        doc.text(texte, 40, 20);
         autoTable(doc,{
             head: [colums],
             body: data,
-            
+            startY: 30,
         })
-        doc.save('Rapportperiodiqueservice.pdf');
+        doc.save('RapportPeriodiqueService.pdf');
     }
 
 

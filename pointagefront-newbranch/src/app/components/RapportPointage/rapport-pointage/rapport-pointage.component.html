@@ -13,7 +13,7 @@
         <div class="field col-3 md:col-3">
             <h5>Services</h5>
 
-                <p-autoComplete placeholder="Choisir un service" appendTo="body" readonly="false"  [(ngModel)]="currentService" [virtualScroll]="true"
+                <p-autoComplete placeholder="Choisir un service" appendTo="body"  [(ngModel)]="currentService" [virtualScroll]="true"
                                 [suggestions]="services" (completeMethod)="filterItems2($event)" field="nomservice" [dropdown]="true" ></p-autoComplete>
 
 
@@ -52,7 +52,8 @@
 
                 <ng-template pTemplate="right">
                     <button pButton pRipple label="Export excel" icon="pi pi-upload" class="mr-2 inline-block" (click)="exportAsXLSX(result)"></button>
-                    <button pButton pRipple label="Export PDF" icon="pi pi-upload" class="p-button-success mr-2" (click)="exportPDF(result)" ></button>
+                    <!-- <button pButton pRipple label="Export PDF" icon="pi pi-upload" class="p-button-success mr-2" (click)="exportPDF(result)" ></button> -->
+                    <button pButton pRipple label="Export PDF" icon="pi pi-upload" class="p-button-success mr-2"  (click)="exportPDF(result)"></button>
                 </ng-template>
             </p-toolbar>
             <p-table #dt [value]="result"  responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['agent.matricule','agent.nomagent','agent.service.nomservice','agent.prenomagent', 'heurearrivee', 'heuredesente', 'motif.motif']" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedPointages" selectionMode="multiple" [rowHover]="true" dataKey="idpointage">

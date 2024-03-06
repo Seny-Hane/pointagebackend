@@ -210,12 +210,15 @@ export class AbsencePeriodiqueParServiceComponent implements OnInit {
 
         const doc = new jsPDF();
 
+        // doc.text("Liste des absences periodiques du Servicve: ", 40, 20);
+        const text = "Liste des absences periodiques du Service: " + this.currentService.nomservice;
+        doc.text(text, 40, 20);
         autoTable(doc,{
             head: [colums],
             body: data,
-            
+            startY: 30,
         })
-        doc.save('Absenceperiodiqueservice.pdf');
+        doc.save('AbsencePeriodiqueService.pdf');
     }
 
 }

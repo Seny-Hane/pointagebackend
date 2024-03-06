@@ -55,7 +55,7 @@ export class AbsenceJournalierComponent implements OnInit {
         {field: 'nom', header: 'nom'},
         {field: 'datepointage', header: 'datepointage'},
         {field: 'service', header: 'service'},
-        {field: 'motif', header: 'motif'},
+        // {field: 'motif', header: 'motif'},
       ];
   }
 
@@ -175,12 +175,15 @@ export class AbsenceJournalierComponent implements OnInit {
 
             const doc = new jsPDF();
 
+            // doc.text("Liste des absences journalière du Servicve: ", 40, 20);
+            const texte = "Liste des absences journalière du Servicve:  " + this.currentService.nomservice;
+            doc.text(texte, 40, 20);
             autoTable(doc,{
                 head: [colums],
                 body: data,
-                
+                startY: 30,
             })
-            doc.save('tabAbsencesjounaliere.pdf');
+            doc.save('tabAbsencesJounaliere.pdf');
         // }
     }
         

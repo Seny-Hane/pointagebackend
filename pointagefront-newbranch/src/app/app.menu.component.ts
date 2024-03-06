@@ -27,7 +27,7 @@ export class AppMenuComponent implements OnInit {
     findRole(rolearray: Array<String>) {
 
         this.listRoles=this.keycloak.getKeycloakInstance().realmAccess.roles
-        //console.log(this.listRoles)
+        console.log(this.listRoles)
         let menut= false
         const length=rolearray.length-1
 
@@ -72,19 +72,12 @@ export class AppMenuComponent implements OnInit {
             //     ]
             // },
 
-            {
-                label: 'Gestion Employés',
-                rootroles: this.findRole(['ROLE_DRH']),
-                items: [
-                    {label: 'Liste Employés', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/agent'], roles: this.findRole(['ROLE_DRH'])}
-                ]
-            },
+
             {
                 label: 'Gestion Utilisateur',
-                rootroles: this.findRole(['ROLE_DRH','ROLE_AGENT','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE']),
+                rootroles: this.findRole(['ROLE_DRH','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE']),
                 items: [
 
-                  // {label: 'Ajouter Utilisateur', icon: 'pi  pi-fw pi-user-plus',routerLink: ['/gestion/ajouterutilisateur'],roles: this.findRole(['ROLE_DRH','ROLE_AGENT','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE'])},
 
                     {label: 'Ajouter Utilisateur', icon: 'pi  pi-fw pi-user-plus',routerLink: ['gestion/attributionroles'],roles: this.findRole(['ROLE_DRH','ROLE_AGENT','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE'])},
 
@@ -93,12 +86,12 @@ export class AppMenuComponent implements OnInit {
 
             {
                 label: 'Gestion Pointage',
-                rootroles: this.findRole(['ROLE_DRH','ROLE_AGENT','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE']),
+                rootroles: this.findRole(['ROLE_DRH','ROLE_AGENT','ROLE_VIGILE','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE']),
                 items: [
-                    {label: 'Pointage', icon: 'pi pi-fw pi-pencil', routerLink: ['/gestion/pointage'], roles: this.findRole(['ROLE_DRH','ROLE_AGENT'])},
+                    {label: 'Pointage', icon: 'pi pi-fw pi-pencil', routerLink: ['/gestion/pointage'], roles: this.findRole(['ROLE_DRH','ROLE_AGENT','ROLE_VIGILE'])},
                     {label: 'Liste des pointages', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/listpointage'], roles: this.findRole(['ROLE_DRH'])},
                     {label: 'Supervision en temps réel', icon: 'pi pi-fw pi-history', routerLink: ['/gestion/supervisionpointage'], roles: this.findRole(['ROLE_DRH','ROLE_SUPERVISEUR'])},
-                    {label: 'Rapport par Service', icon: 'pi pi-fw pi-id-card', routerLink: ['/rapport/rapportpointage'], roles: this.findRole(['ROLE_DRH'])},
+                    {label: 'Rapport par Service', icon: 'pi pi-fw pi-id-card', routerLink: ['/rapport/rapportpointage'], roles: this.findRole(['ROLE_DRH','ROLE_CHEFDESERVICE'])},
                    // {label: 'Absences Journalières', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/absencejournaliere'], roles: this.findRole(['ROLE_DRH'],)},
                     {label: 'Employés', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/superviseur'], roles: this.findRole(['ROLE_CHEFDESERVICE'])},
                     {label: 'Rapport par Service', icon: 'pi pi-fw pi-id-card', routerLink: ['/rapport/raportpointage'], roles: this.findRole(['ROLE_CHEFDESERVICE'])},
@@ -109,8 +102,19 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
             {
+                label: 'Gestion Employés',
+                rootroles: this.findRole(['ROLE_DRH','ROLE_AGENT']),
+                items: [
+                    {label: 'Liste Agents', icon: 'pi  pi-fw pi-user-plus',routerLink: ['gestion/utilisateur'],roles: this.findRole(['ROLE_DRH','ROLE_AGENT'])},
+                    {label: 'Rapport De Présence', icon: 'pi pi-fw pi-id-card', routerLink: ['gestion/ListPointageByService'], roles: this.findRole(['ROLE_DRH','ROLE_AGENT'])},
+                    {label: 'Liste Employés', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/agent'], roles: this.findRole(['ROLE_DRH'])},
+
+                ]
+
+            },
+            {
                 label: 'Gestion Absences',
-                rootroles: this.findRole(['ROLE_DRH','ROLE_AGENT','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE']),
+                rootroles: this.findRole(['ROLE_DRH','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE']),
                 items: [
                     {label: 'Journalières', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/absencejournaliere'], roles: this.findRole(['ROLE_DRH'],)},
                     // {label: 'Journalières', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/absencjournaliere'], roles: this.findRole(['ROLE_CHEFDESERVICE'],)},

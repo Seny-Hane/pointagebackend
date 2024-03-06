@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {Agent} from "../models/agent.model";
 import {Pointage} from "../models/pointage.model";
 import {environment} from "../../environments/environment";
@@ -19,6 +19,13 @@ export class AgentService {
                 'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT'
             })
         };
+    // private _agentSubject = new Subject<void>();
+    //
+    // get _agentSubject()
+    // {
+    //     return this._agentSubject;
+    // }
+
 
     public getAllAgent() : Observable<Agent[]> {
         return this.http.get<Agent[]>(environment.apiUrl+'/agent/allagent', this.httpOptions);
@@ -27,6 +34,11 @@ export class AgentService {
     public getAgentByMatricule(matricule : string) : Observable<Agent> {
         return this.http.get<Agent>(environment.apiUrl+'/agent/matricule/'+matricule);
     }
+
+    public getListAgentByService(codeService : number) : Observable<any[]> {
+        return this.http.get<any[]>(environment.apiUrl+'/agent/listttAgent/'+codeService);
+    }
+
 
     // public getEmployeeById(id : number) : Observable<Agent> {
     //     return this.http.get<Agent>(`${this.host}/agent/${id}`);
@@ -44,8 +56,8 @@ export class AgentService {
         return this.http.put<Agent>(environment.apiUrl+'/agent/editagent/'+idagent, agent);
     }
 
-    public addPointageEntree( matricule : string,codeservice: number) : Observable<Pointage> {
-        return this.http.post<Pointage>(environment.apiUrl+'/agent/matin/'+matricule,codeservice );
+    public addPointageEntree( matricule:string, codeService:number):Observable<Pointage> {
+        return this.http.post<Pointage>(environment.apiUrl+'/agent/matin/'+matricule+'/'+codeService,matricule);
     }
 
     public addPointageSortie( matricule : string) : Observable<Pointage> {

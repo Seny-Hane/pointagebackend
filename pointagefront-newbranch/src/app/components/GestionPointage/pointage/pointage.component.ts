@@ -1,19 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PointageService} from "../../../service/pointage.service";
 import {Pointage} from "../../../models/pointage.model";
 import {AgentService} from "../../../service/agent.service";
 import {Agent} from "../../../models/agent.model";
-import { ConfirmationService, MessageService } from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import {DatePipe} from "@angular/common";
 import {Subject} from "rxjs";
 import {UserService} from "../../../service/user.service";
 import {KeycloakService} from "keycloak-angular";
-import {UserconnecteService} from "../../../service/userconnecte.service";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
-
 
 
 @Component({
@@ -70,8 +68,7 @@ export class PointageComponent implements OnInit {
         // console.log(username);
         return  this.http.get(environment.apiUrl +'/user/emails/'+email).subscribe(data =>
         {
-
-            this.user = data;
+            this.user=data;
             console.log( this.user );
         })
     }
@@ -161,35 +158,39 @@ export class PointageComponent implements OnInit {
 
 
     savePointageMatin(agent) {
-        console.log(agent)
+        agent.service.drp=null;
+        console.log( agent.service.drp)
         console.log(this.user)
-        console.log(agent.service.codeservice)
-        console.log(this.user.service.codeservice)
-        agent.service.codeservice = this.user.service.codeservice
-        console.log(agent)
-
+            agent.service.typeService=null;
+            agent.service.codeservice = this.user.service.codeservice
+            console.log(agent)
+        const codeServic = agent.service.codeservice
         this.pointageService.controlePointage(this.mat).subscribe(data =>{
-            if(data == false){
+           if(data == false){
+               console.log(data)
                 this.hideDialog();
                 this.messageService.add({severity: 'error', summary: 'Erreur', detail: this.agent.prenomagent+' '+this.agent.nomagent+' a déjà pointé ce matin. ', life: 8000});
             }else if (data == true){
-                this.agentService.addPointageEntree(this.mat,agent.service.codeservice,).subscribe(data => {
-
+                this.agentService.addPointageEntree(this.mat,codeServic).subscribe(data => {
                         this.hideDialog();
-                        // this.mot = this.currentDate.transform(this.heureDate, 'HH:mm');
+                        this.mot = this.currentDate.transform(this.heureDate, 'HH:mm');
                         this.messageService.add({severity: 'success', summary: 'Succes', detail: this.agent.prenomagent+' '+this.agent.nomagent+' a pointé avec succés. ', life: 8000});
                         this.pointageSubject.next();
                         this.mat=undefined;
                         //location.reload()
+                        this.ngOnInit()
                     },
                     error => {
                         console.log(error)
+                        this.ngOnInit()
                     })
-            }
-            // console.log(data)
+           }
+            console.log(data)
         }, error => {
             console.log(error)
         })
+
+        //this.ngOnInit()
 
     }
 
