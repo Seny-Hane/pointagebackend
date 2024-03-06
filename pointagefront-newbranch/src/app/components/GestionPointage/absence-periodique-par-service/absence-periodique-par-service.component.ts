@@ -218,7 +218,7 @@ export class AbsencePeriodiqueParServiceComponent implements OnInit {
             body: data,
             startY: 30,
         })
-        doc.save('AbsencePeriodiqueService.pdf');
+        doc.save(this.currentService.nomservice+'_AbsencePeriodiqueService.pdf');
     }
 
 }

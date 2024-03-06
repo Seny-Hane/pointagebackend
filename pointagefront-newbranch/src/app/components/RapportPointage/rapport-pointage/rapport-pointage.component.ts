@@ -256,7 +256,7 @@ export class RapportPointageComponent implements OnInit {
             body: data,
             startY: 30,
         })
-        doc.save('RapportPeriodiqueService.pdf');
+        doc.save(this.currentService.nomservice+'_RapportPeriodiqueService.pdf');
     }
 
 

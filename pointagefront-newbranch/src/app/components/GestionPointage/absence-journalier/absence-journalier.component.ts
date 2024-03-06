@@ -183,7 +183,7 @@ export class AbsenceJournalierComponent implements OnInit {
                 body: data,
                 startY: 30,
             })
-            doc.save('tabAbsencesJounaliere.pdf');
+            doc.save(this.currentService.nomservice+'_TabAbsencesJounaliere.pdf');
         // }
     }
         

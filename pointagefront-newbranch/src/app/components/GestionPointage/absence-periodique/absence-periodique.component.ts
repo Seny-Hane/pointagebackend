@@ -111,7 +111,7 @@ export class AbsencePeriodiqueComponent implements OnInit {
         });
 
         // Sauvegardez le fichier PDF avec un nom spécifique
-        pdf.save('AbsencePeriodiqueAgent.pdf');
+        pdf.save( this.matricule+'_AbsencePeriodiqueAgent.pdf');
     }
 
     rechercheByMatricule(date1: Date, date2: Date, matricule: any) {
