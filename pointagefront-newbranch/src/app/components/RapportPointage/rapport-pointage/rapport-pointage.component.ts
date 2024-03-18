@@ -39,7 +39,7 @@ export class RapportPointageComponent implements OnInit {
     dateabsence : any;
     selectedPointages: Pointage[];
     tab = [];
-    json= {matricule : null, prenom: null, nom : null, datepointage: null,service: null, heureArrivee: null, heureDescente: null,cumulHeure: null, status:null};
+    json= {matricule : null, prenom: null, nom : null, service: null, datepointage: null, heureArrivee: null, heureDescente: null,cumulHeure: null, status:null};
     tempAbsence: any;
     tabAbsence : any;
     num: number;
@@ -243,9 +243,10 @@ export class RapportPointageComponent implements OnInit {
         }
            console.log(this.tab)
 
-          const colums= this.cols?.map(col => col.field);
-          const data = this.tab?.map(row => colums?.map(col => row[col]));
-            console.log(data)
+        
+        const colums= this.cols?.map(col => col.field);
+        const data = this.tab?.map(row => colums?.map(col => row[col]));
+             console.log(data)
         
         const doc = new jsPDF();
 
