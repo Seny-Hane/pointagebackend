@@ -109,7 +109,7 @@ export class AttributionRoleComponent implements OnInit {
     Clonesrol:Roles;
     tab = [];
     result:any;
-    json= {nom : null, prenom: null, email: null, matricule: null, telephone: null, reference: null, etat: null};
+    json= {nom : null, prenom: null, email: null, matricule: null, telephone: null, reference: null};
 
 
     constructor(private http: HttpClient,private productService: ProductService, private messageService: MessageService,
@@ -157,7 +157,7 @@ export class AttributionRoleComponent implements OnInit {
             {field: 'matricule', header: 'matricule'},
             {field: 'telephone', header: 'telephone'},
             {field: 'reference', header: 'reference'},
-            {field: 'etat', header: 'etat'},
+            // {field: 'etat', header: 'etat'}
           ];
     }
 
@@ -478,8 +478,10 @@ export class AttributionRoleComponent implements OnInit {
         const query = event.query;
         for (let i = 0; i < this.rol.length; i++) {
             const country = this.rol[i];
-
+            if(country.authority.toLowerCase().indexOf(query.toLowerCase()) ==0){
                 filtered.push(country);
+            }
+                
 
         }
 
@@ -509,13 +511,13 @@ export class AttributionRoleComponent implements OnInit {
     exportAsXLSX(result):void{
         this.tab=[];
         for (let i = 0; i < this.result?.length; i++) {
-            this.json.nom = this.result[i].utilisateur.nom,
-            this.json.prenom = this.result[i].utilisateur.prenom,
-            this.json.email= this.result[i].utilisateur.email,
-            this.json.matricule = this.result[i].utilisateur.matricule,
-            this.json.telephone= this.result[i].utilisateur.telephone,
-            this.json.reference= this.result[i].utilisateur.reference,
-            this.json.etat= this.result[i].utilisateur.enable,
+            this.json.nom = this.result[i].nom,
+            this.json.prenom = this.result[i].prenom,
+            this.json.email= this.result[i].email,
+            this.json.matricule = this.result[i].matricule,
+            this.json.telephone= this.result[i].telephone,
+            this.json.reference= this.result[i].reference,
+            // this.json.etat= this.result[i].enable,
   
             this.tab.push({...this.json});
             console.log(this.result[i].utilisateur.matricule)
@@ -527,13 +529,13 @@ export class AttributionRoleComponent implements OnInit {
     exportPDF(result){
         this.tab=[];
         for (let i = 0; i < this.result?.length; i++) {
-            this.json.nom = this.result[i].utilisateur.nom,
-            this.json.prenom = this.result[i].utilisateur.prenom,
-            this.json.email= this.result[i].utilisateur.email,
-            this.json.matricule = this.result[i].utilisateur.matricule,
-            this.json.telephone= this.result[i].utilisateur.telephone,
-            this.json.reference= this.result[i].utilisateur.reference,
-            this.json.etat= this.result[i].utilisateur.enable,
+            this.json.nom = this.result[i].nom,
+            this.json.prenom = this.result[i].prenom,
+            this.json.email= this.result[i].email,
+            this.json.matricule = this.result[i].matricule,
+            this.json.telephone= this.result[i].telephone,
+            this.json.reference= this.result[i].reference,
+            // this.json.etat= this.result[i].enable,
   
             this.tab.push({...this.json});
             // console.log(this.json)

@@ -25,8 +25,8 @@ import {UtilisateursComponent} from "./components/GestionUtilisateur/utilisateur
             {
                 path: '', component: AppMainComponent, canActivate:[AuthGuard],
                 children: [
-                    // {path: '', component: DashboardComponent},
-                    {path: '', component: BlocksComponent},
+                    //  {path: '', component: DashboardComponent},
+                     {path: '', component: BlocksComponent},
 
                     //  Routing
 

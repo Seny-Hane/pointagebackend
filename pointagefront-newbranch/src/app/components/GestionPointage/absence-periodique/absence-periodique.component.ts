@@ -6,6 +6,7 @@ import {ExcelService} from "../../../service/excel.service";
 import { log } from 'console';
 import autoTable from "jspdf-autotable";
 import jsPDF from "jspdf";
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-absence-periodique',
@@ -62,6 +63,11 @@ export class AbsencePeriodiqueComponent implements OnInit {
 
         }
         console.log(this.tab)
+
+        // const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        // const texte = "Liste des absences periodiques de l'agent: ";
+        // wb.SheetNames[0] = 'Titre de la feuille';
+       
         this.excelService.exportAsExcelFile(this.tab);
         //console.log(this.json.date)
     }

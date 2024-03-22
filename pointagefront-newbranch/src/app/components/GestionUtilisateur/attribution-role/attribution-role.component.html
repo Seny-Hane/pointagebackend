@@ -146,7 +146,7 @@
                     <div class="field col">
                         <label>Service</label>
                         <br>
-                        <p-autoComplete placeholder="Choisir un service" appendTo="body"  [(ngModel)]="utilisateur.service" [virtualScroll]="true"
+                        <p-autoComplete placeholder="Choisir un service" appendTo="body"  [(ngModel)]="utilisateur.service" [size]="2" [virtualScroll]="true"
                                         [suggestions]="filtereddirections" (completeMethod)="filterDirections($event)" field="nomservice" [dropdown]="true" ></p-autoComplete>
                     </div>
 <!--                    <div class="field col">-->
@@ -155,6 +155,12 @@
 <!--                                        [suggestions]="filteredRole" (completeMethod)="filterRoles($event)" field="authority" [dropdown]="true" ></p-autoComplete>-->
 
 <!--                    </div>-->
+                    <div class="field col">
+                        <label>Role</label>
+                        <br>
+                        <p-autoComplete placeholder="Choisir un role" appendTo="body"  [(ngModel)]="utilisateur.role" [size]="2" [virtualScroll]="true"
+                                        [suggestions]="filteredRole" (completeMethod)="filterRoles($event)" field="authority" [dropdown]="true" ></p-autoComplete>
+                    </div>
                 </div>
                 <h5>Etat compte</h5>
                 <p-toggleButton [(ngModel)]="utilisateur.enable" onLabel="Actif" offLabel="Inactif" [style]="{width:'10em'}"></p-toggleButton>
