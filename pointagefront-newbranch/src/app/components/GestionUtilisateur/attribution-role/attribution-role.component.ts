@@ -13,6 +13,10 @@ import {HttpClient} from "@angular/common/http";
 import {Observable, Subject} from "rxjs";
 import {Product} from "../../../api/product";
 import {Service} from "../../../models/service";
+import { ExcelService } from 'src/app/service/excel.service';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+
 
 @Component({
   selector: 'app-attribution-role',
@@ -27,7 +31,9 @@ export class AttributionRoleComponent implements OnInit {
     RolesDialog: boolean;
     FonctionDialog: boolean;
 
+
     cities: any[];
+    json= {matricule : null, prenom: null,etat:null, nom : null, email:null,telephone:null,reference:null};
 
 
     deleteProductDialog: boolean = false;
@@ -92,7 +98,8 @@ export class AttributionRoleComponent implements OnInit {
     rowsPerPageOptions = [5, 10, 20];
     options = [];
     temp: string;
-
+    tab = [];
+    results: any[];
     listeServices:Service[];
 
     roless:any[]=[]
@@ -105,13 +112,23 @@ export class AttributionRoleComponent implements OnInit {
     rolees:Roles= new  Roles();
     Clonesrol:Roles;
     constructor(private http: HttpClient,private productService: ProductService, private messageService: MessageService,
-                private userService: UserService, private roleService : RoleService, private serviceServices: ServicesService) {
+                private userService: UserService, private roleService : RoleService, private serviceServices: ServicesService,
+                public excelService: ExcelService,) {
     }
 
     ngOnInit() {
         this.usere=[];
+       
 
-
+        this.cols= [
+            {field: 'prenom', header: 'prenom'},
+            {field: 'nom', header: 'nom'},
+            {field: 'matricule', header: 'matricule'},
+            {field: 'email', header: 'email'},
+            {field: 'telephone', header: 'telephone'},
+            {field: 'reference', header: 'reference'},
+            {field: 'etat', header: 'etat'},
+          ];
         this.productService.getProducts().then(data => this.products = data);
 
 
@@ -142,6 +159,54 @@ export class AttributionRoleComponent implements OnInit {
         )
         this.haveAllService();
     }
+    exportCSV(results):void{
+        this.tab=[];
+        console.log(this.results);
+        for (let i = 0; i < this.results.length; i++) {
+            console.log(this.results[i]);
+                this.json.prenom = this.results[i].prenomagent,
+                this.json.nom = this.results[i].nomagent,
+                this.json.matricule = this.results[i].matricule,
+                this.json.email=this.results[i].email;
+                this.json.telephone=this.results[i].telephone;
+                this.json.reference=this.results[i].reference;
+                this.json.etat=this.results[i].etat;
+                console.log(this.results);
+                this.tab.push({...this.json});
+    }
+    console.log(this.tab)
+    this.excelService.exportAsExcelFile(this.tab);
+    
+}
+//telecharger le pdf des utilisateur
+exportPDF(results):void{
+
+    this.tab=[];
+    console.log(this.results);
+    for(let i=0; i < this.results.length;i++){
+       
+            this.json.prenom = this.results[i].prenomagent,
+            this.json.nom = this.results[i].nomagent,
+            this.json.matricule = this.results[i].matricule,
+            this.json.email = this.results[i].email,
+            this.json.telephone = this.results[i].telephone,
+            this.json.reference = this.results[i].reference,
+            this.tab.push({...this.json});
+         console.log(this.json)
+}
+const colums= this.cols.map(col => col.field);
+        const data = this.tab.map(row => colums.map(col => row[col]));
+        console.log(data)
+
+        const doc = new jsPDF();
+
+        autoTable(doc,{
+            head: [colums],
+            body: data,
+            
+        })
+        doc.save('Utilisateurs.pdf');
+}
 
     // haveAllFonction() {
     //     this.organisationService.getAllFonctions().subscribe (
