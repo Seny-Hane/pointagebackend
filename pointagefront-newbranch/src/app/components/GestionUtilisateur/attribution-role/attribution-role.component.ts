@@ -13,10 +13,9 @@ import {HttpClient} from "@angular/common/http";
 import {Observable, Subject} from "rxjs";
 import {Product} from "../../../api/product";
 import {Service} from "../../../models/service";
-import { ExcelService } from 'src/app/service/excel.service';
+import {ExcelService} from "../../../service/excel.service";
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-
 
 @Component({
   selector: 'app-attribution-role',
@@ -33,7 +32,7 @@ export class AttributionRoleComponent implements OnInit {
 
 
     cities: any[];
-    json= {matricule : null, prenom: null,etat:null, nom : null, email:null,telephone:null,reference:null};
+    json= { nom : null, prenom: null ,matricule : null, email:null,telephone:null,reference:null};
 
 
     deleteProductDialog: boolean = false;
@@ -111,10 +110,14 @@ export class AttributionRoleComponent implements OnInit {
     roldescription
     rolees:Roles= new  Roles();
     Clonesrol:Roles;
+    
+    result:any;
+    
+
+
     constructor(private http: HttpClient,private productService: ProductService, private messageService: MessageService,
                 private userService: UserService, private roleService : RoleService, private serviceServices: ServicesService,
-                public excelService: ExcelService,) {
-    }
+                public excelService: ExcelService, ){}
 
     ngOnInit() {
         this.usere=[];
@@ -127,7 +130,7 @@ export class AttributionRoleComponent implements OnInit {
             {field: 'email', header: 'email'},
             {field: 'telephone', header: 'telephone'},
             {field: 'reference', header: 'reference'},
-            {field: 'etat', header: 'etat'},
+           
           ];
         this.productService.getProducts().then(data => this.products = data);
 
@@ -158,6 +161,16 @@ export class AttributionRoleComponent implements OnInit {
             }
         )
         this.haveAllService();
+
+        this.cols= [
+            {field: 'nom', header: 'nom'},
+            {field: 'prenom', header: 'prenom'},
+            {field: 'email', header: 'email'},
+            {field: 'matricule', header: 'matricule'},
+            {field: 'telephone', header: 'telephone'},
+            {field: 'reference', header: 'reference'},
+            // {field: 'etat', header: 'etat'}
+          ];
     }
     exportCSV(results):void{
         this.tab=[];
@@ -170,7 +183,7 @@ export class AttributionRoleComponent implements OnInit {
                 this.json.email=this.results[i].email;
                 this.json.telephone=this.results[i].telephone;
                 this.json.reference=this.results[i].reference;
-                this.json.etat=this.results[i].etat;
+                //this.json.etat=this.results[i].etat;
                 console.log(this.results);
                 this.tab.push({...this.json});
     }
@@ -525,8 +538,10 @@ const colums= this.cols.map(col => col.field);
         const query = event.query;
         for (let i = 0; i < this.rol.length; i++) {
             const country = this.rol[i];
-
+            if(country.authority.toLowerCase().indexOf(query.toLowerCase()) ==0){
                 filtered.push(country);
+            }
+                
 
         }
 
@@ -553,5 +568,23 @@ const colums= this.cols.map(col => col.field);
         console.log(this.filteredroles)
     }*/
 
+    exportAsXLSX(result):void{
+        this.tab=[];
+        for (let i = 0; i < this.result?.length; i++) {
+            this.json.nom = this.result[i].nom,
+            this.json.prenom = this.result[i].prenom,
+            this.json.email= this.result[i].email,
+            this.json.matricule = this.result[i].matricule,
+            this.json.telephone= this.result[i].telephone,
+            this.json.reference= this.result[i].reference,
+            // this.json.etat= this.result[i].enable,
+  
+            this.tab.push({...this.json});
+            console.log(this.result[i].utilisateur.matricule)
+        }
+        this.excelService.exportAsExcelFile(this.tab);
+         console.log(this.tab)
+    }
 
+    
 }

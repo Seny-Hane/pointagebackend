@@ -6,6 +6,7 @@ import {ExcelService} from "../../../service/excel.service";
 import { log } from 'console';
 import autoTable from "jspdf-autotable";
 import jsPDF from "jspdf";
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-absence-periodique',
@@ -30,7 +31,9 @@ export class AbsencePeriodiqueComponent implements OnInit {
     json= {dateAbsente : null};
     date:any;
     cols: any;
+    // title = 'PDFGenerator';
 
+   
     constructor(public pointagesService: PointageService,
                 public datepipe: DatePipe,public excelService: ExcelService,) {
     }
@@ -60,6 +63,11 @@ export class AbsencePeriodiqueComponent implements OnInit {
 
         }
         console.log(this.tab)
+
+        // const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        // const texte = "Liste des absences periodiques de l'agent: ";
+        // wb.SheetNames[0] = 'Titre de la feuille';
+       
         this.excelService.exportAsExcelFile(this.tab);
         //console.log(this.json.date)
     }
@@ -100,13 +108,16 @@ export class AbsencePeriodiqueComponent implements OnInit {
         const headers = [['DateAbsente']];
 
         // Utilisez la méthode jsPDF pour générer le tableau
+        const texte = "Liste des absences periodiques de l'agent: " + this.matricule;
+        pdf.text(texte, 40, 20);
         autoTable(pdf,{
             head: headers,
             body: this.tab.map(data => [data.dateAbsente]),
+            startY: 30,
         });
 
         // Sauvegardez le fichier PDF avec un nom spécifique
-        pdf.save('exported_dates.pdf');
+        pdf.save( this.matricule+'_AbsencePeriodiqueAgent.pdf');
     }
 
     rechercheByMatricule(date1: Date, date2: Date, matricule: any) {

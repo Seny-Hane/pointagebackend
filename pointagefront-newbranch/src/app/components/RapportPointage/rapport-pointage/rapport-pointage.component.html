@@ -52,7 +52,8 @@
 
                 <ng-template pTemplate="right">
                     <button pButton pRipple label="Export excel" icon="pi pi-upload" class="mr-2 inline-block" (click)="exportAsXLSX(result)"></button>
-                    <button pButton pRipple label="Export PDF" icon="pi pi-upload" class="p-button-success mr-2" (click)="exportPDF(result)" ></button>
+                    <!-- <button pButton pRipple label="Export PDF" icon="pi pi-upload" class="p-button-success mr-2" (click)="exportPDF(result)" ></button> -->
+                    <button pButton pRipple label="Export PDF" icon="pi pi-upload" class="p-button-success mr-2"  (click)="exportPDF(result)"></button>
                 </ng-template>
             </p-toolbar>
             <p-table #dt [value]="result"  responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['agent.matricule','agent.nomagent','agent.service.nomservice','agent.prenomagent', 'heurearrivee', 'heuredesente', 'motif.motif']" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedPointages" selectionMode="multiple" [rowHover]="true" dataKey="idpointage">
@@ -73,10 +74,10 @@
                         <th>Prénom </th>
                         <th>Nom </th>
                         <th>Service </th>
-                        <th pSortableColumn="datepointage">Date Pointage <p-sortIcon field="datepointage"></p-sortIcon></th>
-                        <th pSortableColumn="heurearrivee">Heure d'arrivée <p-sortIcon field="heurearrivee"></p-sortIcon></th>
-                        <th pSortableColumn="heuredescente">Heure de Descente <p-sortIcon field="heuresortie"></p-sortIcon></th>
-                        <th pSortableColumn="cumulheure">Cumul Heure <p-sortIcon field="cumulheure"></p-sortIcon></th>
+                        <th pSortableColumn="datepointage">Date<p-sortIcon field="datepointage"></p-sortIcon></th>
+                        <th pSortableColumn="heurearrivee">Arrivée<p-sortIcon field="heurearrivee"></p-sortIcon></th>
+                        <th pSortableColumn="heuredescente">Descente<p-sortIcon field="heuresortie"></p-sortIcon></th>
+                        <th pSortableColumn="cumulheure">Cumul<p-sortIcon field="cumulheure"></p-sortIcon></th>
                         <th pSortableColumn="motif.motif">Status <p-sortIcon field="motif.motif"></p-sortIcon></th>
                         <th></th>
                     </tr>
@@ -84,11 +85,11 @@
                         <th>Matricule </th>
                         <th>Prénom </th>
                         <th>Nom </th>
-                        <th pSortableColumn="datepointage">Date Pointage <p-sortIcon field="datepointage"></p-sortIcon></th>
-                        <th pSortableColumn="heurearrivee">Heure d'arrivée <p-sortIcon field="heurearrivee"></p-sortIcon></th>
-                        <th pSortableColumn="heuredescente">Heure de Descente <p-sortIcon field="heuresortie"></p-sortIcon></th>
-                        <th pSortableColumn="cumulheure">Cumul Heure <p-sortIcon field="cumulheure"></p-sortIcon></th>
-                        <th pSortableColumn="motif.motif">Status <p-sortIcon field="motif.motif"></p-sortIcon></th>
+                        <th pSortableColumn="datepointage">Date<p-sortIcon field="datepointage"></p-sortIcon></th>
+                        <th pSortableColumn="heurearrivee">Arrivée<p-sortIcon field="heurearrivee"></p-sortIcon></th>
+                        <th pSortableColumn="heuredescente">Descente<p-sortIcon field="heuresortie"></p-sortIcon></th>
+                        <th pSortableColumn="cumulheure">Cumul<p-sortIcon field="cumulheure"></p-sortIcon></th>
+                        <th pSortableColumn="motif.motif">Status<p-sortIcon field="motif.motif"></p-sortIcon></th>
                         <th></th>
                     </tr>
                 </ng-template>

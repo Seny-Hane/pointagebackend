@@ -6,6 +6,7 @@ import {HttpClient} from "@angular/common/http";
 import {Users} from "../../../models/users";
 import {Product} from "../../../api/product";
 
+
 @Component({
   selector: 'app-utilisateurs',
   templateUrl: './utilisateurs.component.html',
@@ -21,9 +22,13 @@ export class UtilisateursComponent implements OnInit {
     cols: any[];
     selectedProducts: Product[];
     productDialog: boolean;
+    tab = [];
+    result:any;
+    json= {matricule : null, prenom: null, nom : null, email: null, telephone:null, reference:null};
 
   constructor(private agentService:AgentService, public keycloak: KeycloakService,
-              private http: HttpClient) {
+              private http: HttpClient,
+              ) {
 
   }
 
@@ -66,6 +71,7 @@ export class UtilisateursComponent implements OnInit {
 
     }
 
+    
 
 
 }

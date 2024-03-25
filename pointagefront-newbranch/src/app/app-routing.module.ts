@@ -25,18 +25,18 @@ import {UtilisateursComponent} from "./components/GestionUtilisateur/utilisateur
             {
                 path: '', component: AppMainComponent, canActivate:[AuthGuard],
                 children: [
-                    // {path: '', component: DashboardComponent},
-                    {path: '', component: BlocksComponent},
+                    //  {path: '', component: DashboardComponent},
+                     {path: '', component: BlocksComponent},
 
                     //  Routing
 
-                    {path: 'gestion/agent', component: AgentComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_DRH']}},
+                    {path: 'gestion/agent', component: AgentComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_DRH']},'ROLE_SUPERVISEUR']},
                    // {path: 'gestion/pointage', component: PointageComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_AGENT']}},
                     {path: 'gestion/pointage', component: PointageComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_AGENT']},'ROLE_VIGILE']},
                     {path: 'gestion/listpointage', component: ListPointageComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_DRH']}},
                     {path: 'gestion/supervisionpointage', component: SupervisionPointageComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_SUPERVISEUR']}},
                     {path: 'gestion/superviseur', component: SuperviseurComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_CHEFDESERVICE']}},
-                    {path: 'rapport/rapportpointage', component: RapportPointageComponent, canActivate:[AuthGuard], data: {roles:['ROLE_SUPERVISEUR']}},
+                    {path: 'rapport/rapportpointage', component: RapportPointageComponent, canActivate:[AuthGuard], data: [{roles:['ROLE_SUPERVISEUR']},'ROLE_DRH']},
                     {path: 'gestion/absencejournaliere', component: AbsenceJournalierComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_DRH']},'ROLE_CHEFDESERVICE']},
                     {path: 'rapport/raportpointage', component: RapportPointageComponent, canActivate:[AuthGuard], data: {roles:['ROLE_CHEFDESERVICE']}},
                     // {path: 'gestion/absencjournaliere', component: AbsenceJournalierComponent, canActivate:[AuthGuard], data: {roles:  [ 'ROLE_CHEFDESERVICE']}},
@@ -45,11 +45,11 @@ import {UtilisateursComponent} from "./components/GestionUtilisateur/utilisateur
                     // {path: 'gestion/absenceperiodiqueparservice', component: AbsencePeriodiqueParServiceComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_CHEFDESERVICE','ROLE_DRH']}},
                     {path: 'gestion/absenceperiodiqueparservice', component: AbsencePeriodiqueParServiceComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_CHEFDESERVICE']},'ROLE_DRH']},
                 //     {path: 'gestion/attributionroles', loadChildren: () => import('./components/GestionUtilisateur/attribution-role/service.module').then(t => t.serviceModule)},
-                     {path: 'gestion/attributionroles', component: AttributionRoleComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_DRH','ROLE_AGENT','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE']}},
+                     {path: 'gestion/attributionroles', component: AttributionRoleComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_DRH']},'ROLE_AGENT','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE']},
 
                     {path: 'gestion/servicesPoste', component: ServicesPosteComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_DRH']}},
-                    {path: 'gestion/utilisateur', component: UtilisateursComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_AGENT']}},
-                    {path: 'gestion/ListPointageByService', component: AjouterutilisateurComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_AGENT']}},
+                    {path: 'gestion/utilisateur', component: UtilisateursComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_CHEFDESERVICE']}},
+                    {path: 'gestion/ListPointageByService', component: AjouterutilisateurComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']},'ROLE_CHEFDESERVICE']},
                 ],
             },
 

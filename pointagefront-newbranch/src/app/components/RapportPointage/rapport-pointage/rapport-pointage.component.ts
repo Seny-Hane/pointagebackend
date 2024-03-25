@@ -39,7 +39,8 @@ export class RapportPointageComponent implements OnInit {
     dateabsence : any;
     selectedPointages: Pointage[];
     tab = [];
-    json= {matricule : null, prenom: null, nom : null, datepointage: null,service: null, heureArrivee: null, heureDescente: null,cumulHeure: null, status:null};
+    json= {matricule : null, prenom: null, nom : null, service: null, datepointage: null, heureArrivee: null, heureDescente: null,cumulHeure: null, status:null};
+    tb={matricule : null,prenom: null,nom : null,date: null,arrivee: null,descente: null,cumul: null,status:null};
     tempAbsence: any;
     tabAbsence : any;
     num: number;
@@ -74,16 +75,16 @@ export class RapportPointageComponent implements OnInit {
       this.getAllService();
 
       this.cols= [
-        {field: 'matricule', header: 'matricule'},
-        {field: 'prenom', header: 'prenom'},
-        {field: 'nom', header: 'nom'},
-        {field: 'service', header: 'service'},
-        {field: 'datepointage', header: 'datepointage'},
-        {field: 'heurearrivee', header: 'heurearrivee'},
-        {field: 'heuredescente', header: 'heuredescente'},
-        {field: 'cumulheure', header: 'cumulheure'},
-        {field: 'motif', header: 'motif'},
-      ];
+        {field: 'matricule', header: 'matricule'.trim()},
+        {field: 'prenom', header: 'prenom'.trim()},
+        {field: 'nom', header: 'nom'.trim()},
+        // {field: 'service', header: 'service'},
+        {field: 'date', header: 'date'.trim()},
+        {field: 'arrivee', header: 'arrivee'.trim()},
+        {field: 'descente', header: 'descente'.trim()},
+        {field: 'cumul', header: 'cumul'.trim()},
+        {field: 'status', header: 'status'.trim()},
+       ];
   }
 
     public getUser(username){
@@ -223,36 +224,42 @@ export class RapportPointageComponent implements OnInit {
                             // console.log(this.json)
                 }
         this.excelService.exportAsExcelFile(this.tab);
-        console.log(this.tab)
+        // console.log(this.tab)
     }
+
     exportPDF(result){
         this.tab=[];
         for (let i = 0; i < this.result.length; i++) {
-            this.json.matricule = this.result[i].agent.matricule,
-                this.json.prenom = this.result[i].agent.prenomagent,
-                this.json.nom = this.result[i].agent.nomagent,
-                this.json.service = this.result[i].agent.service.nomservice,
-                this.json.datepointage = this.result[i].datepointage,
-                this.json.heureArrivee = this.result[i].heurearrivee,
-                this.json.heureDescente = this.result[i].heuredescente,
-                this.json.cumulHeure= this.result[i].cumulheure,
-                this.json.status = this.result[i].motif.motif,
-
-                this.tab.push({...this.json});
+            const tb={
+                matricule : this.result[i].agent.matricule,
+                prenom: this.result[i].agent.prenomagent,
+                nom: this.result[i].agent.nomagent,
+                // this.json.service = this.result[i].agent.service.nomservice,
+                date: this.result[i].datepointage,
+                // arrivee: this.result[i].heurearrivee,
+                // descente: this.result[i].heuredescente,
+                // cumul: this.result[i].cumulheure,
+                // status: this.result[i].motif.motif,
+            };  
+                this.tab.push({tb});
         }
-        console.log(this.tab)
+           console.log(this.tab)
 
-        const colums= this.cols.map(col => col.field);
-        const data = this.tab.map(row => colums.map(col => row[col]));
-        console.log(data)
+        
+        const colums= this.cols?.map(col => col.field);
+        const data = this.tab?.map(row => colums?.map(col => row[col]));
+             console.log(data)
+        
         const doc = new jsPDF();
 
+        const texte = "Rapport de présence du Servicve:  " + this.currentService.nomservice;
+        doc.text(texte, 40, 20);
         autoTable(doc,{
             head: [colums],
             body: data,
-
+            startY: 30,
         })
-        doc.save('Rapportperiodiqueservice.pdf');
+        doc.save(this.currentService.nomservice+'_RapportPeriodiqueService.pdf');
     }
 
 
