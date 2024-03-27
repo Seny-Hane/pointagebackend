@@ -40,7 +40,7 @@ export class RapportPointageComponent implements OnInit {
     selectedPointages: Pointage[];
     tab = [];
     json= {matricule : null, prenom: null, nom : null, service: null, datepointage: null, heureArrivee: null, heureDescente: null,cumulHeure: null, status:null};
-    tb={matricule : null,prenom: null,nom : null,date: null,arrivee: null,descente: null,cumul: null,status:null};
+    // tb={matricule : null,prenom: null,nom : null,date: null,arrivee: null,descente: null,cumul: null,status:null};
     tempAbsence: any;
     tabAbsence : any;
     num: number;
@@ -229,17 +229,17 @@ export class RapportPointageComponent implements OnInit {
 
     exportPDF(result){
         this.tab=[];
-        for (let i = 0; i < this.result.length; i++) {
+        for (let i = 0; i < this.result?.length; i++) {
             const tb={
-                matricule : this.result[i].agent.matricule,
-                prenom: this.result[i].agent.prenomagent,
-                nom: this.result[i].agent.nomagent,
+                matricule : this.result[i]?.agent.matricule,
+                prenom: this.result[i]?.agent.prenomagent,
+                nom: this.result[i]?.agent.nomagent,
                 // this.json.service = this.result[i].agent.service.nomservice,
-                date: this.result[i].datepointage,
-                // arrivee: this.result[i].heurearrivee,
-                // descente: this.result[i].heuredescente,
-                // cumul: this.result[i].cumulheure,
-                // status: this.result[i].motif.motif,
+                date: this.result[i]?.datepointage,
+                arrivee: this.result[i]?.heurearrivee,
+                descente: this.result[i]?.heuredescente,
+                cumul: this.result[i]?.cumulheure,
+                status: this.result[i]?.motif.motif,
             };  
                 this.tab.push({tb});
         }

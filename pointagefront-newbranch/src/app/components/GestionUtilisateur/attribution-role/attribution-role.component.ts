@@ -14,6 +14,7 @@ import {Observable, Subject} from "rxjs";
 import {Product} from "../../../api/product";
 import {Service} from "../../../models/service";
 import {ExcelService} from "../../../service/excel.service";
+// import {Service} from "../../../models/service.model";
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -108,7 +109,8 @@ export class AttributionRoleComponent implements OnInit {
     rolees:Roles= new  Roles();
     Clonesrol:Roles;
     tab = [];
-    result:any;
+    results: any[];
+    currentService: any;
     json= {nom : null, prenom: null, email: null, matricule: null, telephone: null, reference: null};
 
 
@@ -508,37 +510,40 @@ export class AttributionRoleComponent implements OnInit {
         console.log(this.filteredroles)
     }*/
 
-    exportAsXLSX(result):void{
+    exportAsXLSX(user):void{
         this.tab=[];
-        for (let i = 0; i < this.result?.length; i++) {
-            this.json.nom = this.result[i].nom,
-            this.json.prenom = this.result[i].prenom,
-            this.json.email= this.result[i].email,
-            this.json.matricule = this.result[i].matricule,
-            this.json.telephone= this.result[i].telephone,
-            this.json.reference= this.result[i].reference,
+        for (let i = 0; i < this.user?.length; i++) {
+            this.json.nom = this.user[i].nom,
+            this.json.prenom = this.user[i].prenom,
+            this.json.email= this.user[i].email,
+            this.json.matricule = this.user[i].matricule,
+            this.json.telephone= this.user[i].telephone,
+            this.json.reference= this.user[i].reference,
             // this.json.etat= this.result[i].enable,
   
             this.tab.push({...this.json});
-            console.log(this.result[i].utilisateur.matricule)
+            // console.log(this.result[i].utilisateur.matricule)
         }
         this.excelService.exportAsExcelFile(this.tab);
          console.log(this.tab)
     }
-
-    exportPDF(result){
+   
+    exportPDF(user){
         this.tab=[];
-        for (let i = 0; i < this.result?.length; i++) {
-            this.json.nom = this.result[i].nom,
-            this.json.prenom = this.result[i].prenom,
-            this.json.email= this.result[i].email,
-            this.json.matricule = this.result[i].matricule,
-            this.json.telephone= this.result[i].telephone,
-            this.json.reference= this.result[i].reference,
-            // this.json.etat= this.result[i].enable,
+        console.log(this.user)
+        for (let i = 0; i < this.user.length; i++) {
+            const tb = {
+                nom: this.user[i].nom,
+                prenom: this.user[i].prenom,
+                email: this.user[i].email,
+                matricule: this.user[i].matricule,
+                telephone: this.user[i].telephone,
+                reference: this.user[i].reference,
+                // etat: this.result[i].enable,
+            };
   
-            this.tab.push({...this.json});
-            // console.log(this.json)
+            this.tab.push({...tb});
+            console.log(this.tab)
         }
         const colums= this.cols.map(col => col.field);
         const data = this.tab.map(row => colums.map(col => row[col]));
@@ -546,14 +551,14 @@ export class AttributionRoleComponent implements OnInit {
         
         const doc = new jsPDF();
 
-        const texte = "Liste des utilisateur:  "+ this.utilisateur.service.nomservice;
+        const texte = "Liste des utilisateur:  "+ this.currentService?.service.nomservice;
         doc.text(texte, 40, 20);
         autoTable(doc,{
             head: [colums],
             body: data,
-
+            startY: 30,
         })
-        doc.save('ListeUtilisateur.pdf');
+        doc.save(this.currentService?.service.nomservice+ '_ListeUtilisateur.pdf');
 
     }
 }
