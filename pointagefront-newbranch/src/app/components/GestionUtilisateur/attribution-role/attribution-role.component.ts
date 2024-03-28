@@ -31,9 +31,9 @@ export class AttributionRoleComponent implements OnInit {
     RolesDialog: boolean;
     FonctionDialog: boolean;
 
+
     cities: any[];
-
-
+    
     deleteProductDialog: boolean = false;
 
     deleteProductsDialog: boolean = false;
@@ -96,7 +96,6 @@ export class AttributionRoleComponent implements OnInit {
     rowsPerPageOptions = [5, 10, 20];
     options = [];
     temp: string;
-
     listeServices:Service[];
 
     roless:any[]=[]
@@ -120,10 +119,7 @@ export class AttributionRoleComponent implements OnInit {
 
     ngOnInit() {
         this.usere=[];
-
-
         this.productService.getProducts().then(data => this.products = data);
-
 
         this.userSubject.subscribe
         ( (data)=>
@@ -162,6 +158,8 @@ export class AttributionRoleComponent implements OnInit {
             // {field: 'etat', header: 'etat'}
           ];
     }
+   
+
 
     // haveAllFonction() {
     //     this.organisationService.getAllFonctions().subscribe (

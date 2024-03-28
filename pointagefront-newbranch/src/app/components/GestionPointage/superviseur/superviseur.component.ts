@@ -61,7 +61,6 @@ export class SuperviseurComponent implements OnInit {
     getAllPointage() {
         this.tourner=true;
         this.pointageService.getAllPointage().subscribe(data => {
-
                 this.pointages = data;
                 this.tourner=false;
                 this.erreur=false;

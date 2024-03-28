@@ -55,7 +55,7 @@ export class AbsencePeriodiqueComponent implements OnInit {
         this.tab=[];
         console.log(this.result)
 
-        for (let i = 0; i< this.result.length; i++){
+        for (let i = 0; i<this.result.length; i++){
             console.log(this.result[i]);
             this.json.dateAbsente=this.datepipe.transform(this.result[i], 'dd-MM-yyyy');
             console.log(this.json.dateAbsente);
