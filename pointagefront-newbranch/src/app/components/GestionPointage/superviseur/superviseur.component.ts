@@ -7,6 +7,7 @@ import {Subject} from "rxjs";
 import {KeycloakService} from "keycloak-angular";
 import {AgentService} from "../../../service/agent.service";
 import {Agent} from "../../../models/agent.model";
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-superviseur',
@@ -32,6 +33,9 @@ export class SuperviseurComponent implements OnInit {
     agent: Agent;
     tourner:boolean;
     erreur:boolean;
+    today: string;
+    todayWithPipe = null;
+    pipe = new DatePipe('en-US');
 
 
     constructor(private pointageService : PointageService,
@@ -56,6 +60,9 @@ export class SuperviseurComponent implements OnInit {
                 console.log(this.agent)
             }
         );
+
+        this.today=this.todayWithPipe = this.pipe.transform(this.currentTime, 'dd-MM-yyyy');
+        this.getList_PointageByDate();
     }
 
     getAllPointage() {
@@ -104,6 +111,20 @@ export class SuperviseurComponent implements OnInit {
             this.tourner=false;
             this.erreur=true;
 
+        })
+    }
+
+    getList_PointageByDate() {
+        this.pointageService.getPointageByDate(this.today).subscribe(data => {
+            this.pointages = data;
+            this.pointages.sort((a,b) => b.idpointage - a.idpointage);
+            if( data.length == 0) {
+                this.messageService.add({severity: 'error', summary: 'Erreur', detail: "absence de données à la date choisie", life: 8000});
+                // alert("absence de données sur la date choisie");
+
+            }
+        }, error => {
+            console.log(error)
         })
     }
 }

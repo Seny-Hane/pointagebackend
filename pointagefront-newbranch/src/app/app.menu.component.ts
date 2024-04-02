@@ -89,7 +89,7 @@ export class AppMenuComponent implements OnInit {
                 rootroles: this.findRole(['ROLE_DRH','ROLE_AGENT','ROLE_VIGILE','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE']),
                 items: [
                     {label: 'Pointage', icon: 'pi pi-fw pi-pencil', routerLink: ['/gestion/pointage'], roles: this.findRole(['ROLE_AGENT','ROLE_VIGILE'])},
-                    {label: 'Liste des pointages', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/listpointage'], roles: this.findRole(['ROLE_DRH'])},
+                    {label: 'Liste des pointages', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/listpointage'], roles: this.findRole(['ROLE_DRH'])}, /*A commenter avant de deployer*/
                     {label: 'Supervision en temps réel', icon: 'pi pi-fw pi-history', routerLink: ['/gestion/supervisionpointage'], roles: this.findRole(['ROLE_SUPERVISEUR'])},
                     {label: 'Rapport par Service', icon: 'pi pi-fw pi-id-card', routerLink: ['/rapport/rapportpointage'], roles: this.findRole(['ROLE_DRH','ROLE_SUPERVISEUR'])},
                    // {label: 'Absences Journalières', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/absencejournaliere'], roles: this.findRole(['ROLE_DRH'],)},

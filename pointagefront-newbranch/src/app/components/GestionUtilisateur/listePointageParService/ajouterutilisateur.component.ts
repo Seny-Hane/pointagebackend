@@ -140,17 +140,17 @@ ngOnInit(): void {
       
       const colums= this.cols.map(col => col.field);
       const data = this.tab.map(row => colums.map(col => row[col]));
-           console.log(data)
+      console.log(data)
       
       const doc = new jsPDF();
 
-      const texte = "Rapport de présence du Servicve:  " + this.currentService.nomservice;
+      const texte = "Rapport de présence du Service:  " + this.currentService?.nomservice;
       doc.text(texte, 40, 20);
       autoTable(doc,{
           head: [colums],
           body: data,
           startY: 30,
       })
-      doc.save(this.currentService.nomservice+'_RapportPeriodiqueService.pdf');
+      doc.save(this.currentService?.nomservice+'_RapportPeriodiqueService.pdf');
     }
 }

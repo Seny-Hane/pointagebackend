@@ -8,6 +8,7 @@ import {Service} from "../../../models/service.model";
 import {Pointage} from "../../../models/pointage.model";
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { Motif } from 'src/app/models/motif.model';
 // import * as jsPDF from 'jspdf';
 // import * as autoTable from 'jspdf-autotable';
 // import 'jspdf-autotable';
@@ -34,10 +35,12 @@ export class AbsenceJournalierComponent implements OnInit {
     submitted: boolean;
     selectedPointages: Pointage[];
     tabAbsence = [];
-    absence= {matricule : null, prenom: null, nom : null, datepointage: null,service: null, status:null};
+    absence= {matricule : null, prenom: null, nom : null, date: null,service: null, status:null};
     logo=localStorage.getItem('logo');
     dt: any;
     cols: any;
+    currentMotif= Motif;
+    motifs: any[];
 
   constructor(public pointagesService: PointageService,
               public datepipe : DatePipe,
@@ -108,6 +111,18 @@ export class AbsenceJournalierComponent implements OnInit {
         }
         this.services = filtered;
     }
+    filterMotif(event) {
+        let filtered : any[] = [];
+        let query = event.query;
+        for(let i = 0; i < this.motifs.length; i++) {
+            let item = this.motifs[i];
+            if (item.motif.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+                filtered.push(item);
+            }
+        }
+        this.motifs = filtered;
+        console.log(this.motifs);
+    }
 
     exportAsXLSX(result):void {
         this.tabAbsence=[];
@@ -116,7 +131,7 @@ export class AbsenceJournalierComponent implements OnInit {
                 this.absence.prenom = this.result[i].prenomagent,
                 this.absence.nom = this.result[i].nomagent,
                 this.absence.service = this.result[i].service.nomservice,
-                this.absence.datepointage = this.datepipe.transform(this.date1, 'dd-MM-yyyy'),
+                this.absence.date = this.datepipe.transform(this.date1, 'dd-MM-yyyy'),
                 this.absence.status = "ABSENT(E)",
 
                 this.tabAbsence.push({...this.absence});
@@ -144,7 +159,7 @@ export class AbsenceJournalierComponent implements OnInit {
              this.absence.prenom = this.result[i].prenomagent,
              this.absence.nom = this.result[i].nomagent,
              this.absence.service = this.result[i].service.nomservice,
-             this.absence.datepointage = this.datepipe.transform(this.date1, 'dd-MM-yyyy'),
+             this.absence.date = this.datepipe.transform(this.date1, 'dd-MM-yyyy'),
              this.absence.status ="ABSENT(E)",
 
              this.tabAbsence.push({...this.absence});

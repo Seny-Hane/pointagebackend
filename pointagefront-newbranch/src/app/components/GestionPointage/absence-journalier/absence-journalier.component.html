@@ -50,8 +50,9 @@
                         <th>Prénom </th>
                         <th>Nom </th>
                         <th>Service </th>
-                        <th>Date Pointage</th>
+                        <th>Date</th>
                         <th>Status </th>
+                        <th>Exception </th>
                         <th></th>
                     </tr>
                 </ng-template>
@@ -79,6 +80,9 @@
                         <td style="width:14%; min-width:10rem;">
                             <span class="p-column-title">Status</span>
                             {{"ABSENT(E)"}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <p-multiSelect [options]="motif" [(ngModel)]="currentMotif" [virtualScroll]="true" optionLabel="filterMotif($event)" placeholder="Select motif"></p-multiSelect>
                         </td>
                 </ng-template>
             </p-table>
