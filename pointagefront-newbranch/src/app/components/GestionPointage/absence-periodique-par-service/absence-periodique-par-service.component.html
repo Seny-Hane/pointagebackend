@@ -63,13 +63,13 @@
                         <th>Prenom </th>
                         <th>Nom </th>
                         <th>Matricule </th>
-                        <th>Date  Naissance </th>
+                        <!-- <th>Date  Naissance </th> -->
                         <th>Date Absence </th>
-                        <th>Genre </th>
+                        <!-- <th>Genre </th> -->
                    <!--     <th pSortableColumn="heuredescente">Heure de Descente <p-sortIcon field="heuresortie"></p-sortIcon></th>
                         <th pSortableColumn="cumulheure">Cumul Heure <p-sortIcon field="cumulheure"></p-sortIcon></th>
                         <th pSortableColumn="motif.motif">Status <p-sortIcon field="motif.motif"></p-sortIcon></th>-->
-
+                        <th>Exception</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-pointage>
@@ -90,17 +90,20 @@
                                                     <span class="p-column-title">Service</span>
                                                     {{pointage.agent.service.nomservice}}
                                                 </td>-->
-                        <td style="width:14%; min-width:8rem;">
+                        <!-- <td style="width:14%; min-width:8rem;">
                             <span class="p-column-title">Date Naissance</span>
                             {{pointage.datenaissance | date: 'dd/MM/yyyy' }}
-                        </td>
+                        </td> -->
                         <td style="width:14%; min-width:8rem;">
                             <span class="p-column-title">Date Absence</span>
                             {{pointage.dateabsence | date: 'dd/MM/yyyy'  }}
                         </td>
-                        <td style="width:14%; min-width:8rem;">
+                        <!-- <td style="width:14%; min-width:8rem;">
                             <span class="p-column-title">Genre</span>
                             {{pointage.genre}}
+                        </td> -->
+                        <td style="width:14%; min-width:12rem;">
+                            <p-autoComplete  appendTo="body"  [(ngModel)]="currentMotif" [virtualScroll]="true" [suggestions]="filteredmotifs" (completeMethod)="filterMotif($event)" field="motif" [dropdown]="true" ></p-autoComplete>
                         </td>
                 </ng-template>
             </p-table>

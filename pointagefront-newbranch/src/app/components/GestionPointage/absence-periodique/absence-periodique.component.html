@@ -43,9 +43,8 @@
                     <button pButton pRipple label="Export PDF" icon="pi pi-upload" class="p-button-success mr-2"  (click)="exportTableToPDF()"></button>
                 </ng-template>
             </p-toolbar>
-
-            <div *ngIf="result.length==0">
-               Aucune Absence durant la période du {{date1 | date: 'dd/MM/yyyy' }}
+            <!-- <div *ngIf="result.length==0">
+                Aucune Absence durant la période du {{date1 | date: 'dd/MM/yyyy' }}
                 au {{date2 | date: 'dd/MM/yyyy' }}
             </div>
             <div *ngIf="result.length!=0" class="row">
@@ -54,8 +53,26 @@
                         <p class="date">{{resul | date: 'dd/MM/yyyy'}}</p>
                     </p-card>
                 </div>
+             </div>    -->
+            
+             <div *ngIf="result.length==0">
+                Aucune Absence durant la période du {{date1 | date: 'dd/MM/yyyy' }}
+                au {{date2 | date: 'dd/MM/yyyy' }}
             </div>
-
+            <div *ngIf="result.length!=0">
+                <p-table [value]="result" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['datepointage']" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedPointages" selectionMode="multiple" [rowHover]="true" dataKey="idpointage">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Dates d'absence</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-resul>
+                        <tr>
+                            <td>{{ resul | date: 'dd/MM/yyyy' }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
 
    <!--         <p-table #dt [value]="result"  responsiveLayout="scroll" [rows]="10"  [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
                      [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedPointages"

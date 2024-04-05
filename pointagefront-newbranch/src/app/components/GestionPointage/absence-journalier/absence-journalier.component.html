@@ -81,8 +81,10 @@
                             <span class="p-column-title">Status</span>
                             {{"ABSENT(E)"}}
                         </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <p-multiSelect [options]="motif" [(ngModel)]="currentMotif" [virtualScroll]="true" optionLabel="filterMotif($event)" placeholder="Select motif"></p-multiSelect>
+                        <td style="width:14%; min-width:12rem;">
+                            <p-autoComplete  appendTo="body"  [(ngModel)]="currentMotif" [virtualScroll]="true" [suggestions]="filteredmotifs" (completeMethod)="filterMotif($event)" field="motif" [dropdown]="true" ></p-autoComplete>
+                            <!-- <p-multiSelect [options]="motif" [(ngModel)]="currentMotif" [virtualScroll]="true" optionLabel="motif" [filterBy]="filterMotif($event)" placeholder="Select motif" [filter]="true"></p-multiSelect> -->
+
                         </td>
                 </ng-template>
             </p-table>

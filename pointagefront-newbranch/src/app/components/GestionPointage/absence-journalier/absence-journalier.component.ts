@@ -9,6 +9,7 @@ import {Pointage} from "../../../models/pointage.model";
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { Motif } from 'src/app/models/motif.model';
+import { MotifService } from 'src/app/service/motif.service';
 // import * as jsPDF from 'jspdf';
 // import * as autoTable from 'jspdf-autotable';
 // import 'jspdf-autotable';
@@ -35,22 +36,25 @@ export class AbsenceJournalierComponent implements OnInit {
     submitted: boolean;
     selectedPointages: Pointage[];
     tabAbsence = [];
-    absence= {matricule : null, prenom: null, nom : null, date: null,service: null, status:null};
+    absence= {matricule : null, prenom: null, nom : null, date: null,service: null, status:null, exception: null};
     logo=localStorage.getItem('logo');
     dt: any;
     cols: any;
     currentMotif= Motif;
     motifs: any[];
+    filteredmotifs: any;
 
   constructor(public pointagesService: PointageService,
               public datepipe : DatePipe,
               public excelService: ExcelService,
               public agentService : AgentService,
-              public service : ServicesService,) { }
+              public service : ServicesService,
+              public motifservice : MotifService,) { }
 
   ngOnInit(): void {
 
       this.getAllService()
+      this.getAllMotif()
       
       this.cols= [
         {field: 'matricule', header: 'matricule'},
@@ -111,18 +115,36 @@ export class AbsenceJournalierComponent implements OnInit {
         }
         this.services = filtered;
     }
+
+    
+    getAllMotif() {
+        this.motifservice.getAllMotif().subscribe(
+            data => {
+                this.motifs = data;
+                this.motifs.sort((a,b) => a.motif.localeCompare(b.motif));
+            },
+            error => {
+                console.log(error);
+            }
+        );
+    }
+
     filterMotif(event) {
-        let filtered : any[] = [];
-        let query = event.query;
-        for(let i = 0; i < this.motifs.length; i++) {
-            let item = this.motifs[i];
+        const filtered : Motif[] = [];
+        const query = event.query;
+        for(let i = 0; i < this.motifs?.length; i++) {
+            const item = this.motifs[i];
             if (item.motif.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-                filtered.push(item);
+                if(item.motif ==='CONGÉ' || item.motif ==='PERMISSION' || item.motif ==='MISSION' || item.motif ==='MALADE' || item.motif ==='AUTRE'){
+                    filtered.push(item);
+                }
             }
         }
-        this.motifs = filtered;
-        console.log(this.motifs);
+        this.filteredmotifs = filtered;
+        console.log(this.filteredmotifs);
     }
+
+    
 
     exportAsXLSX(result):void {
         this.tabAbsence=[];
@@ -133,6 +155,7 @@ export class AbsenceJournalierComponent implements OnInit {
                 this.absence.service = this.result[i].service.nomservice,
                 this.absence.date = this.datepipe.transform(this.date1, 'dd-MM-yyyy'),
                 this.absence.status = "ABSENT(E)",
+                this.absence.exception= this.result[i].motif.motif,
 
                 this.tabAbsence.push({...this.absence});
             // console.log(this.json)

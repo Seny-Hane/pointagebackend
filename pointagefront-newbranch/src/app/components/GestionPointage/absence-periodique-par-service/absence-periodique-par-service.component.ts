@@ -10,6 +10,9 @@ import {KeycloakService} from "keycloak-angular";
 import {UserService} from "../../../service/user.service";
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { Motif } from 'src/app/models/motif.model';
+import { MotifService } from 'src/app/service/motif.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-absence-periodique-par-service',
@@ -35,8 +38,12 @@ export class AbsencePeriodiqueParServiceComponent implements OnInit {
     truc: string;
     truc2: string;
     tab = [];
-    json= {matricule : null, prenom: null, nom : null, datenaissance: null,dateabsence: null, genre: null};
+    json= {matricule : null, prenom: null, nom : null,dateabsence: null, motif: null};
     cols: any;
+    currentMotif= Motif;
+    motifs: any[];
+    filteredmotifs: any;
+    
 
   constructor(public agentService : AgentService,
               public fb : FormBuilder,
@@ -45,7 +52,8 @@ export class AbsencePeriodiqueParServiceComponent implements OnInit {
               public datepipe : DatePipe,
               public excelService: ExcelService,
               public keycloak: KeycloakService,
-              public userService: UserService,) { }
+              public userService: UserService,
+              public motifservice : MotifService,) { }
 
   ngOnInit(): void {
       this.keycloak.loadUserProfile().then( res =>
@@ -58,15 +66,17 @@ export class AbsencePeriodiqueParServiceComponent implements OnInit {
       });
 
       this.getAllService();
+      this.getAllMotif()
 
       this.cols= [
         {field: 'matricule', header: 'matricule'},
         {field: 'prenom', header: 'prenom'},
         {field: 'nom', header: 'nom'},
-        {field: 'datenaissance', header: 'datenaissance'},
+        // {field: 'datenaissance', header: 'datenaissance'},
         {field: 'dateabsence', header: 'dateabsence'},
-        {field: 'genre', header: 'genre'},
+        // {field: 'genre', header: 'genre'},
       ];
+
   }
     public getUser(username){
         // console.log(username);
@@ -181,9 +191,10 @@ export class AbsencePeriodiqueParServiceComponent implements OnInit {
                 this.json.matricule = this.results[i].matricule,
                 this.json.prenom = this.results[i].prenomagent,
                 this.json.nom = this.results[i].nomagent,
-                this.json.datenaissance = this.results[i].datenaissance,
+                // this.json.datenaissance = this.results[i].datenaissance,
                 this.json.dateabsence = this.results[i].dateabsence,
-                this.json.genre = this.results[i].genre,
+                // this.json.genre = this.results[i].genre,
+                this.json.motif= this.results[i].motif,
                 this.tab.push({...this.json});
             // console.log(this.json)
         }
@@ -197,9 +208,9 @@ export class AbsencePeriodiqueParServiceComponent implements OnInit {
             this.json.matricule = this.results[i].matricule,
             this.json.prenom = this.results[i].prenomagent,
             this.json.nom = this.results[i].nomagent,
-            this.json.datenaissance = this.results[i].datenaissance,
+            // this.json.datenaissance = this.results[i].datenaissance,
             this.json.dateabsence = this.results[i].dateabsence,
-            this.json.genre = this.results[i].genre,
+            // this.json.genre = this.results[i].genre,
             this.tab.push({...this.json});
          console.log(this.json)
         }
@@ -220,5 +231,34 @@ export class AbsencePeriodiqueParServiceComponent implements OnInit {
         })
         doc.save(this.currentService.nomservice+'_AbsencePeriodiqueService.pdf');
     }
+
+    filterMotif(event) {
+        const filtered : Motif[] = [];
+        const query = event.query;
+        for(let i = 0; i < this.motifs?.length; i++) {
+            const item = this.motifs[i];
+            if (item.motif.toLowerCase().indexOf(query.toLowerCase()) == 0 ) {
+                if(item.motif ==='CONGÉ' || item.motif ==='PERMISSION' || item.motif ==='MISSION' || item.motif ==='MALADE' || item.motif ==='AUTRE'){
+                    filtered.push(item);
+                }
+            }
+        }
+       
+        this.filteredmotifs = filtered;
+        
+    }
+    getAllMotif() {
+        this.motifservice.getAllMotif().subscribe(
+            data => {
+                this.motifs = data;
+                this.motifs.sort((a,b) => a.motif.localeCompare(b.motif));
+            },
+            error => {
+                console.log(error);
+            }
+        );
+    }
+
+
 
 }
