@@ -110,6 +110,11 @@ export class AbsencePeriodiqueComponent implements OnInit {
         // Utilisez la méthode jsPDF pour générer le tableau
         const texte = "Liste des absences periodiques de l'agent: " + this.matricule;
         pdf.text(texte, 40, 20);
+
+        const logoImg = new Image();
+        logoImg.src = 'assets/layout/images/logoPoste.png';
+        pdf.addImage(logoImg, 'PNG', 15, 15, 14, 14);
+
         autoTable(pdf,{
             head: headers,
             body: this.tab.map(data => [data.dateAbsente]),

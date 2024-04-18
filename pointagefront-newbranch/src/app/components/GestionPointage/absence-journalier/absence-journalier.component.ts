@@ -36,8 +36,7 @@ export class AbsenceJournalierComponent implements OnInit {
     submitted: boolean;
     selectedPointages: Pointage[];
     tabAbsence = [];
-    absence= {matricule : null, prenom: null, nom : null, date: null,service: null, status:null, exception: null};
-    logo=localStorage.getItem('logo');
+    absence= {matricule : null, prenom: null, nom : null, date: null,service: null, status:null};
     dt: any;
     cols: any;
     currentMotif= Motif;
@@ -60,7 +59,7 @@ export class AbsenceJournalierComponent implements OnInit {
         {field: 'matricule', header: 'matricule'},
         {field: 'prenom', header: 'prenom'},
         {field: 'nom', header: 'nom'},
-        {field: 'datepointage', header: 'datepointage'},
+        {field: 'dateAbsence', header: 'dateAbsence'},
         {field: 'service', header: 'service'},
         // {field: 'motif', header: 'motif'},
       ];
@@ -155,7 +154,7 @@ export class AbsenceJournalierComponent implements OnInit {
                 this.absence.service = this.result[i].service.nomservice,
                 this.absence.date = this.datepipe.transform(this.date1, 'dd-MM-yyyy'),
                 this.absence.status = "ABSENT(E)",
-                this.absence.exception= this.result[i].motif.motif,
+                // this.absence.exception= this.result[i].motif.motif,
 
                 this.tabAbsence.push({...this.absence});
             // console.log(this.json)
@@ -169,63 +168,42 @@ export class AbsenceJournalierComponent implements OnInit {
     }
 
     exportPDF(result){
-        //let doc= new jsPDF()
-        //  doc.addImage(this.logo,'JPEG',15,5,25,25)
-        //  doc.setFontSize(20)
-        //  doc.rect(10, 35, 275, 35)
-        // doc.text("Liste des absences journalères",75,50)
-        
-        // let cols=[['matricule', 'prenom', 'nom', 'datepointage','service', 'status']]
          this.tabAbsence=[];
          for (let i = 0; i < this.result.length; i++) {
              this.absence.matricule = this.result[i].matricule,
              this.absence.prenom = this.result[i].prenomagent,
              this.absence.nom = this.result[i].nomagent,
-             this.absence.service = this.result[i].service.nomservice,
              this.absence.date = this.datepipe.transform(this.date1, 'dd-MM-yyyy'),
-             this.absence.status ="ABSENT(E)",
+             this.absence.service = this.result[i].service.nomservice,
+            //  this.absence.status ="ABSENT(E)",
 
              this.tabAbsence.push({...this.absence});
-              
+            
             
          }
-         console.log(this.tabAbsence)
-        // autoTable(doc,{
-
-        //     styles: { fontSize:10 },
-      
-        //    startY: 75,
-        //    head: cols,
-        //    body:this.tabAbsence,
-      
-        // })
-
-        // doc.setFontSize(10)
-        // window.open(doc.output('bloburl'))
-        // doc.save('table.pdf');
-
-        // if(this.dt){
-            //console.log("ttttttyyhjjhfhgg");
+         console.log(this.absence.date)
             
             const colums= this.cols.map(col => col.field);
             const data = this.tabAbsence.map(row => colums.map(col => row[col]));
-            //const data= this.tabAbsence;
+            console.log(data)
 
             const doc = new jsPDF();
-
-            // doc.text("Liste des absences journalière du Servicve: ", 40, 20);
             const texte = "Liste des absences journalière du Servicve:  " + this.currentService.nomservice;
             doc.text(texte, 40, 20);
+
+            const logoImg = new Image();
+            logoImg.src = 'assets/layout/images/logoPoste.png';
+            doc.addImage(logoImg, 'PNG', 15, 15, 14, 14);
+            
             autoTable(doc,{
                 head: [colums],
                 body: data,
                 startY: 30,
             })
             doc.save(this.currentService.nomservice+'_TabAbsencesJounaliere.pdf');
-        // }
     }
         
-
+    
 
 
 }

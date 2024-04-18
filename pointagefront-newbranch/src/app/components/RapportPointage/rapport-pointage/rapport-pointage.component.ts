@@ -254,6 +254,11 @@ export class RapportPointageComponent implements OnInit {
 
         const texte = "Rapport de présence du Servicve:  " + this.currentService.nomservice;
         doc.text(texte, 40, 20);
+        
+        const logoImg = new Image();
+        logoImg.src = 'assets/layout/images/logoPoste.png';
+        doc.addImage(logoImg, 'PNG', 15, 15, 14, 14);
+
         autoTable(doc,{
             head: [colums],
             body: data,

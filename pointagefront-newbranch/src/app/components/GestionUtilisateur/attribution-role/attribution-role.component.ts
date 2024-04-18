@@ -551,6 +551,11 @@ export class AttributionRoleComponent implements OnInit {
 
         const texte = "Liste des utilisateur:  "+ this.currentService?.service.nomservice;
         doc.text(texte, 40, 20);
+
+        const logoImg = new Image();
+        logoImg.src = 'assets/layout/images/logoPoste.png';
+        doc.addImage(logoImg, 'PNG', 15, 15, 14, 14);
+        
         autoTable(doc,{
             head: [colums],
             body: data,

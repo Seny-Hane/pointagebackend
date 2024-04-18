@@ -69,7 +69,7 @@
                    <!--     <th pSortableColumn="heuredescente">Heure de Descente <p-sortIcon field="heuresortie"></p-sortIcon></th>
                         <th pSortableColumn="cumulheure">Cumul Heure <p-sortIcon field="cumulheure"></p-sortIcon></th>
                         <th pSortableColumn="motif.motif">Status <p-sortIcon field="motif.motif"></p-sortIcon></th>-->
-                        <th>Exception</th>
+                        <!-- <th>Exception</th> -->
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-pointage>
@@ -102,9 +102,9 @@
                             <span class="p-column-title">Genre</span>
                             {{pointage.genre}}
                         </td> -->
-                        <td style="width:14%; min-width:12rem;">
+                        <!-- <td style="width:14%; min-width:12rem;">
                             <p-autoComplete  appendTo="body"  [(ngModel)]="currentMotif" [virtualScroll]="true" [suggestions]="filteredmotifs" (completeMethod)="filterMotif($event)" field="motif" [dropdown]="true" ></p-autoComplete>
-                        </td>
+                        </td> -->
                 </ng-template>
             </p-table>
         </div>
