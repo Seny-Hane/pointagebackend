@@ -1,0 +1,4 @@
+
+typescript:S1874?"w'(next?: (value: Service[]) => void, error?: (error: any) => void, complete?: () => void): Subscription' is deprecated.(ύΫΛηόÿÿÿÿ8€ίνώΥ1
+–typescript:S1874M"s'(next?: (value: Drp[]) => void, error?: (error: any) => void, complete?: () => void): Subscription' is deprecated.(ϋρ²Ρ8ίνώΥ1
+typescript:S1874Y"{'(next?: (value: TypeService[]) => void, error?: (error: any) => void, complete?: () => void): Subscription' is deprecated.(”ƒμ8ίνώΥ1
