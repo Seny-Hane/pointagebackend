@@ -1,0 +1,30 @@
+
+Jtypescript:S1128".Remove this unused import of 'ActivatedRoute'.(í¯¦
+Btypescript:S1128"&Remove this unused import of 'Router'.(í¯¦
+Otypescript:S1128"3Remove this unused import of 'ConfirmationService'.(ÕÊâÎ
+Jtypescript:S1128".Remove this unused import of 'MessageService'.(ÕÊâÎ
+Jtypescript:S1128
+")Remove this unused import of 'FileSaver'.(Üƒ°„ÿÿÿÿÿ
+Atypescript:S1128"%Remove this unused import of 'Agent'.(ÔæéÎ
+?typescript:S125@"Remove this commented out code.(¾‚Çïúÿÿÿÿ
+:typescript:S125C"Remove this commented out code.(ø×Éî
+?typescript:S125K"Remove this commented out code.(˜‡°«øÿÿÿÿ
+?typescript:S125N"Remove this commented out code.(¥Ó¬‚üÿÿÿÿ
+?typescript:S125P"Remove this commented out code.(ƒº»úþÿÿÿÿ
+˜typescript:S1874V"w'(next?: (value: Service[]) => void, error?: (error: any) => void, complete?: () => void): Subscription' is deprecated.(éã´¹þÿÿÿÿ
+™typescript:S1874h"x'(next?: (value: Pointage[]) => void, error?: (error: any) => void, complete?: () => void): Subscription' is deprecated.(¼Âý¶ùÿÿÿÿ
+™typescript:S1874~"x'(next?: (value: Pointage[]) => void, error?: (error: any) => void, complete?: () => void): Subscription' is deprecated.(¼Âý¶ùÿÿÿÿ
+•typescript:S1874Œ"x'(next?: (value: Pointage[]) => void, error?: (error: any) => void, complete?: () => void): Subscription' is deprecated.(—´¬¬
+;typescript:S125™"Remove this commented out code.(ÉáæÃ
+;typescript:S125¢"Remove this commented out code.(žéÀ…
+itypescript:S4138Â"LExpected a `for-of` loop instead of a `for` loop with this simple iteration.(Ç´ßœ
+gtypescript:S905Ã"FExpected an assignment or function call and instead saw an expression.(Ð­áÂøÿÿÿÿ
+Btypescript:S878Ã"!Unexpected use of comma operator.(Ð­áÂøÿÿÿÿ
+’typescript:S1874Ù"u'(next?: (value: Agent[]) => void, error?: (error: any) => void, complete?: () => void): Subscription' is deprecated.(ãí×ì
+itypescript:S4138Ü"LExpected a `for-of` loop instead of a `for` loop with this simple iteration.(ÁÃ¥Ø
+@typescript:S125á"Remove this commented out code.(»·ÌÃøÿÿÿÿ
+@typescript:S125é"Remove this commented out code.(©Óõ‹ùÿÿÿÿ
+:typescript:S125ô"Remove this commented out code.(¢¯Þ(
+ntypescript:S4138’"LExpected a `for-of` loop instead of a `for` loop with this simple iteration.(—ŸžÑûÿÿÿÿ
+Dtypescript:S6557”"'Use 'String#startsWith' method instead.(åƒ”É
+Jtypescript:S1186¤"(Unexpected empty method 'exportAsXLSX2'.(¦ï¼ˆùÿÿÿÿ
