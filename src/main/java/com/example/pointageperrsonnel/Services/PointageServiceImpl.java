@@ -74,7 +74,7 @@ public class PointageServiceImpl implements PointageService{
     @Override
     public boolean findBypointages(int agent) {
         boolean poursuivre;
-        if (pointageRepository.findBypointages(agent)!=null){
+        if (pointageRepository.findBypointages(agent)!= null){
             poursuivre=false;//L'enregistrement ne pouura pas etre effectuer parce que l'agent a deja pointee
         }else {
             poursuivre=true;//L'enregistrement est possible, l'agent n'a pas encore pointe
@@ -120,4 +120,6 @@ public class PointageServiceImpl implements PointageService{
     public List<Pointage> listPointageDateIntervallByService(Date datepointage1, Date datepointage2,int codeservice) {
         return pointageRepository.listPointageDatesIntervalleByService(datepointage1,datepointage2,codeservice);
     }
+
+
 }

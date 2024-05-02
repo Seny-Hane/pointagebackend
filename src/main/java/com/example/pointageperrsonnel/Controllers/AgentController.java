@@ -2,6 +2,7 @@ package com.example.pointageperrsonnel.Controllers;
 
 import com.example.pointageperrsonnel.DTO.AgentDTO;
 import com.example.pointageperrsonnel.Entity.*;
+import com.example.pointageperrsonnel.Entity.enums.Statut_Presence;
 import com.example.pointageperrsonnel.Repository.*;
 import com.example.pointageperrsonnel.Services.AgentServiceImpl;
 
@@ -139,13 +140,14 @@ public class AgentController {
        Agent agent = agentRepository.findAgentByMatricule(matricule);
        Service service = serviceRepository.findServiceByCodeservice(codeservice);
        agent.setService(service);
+       agent.setStatut_presence(Statut_Presence.PRESENT);
        Pointage pointage=new Pointage();
        Date date=new Date();
        pointage.setDatepointage((new Date()));
        pointage.setHeurearrivee((new Date()));
        //pointage.setHeuredescente(new Date());
        pointage.setAgent(agent);
-       if (5 < date.getHours() && date.getHours() < 14) {
+       if (5 < date.getHours() && date.getHours() < 19) {
            pointage.setMotif(motifRepository.findById(1).get());
        }/*else if(9<date.getHours()&&date.getHours()<14){
            pointage.setMotif(motifRepository.findById(2).get());
@@ -215,23 +217,23 @@ public class AgentController {
     public List<Agent> listAgentsParservice(@PathVariable int codeservice, @PathVariable String datepointage)throws ParseException  {
         Date datep= new SimpleDateFormat("dd-MM-yyyy").parse(datepointage);
 
-        List<Agent> agents = agentService.listAgents(codeservice);
-        List<Pointage> pointages = pointageService.listPointage(datep);
-
-        List<Agent> agentListAbsent = new ArrayList<>();
-        List<Agent> listAgentPointe = new ArrayList<>();
-
-        for (Pointage pointage: pointages){
-            //System.out.println(pointage.getAgent());
-            listAgentPointe.add(pointage.getAgent());
-        }
-
-        for (Agent agent: agents){
-           if(!listAgentPointe.contains(agent)){
-               agentListAbsent.add(agent);
-           }
-        }
-        return agentListAbsent;
+//        List<Agent> agents = agentService.listAgents(codeservice);
+//        List<Pointage> pointages = pointageService.listPointage(datep);
+//
+//        List<Agent> agentListAbsent = new ArrayList<>();
+//        List<Agent> listAgentPointe = new ArrayList<>();
+//
+//        for (Pointage pointage: pointages){
+//            System.out.println(pointage.getAgent());
+//            listAgentPointe.add(pointage.getAgent());
+//        }
+//
+//        for (Agent agent: agents){
+//           if(!listAgentPointe.contains(agent)){
+//               agentListAbsent.add(agent);
+//           }
+//        }
+        return agentRepository.findList(codeservice,datep);
     }
 
 
@@ -243,27 +245,33 @@ public class AgentController {
     }
 
     //Liste absents periodique par service
-    @GetMapping(value = "/listAbsentsPerriodique/{codeservice}/{datepointage1}/{datepointage2}")
-    public List<Agent> listAgentsParservice(@PathVariable int codeservice, @PathVariable String datepointage1, @PathVariable String datepointage2)throws ParseException  {
+    @GetMapping(value = "/listAbsentsPerriodique/{datepointage1}/{datepointage2}/{codeservice}")
+    public List<Agent> listAgentsParservice( @PathVariable String datepointage1, @PathVariable String datepointage2,@PathVariable int codeservice)throws ParseException  {
 
         Date datedebut=new SimpleDateFormat("dd-MM-yyyy").parse(datepointage1);
         Date datefin=new  SimpleDateFormat("dd-MM-yyyy").parse(datepointage2);
 
-        List<Agent> agents=agentService.listAgents(codeservice);
+      /*  List<Agent> agents=agentService.listAgents(codeservice);
         List<Pointage> pointages=pointageService.listPointageDatesIntervalle(datedebut, datefin);
 
         List<Agent> listagentsAbsent = new ArrayList<>();
         List<Agent> listAgentsPointe = new ArrayList<>();
 
         for(Pointage pointage: pointages){
+        //   System.out.println(pointage.getAgent());
             listAgentsPointe.add(pointage.getAgent());
         }
 
         for (Agent agent: agents){
             if (!listAgentsPointe.contains(agent)) {
                 listagentsAbsent.add(agent);
+             //   System.out.println(listagentsAbsent);
             }
-        }
+        }*/
+
+
+
+
        /* Vector listeDate = new Vector();
         listeDate.add(datedebut);
         listeDate.add(datefin);
@@ -282,7 +290,7 @@ public class AgentController {
             date = new SimpleDateFormat("dd-MM-yyyy").parse(date.toString());
             listagentsAbsent.addAll(listAgentsParservice(codeservice,date.toString()));
         }*/
-        return listagentsAbsent;
+        return agentRepository.findAgents(datedebut,datefin,codeservice);
     }
 
     //Liste Absents periodique par matricule
@@ -320,8 +328,8 @@ public class AgentController {
   // Absence periodique par service (En cours d'utilisation)
   @GetMapping(value = "/AbsencePeriodiqService/{codeservice}/{datepointage1}/{datepointage2}")
   public List<AgentDTO> AgentAbsents(@PathVariable int codeservice, @PathVariable String datepointage1, @PathVariable String datepointage2)throws ParseException {
-      /*Date datedebut = new SimpleDateFormat("yyyy-MM-dd").parse(datepointage1);
-      Date datefin = new SimpleDateFormat("yyyy-MM-dd").parse(datepointage2);*/
+      Date datedebut = new SimpleDateFormat("yyyy-MM-dd").parse(datepointage1);
+      Date datefin = new SimpleDateFormat("yyyy-MM-dd").parse(datepointage2);
 
       //List<Pointage> pointages= pointageService.findAllPointageByDatesIntervalle(datedebut,datefin, codeservice);
 
@@ -379,6 +387,13 @@ public class AgentController {
       //System.out.println(AgentsNoPointe.size());
       return agentDTOS;
   }
+
+//    @GetMapping(value = "/agentAbsent/{codeservice}/{datepointage1}/{datepointage2}")
+//    public List<Agent> findAgentsAbsent(@PathVariable String datepointage1,@PathVariable String datepointage2, @PathVariable int codeservice) throws ParseException {
+//        Date datedebut= new SimpleDateFormat("dd-MM-yyyy").parse(datepointage1);
+//        Date datefin= new SimpleDateFormat("dd-MM-yyyy").parse(datepointage2);
+//        return agentService.listAbsence(codeservice,datedebut,datefin);
+    //}
 
 
 }

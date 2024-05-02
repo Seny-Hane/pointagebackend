@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import springfox.documentation.swagger2.mappers.ModelMapper;
 
@@ -23,6 +24,12 @@ public class PointageperrsonnelApplication extends SpringBootServletInitializer 
 	@Bean
 	public ModelMapper modelMapper(){
 		return new ModelMapper();
+	}
+
+	@Bean
+	public SchedulerFactoryBean schedulerFactoryBean() {
+		SchedulerFactoryBean scheduler = new SchedulerFactoryBean();
+		return scheduler;
 	}
 
 }

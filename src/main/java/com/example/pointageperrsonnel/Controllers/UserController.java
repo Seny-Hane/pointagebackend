@@ -68,7 +68,7 @@ public class UserController {
     }
     @GetMapping(value = "/emails/{email}")
     public User findUserByEmail(@PathVariable String email){
-        return userService.findUserByEmail(email);
+        return userRepository.findUserByEmail(email);
     }
 
     //Save user

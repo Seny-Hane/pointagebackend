@@ -1,5 +1,7 @@
 package com.example.pointageperrsonnel.Entity;
 
+
+import com.example.pointageperrsonnel.Entity.enums.Statut_Presence;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +29,8 @@ public class Agent {
     private String prenomagent;
     private String nomagent;
     private String genre;
+    @Enumerated(EnumType.STRING)
+    private Statut_Presence statut_presence=Statut_Presence.ABSENT;
     private Date datenaissance;
     //private String lieuNaissance;
     private Date daterecrutement;

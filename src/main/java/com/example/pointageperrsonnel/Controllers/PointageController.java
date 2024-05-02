@@ -1,5 +1,6 @@
 package com.example.pointageperrsonnel.Controllers;
 
+import com.example.pointageperrsonnel.Entity.Agent;
 import com.example.pointageperrsonnel.Entity.Pointage;
 import com.example.pointageperrsonnel.Repository.AgentRepository;
 import com.example.pointageperrsonnel.Repository.MotifRepository;
@@ -196,6 +197,11 @@ public class PointageController {
 
         return pointageService.listPointageDateIntervallByService(datedebut,datefin,codeservice);
     }
+
+//    @GetMapping(value = "/agentAbsent/{codeservice}")
+//    public List<Pointage> findAgentsAbsent(@PathVariable int codeservice) {
+//        return pointageService.listAbsence(codeservice);
+//    }
 
 }
 

@@ -2,6 +2,7 @@ package com.example.pointageperrsonnel.Services;
 
 import com.example.pointageperrsonnel.Entity.Agent;
 import com.example.pointageperrsonnel.Entity.Fichier;
+import com.example.pointageperrsonnel.Entity.Pointage;
 import com.example.pointageperrsonnel.Repository.AgentRepository;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStreamReader;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,7 +58,7 @@ public class AgentServiceImpl implements AgentService{
 
     //Sauvegarde de fichier agent
     public List<Agent> saveAgent(List<Agent> list){
-        for(int i=0; i<list.size();i++){
+        for(int i=0; i< list.size();i++){
             agentRepository.save(list.get(i));
         }
         return list;
@@ -71,6 +73,12 @@ public class AgentServiceImpl implements AgentService{
     @Override
     public  List<Agent> findAllAgent() {
         return agentRepository.findAll();
+    }
+
+    @Override
+    public List<Agent> listAbsence(Date datepointage1, Date datepointage2,int codeservice) {
+        return agentRepository.findAgents(datepointage1,datepointage2,codeservice);
+
     }
 
 

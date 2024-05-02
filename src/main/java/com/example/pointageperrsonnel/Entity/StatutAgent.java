@@ -17,9 +17,9 @@ public class StatutAgent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idstatut;
     private String description;
-
+/*
     @JsonIgnore
     @OneToMany(mappedBy = "statutAgent", fetch=FetchType.LAZY)
-    private Collection<Agent> agent;
+    private Collection<Agent> agent;*/
 
 }
