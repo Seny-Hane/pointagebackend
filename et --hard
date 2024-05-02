@@ -1,0 +1,15 @@
+[33m236715e[m[33m ([m[1;36mHEAD -> [m[1;32msalifdev[m[33m, [m[1;31morigin/salifdev[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{0}: checkout: moving from master to salifdev
+[33mcd7dd3a[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{1}: rebase (abort): updating HEAD
+[33mcd7dd3a[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{2}: rebase (abort): updating HEAD
+[33mcd7dd3a[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{3}: checkout: moving from cc3e7237b70fcc7e882013114c21cfc8ca6628e2 to master
+[33mcc3e723[m HEAD@{4}: commit: "modifier apportées "
+[33m236715e[m[33m ([m[1;36mHEAD -> [m[1;32msalifdev[m[33m, [m[1;31morigin/salifdev[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{5}: rebase (start): checkout refs/remotes/origin/master
+[33mcd7dd3a[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{6}: reset: moving to cd7dd3a
+[33m236715e[m[33m ([m[1;36mHEAD -> [m[1;32msalifdev[m[33m, [m[1;31morigin/salifdev[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{7}: reset: moving to 236715e
+[33m236715e[m[33m ([m[1;36mHEAD -> [m[1;32msalifdev[m[33m, [m[1;31morigin/salifdev[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{8}: checkout: moving from cd7dd3a07948f3f833f9da7e099e030434ad0b7d to master
+[33mcd7dd3a[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{9}: reset: moving to cd7dd3a
+[33m236715e[m[33m ([m[1;36mHEAD -> [m[1;32msalifdev[m[33m, [m[1;31morigin/salifdev[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{10}: checkout: moving from master to 236715e
+[33m236715e[m[33m ([m[1;36mHEAD -> [m[1;32msalifdev[m[33m, [m[1;31morigin/salifdev[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{11}: rebase (skip) (finish): returning to refs/heads/master
+[33m236715e[m[33m ([m[1;36mHEAD -> [m[1;32msalifdev[m[33m, [m[1;31morigin/salifdev[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{12}: rebase (start): checkout origin/master
+[33mcd7dd3a[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{13}: checkout: moving from master to master
+[33mcd7dd3a[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{14}: commit (initial): "modifier apportées "
