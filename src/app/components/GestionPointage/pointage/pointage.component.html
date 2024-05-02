@@ -1,0 +1,80 @@
+<div class="card">
+    <p-toast></p-toast>
+    <h5>Saisir le matricule de l'employé</h5>
+        <div class="form-group" >
+            <div class="field">
+                <label for="matriculeA"  class="p-sr-only">Matricule</label>
+                <p-inputMask id="matriculeA" mask="999999a" [(ngModel)]="mat" required autoFocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !mat}"></p-inputMask>
+                <br>
+                <small *ngIf="submitted && !mat" class="p-error" style="font-size: 15px;">Veuillez saisir un matricule, il doit être du format 111111A.</small>
+            </div>
+            <div>
+                <button pButton label="Rechercher"  (click)="handleAddPointage()"></button>
+            </div>
+        </div>
+</div>
+
+<div class="grid">
+    <div class="col-12">
+        <p-dialog [(visible)]="agentDialog" [style]="{width: '500px', height: '28rem'}" header="Pointage" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <tr>
+                    <th>
+                        Matricule : &nbsp; &nbsp;
+                    </th>
+                    <td>
+                        <p-badge class="droite" value="{{agent.matricule}}" size="large" severity="info"></p-badge>
+                    </td>
+                </tr>
+                <tr>
+                    <th>&nbsp;
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        Prenom  : &nbsp; &nbsp;
+                    </th>
+                    <td>
+                        <p-badge class="droite" value="{{agent.prenomagent}}" size="large" severity="info"></p-badge>
+                    </td>
+                </tr>
+                <tr>
+                    <th>&nbsp;
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        Nom : &nbsp; &nbsp;
+                    </th>
+                    <td>
+                        <p-badge class="droite" value="{{agent.nomagent}} " size="large" severity="info"></p-badge>
+                    </td>
+                </tr>
+                <tr>
+                    <th>&nbsp;
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        Service : &nbsp; &nbsp;
+                    </th>
+                    <td>
+                        <p-badge class="droite" value="{{agent.service.nomservice}} " size="large" severity="info"></p-badge>
+                    </td>
+                </tr>
+
+            </ng-template>
+<!--               -->
+            <ng-template pTemplate="footer">
+                <button pButton pRipple type="button" label="Annuler" icon="pi pi-times"  class="p-button-danger" (click)="hideDialog()"></button>
+                <button pButton pRipple type="button" label="Arrivée" icon="pi pi-sign-in"  class="p-button-info"  [disabled]="!buttonDisabled" (click)="savePointageMatin(agent)" ></button>
+                <button pButton pRipple type="button" label="Descente" icon="pi pi-sign-out"  class="p-button-success" [disabled]="buttonDisabled" (click)="savePointageSoir(agent)" ></button>
+
+
+                <!--                <button pButton pRipple label="Arrivée" icon="pi pi-check" class="p-button-text"  (click)="savePointageMatin()" ></button>-->
+<!--                <button pButton pRipple label="Descente" icon="pi pi-check" class="p-button-text"  (click)="savePointageSoir()" ></button>-->
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>
+

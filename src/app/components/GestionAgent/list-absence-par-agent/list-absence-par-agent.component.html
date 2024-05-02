@@ -1,0 +1,145 @@
+<div class="card maPetiteCard">
+    <p-toast [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'1000ms'" [hideTransitionOptions]="'1000ms'" [showTransformOptions]="'translateX(100%)'"></p-toast>
+    <div class="p-fluid grid formgrid">
+        <div class="field col-4 md:col-4">
+            <h5>Date Début</h5>
+            <p-calendar appendTo="body" [(ngModel)]="date1" [maxDate]="dateJour" dateFormat="dd/mm/yy" id="date1"  required [ngClass]="{'ng-invalid ng-dirty' : submitted && !date1}"></p-calendar>
+            <small *ngIf="submitted && !date1" class="p-error">Renseignez la date de début.</small>
+        </div>
+        <div class="field col-4 md:col-4">
+            <h5>Date Fin</h5>
+            <p-calendar appendTo="body" [(ngModel)]="date2" [maxDate]="dateJour" dateFormat="dd/mm/yy" id="date2"  required [ngClass]="{'ng-invalid ng-dirty' : submitted && !date2}"></p-calendar>
+            <small *ngIf="submitted && !date2" class="p-error">Renseignez la date de fin.</small>
+        </div>
+        <div class="field col-4 md:col-4">
+            <h5>Matricule</h5>
+            <!--            <p-inputMask  mask="999999a"  (change)="getChange()" [(ngModel)]="matricule"  id="matricule"  required [ngClass]="{'ng-invalid ng-dirty' : submitted && !matricule}"></p-inputMask>-->
+            <p-inputMask  mask="999999a"  (change)="getChange()" [(ngModel)]="matricule"  id="matricule"  required [ngClass]="{'ng-invalid ng-dirty' : submitted && !matricule}"></p-inputMask>
+            <small *ngIf="submitted && !matricule" class="p-error">Renseignez le matricule .</small>
+        </div>
+    </div>
+    <div class="mid">
+        <p-button label="Rechercher" icon="pi pi-search" styleClass="mr-2 mb-2" [disabled]="disabled" (click)="rechercheByMatricule(date1, date2,matricule)"></p-button>
+    </div>
+</div>
+
+<!--<div class="grid" *ngIf="tourner==true">
+    <h5 class="spinner">Veuillez Patienter...</h5>
+    <p-progressSpinner class="spinner"></p-progressSpinner>
+</div>-->
+
+<!--<div *ngIf="date1!=null && date2!=null && matricule!=null && !result && erreur==true && tourner==false" class="alert alert-danger" >
+    Serveur Indisponible
+</div>-->
+<div class="grid" *ngIf="erreur==false && tourner==false">
+    <div class="col-12">
+        <div class="card">
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="right">
+                    <!--                    <button pButton pRipple label="Export excel" icon="pi pi-upload" class="mr-2 inline-block"></button>-->
+                    <p-badge   class="user"  value=" Rapport  D'Absence  " size="large" severity="warning"></p-badge>
+                </ng-template>
+                <ng-template pTemplate="left">
+                    <button pButton pRipple label="Export excel" icon="pi pi-upload" class="mr-2 inline-block" (click)="exportAsXLSX(result)"></button>
+                    <button pButton pRipple label="Export PDF" icon="pi pi-upload" class="p-button-success mr-2"  (click)="exportTableToPDF()"></button>
+                </ng-template>
+            </p-toolbar>
+            <!-- <div *ngIf="result.length==0">
+                Aucune Absence durant la période du {{date1 | date: 'dd/MM/yyyy' }}
+                au {{date2 | date: 'dd/MM/yyyy' }}
+            </div>
+            <div *ngIf="result.length!=0" class="row">
+                <div *ngFor="let resul of result" class="col-2">
+                    <p-card class="date1">
+                        <p class="date">{{resul | date: 'dd/MM/yyyy'}}</p>
+                    </p-card>
+                </div>
+             </div>    -->
+
+            <div *ngIf="result.length==0">
+                Aucune Absence durant la période du {{date1 | date: 'dd/MM/yyyy' }}
+                au {{date2 | date: 'dd/MM/yyyy' }}
+            </div>
+            <div *ngIf="result.length!=0">
+                <p-table [value]="result" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['datepointage']" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedPointages" selectionMode="multiple" [rowHover]="true" dataKey="idpointage">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Matricule </th>
+                            <th>Prénom </th>
+                            <th>Nom </th>
+                            <th>Date D'Absence </th>
+                            <th>Justificatif </th>
+                            <th>Commentaire </th>
+                            <th>Action </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template  pTemplate="body" let-abs>
+                        <tr>
+                            <td style="width:14%;"><span class="p-column-title">Matricule</span>
+                                {{abs.agent.matricule}}
+                            </td>
+                            <td style="width:14%;">
+                                <span class="p-column-title">Prénom</span>
+                                {{abs.agent.prenomagent}}
+                            </td>
+                            <td style="width:14%; min-width:10rem;">
+                                <span class="p-column-title">Nom</span>
+                                {{abs.agent.nomagent}}
+                            </td>
+                            <td  style="width:14%; min-width:10rem;">
+                                <span class="p-column-title">Service</span>
+                                {{abs.dateAbs}}
+                            </td>
+
+                            <td class="text-danger" style="width:14%; min-width:8rem;">
+                                <span class="p-column-title">Justificatif</span>
+                                {{abs.motif.motif}}
+                            </td>
+                            <td style="width:14%; min-width:8rem;">
+                                <span class="p-column-title">Commentaire</span>
+                               {{abs.commentaire}}
+                            </td>
+                            <td style="width:14%; min-width:8rem;">
+                                   <span>
+                                            <button pButton pRipple icon="pi pi-pencil" label="Justifier"
+                                                    class="p-button-secondary mr-2 mb-2"
+                                                    (click)="editAbs(abs)"></button>
+                                   </span>
+                            </td>
+
+                    </ng-template>
+                </p-table>
+                <p-dialog [(visible)]="absenceDialog" [style]="{width: '450px', height: '30rem'}"
+                          header="Justification" [modal]="true" class="p-fluid">
+                    <ng-template pTemplate="content">
+
+                        <div class="field">
+<!--                            <label><b>Justification</b></label>-->
+                            <p-autoComplete placeholder="Choisir un Motif" [(ngModel)]="abs.motif" id="dd"
+                                            [dropdown]="true" [multiple]="false" [suggestions]="listMotifff" field="motif"
+                                            (completeMethod)="filterMotif($event)"></p-autoComplete>
+
+                        </div>
+                        <label><b>Commentaire</b></label>
+                        <div class="card flex justify-content-center">
+                            <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="abs.commentaire"></textarea>
+                        </div>
+
+
+
+
+                    </ng-template>
+
+                    <ng-template pTemplate="footer">
+                        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+                                (click)="hideDialog()"></button>
+                        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+                                (click)="updateAbsence()"></button>
+                    </ng-template>
+                </p-dialog>
+            </div>
+
+
+        </div>
+    </div>
+</div>
