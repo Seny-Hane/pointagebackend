@@ -86,7 +86,7 @@ export class RapportPointageComponent implements OnInit {
         {field: 'status', header: 'status'.trim()},
        ];
   }
-
+ 
     public getUser(username){
         // console.log(username);
         return this.userService.getUserByUsername(username).subscribe(data =>
@@ -168,44 +168,9 @@ export class RapportPointageComponent implements OnInit {
                     this.tourner=false;
                     this.erreur=true;
                 })
-            //this.getAbsencesParService(date1,date2,currentService)
-            // this.pointagesService.getAbsencePeriodique(this.datepipe.transform(this.date1, 'dd-MM-yyyy'),this.datepipe.transform(this.date2, 'dd-MM-yyyy'),currentService.codeservice).subscribe(data =>{
-            //     this.absences = data;
-            //     this.getAbsencesParService(date1,date2,currentService)
-            //     console.log(data)
-            // }, error => {
-            //     console.log(error)
-            // })
-
-            // this.pointagesService.getAbsenceParDate(this.datepipe.transform(this.date1, 'dd-MM-yyyy'), currentService.codeservice).subscribe(data => {
-            //     console.log(data)
-            // },error => {
-            //     console.log(error)
-            // })
-            // this.pointagesService.getAbsencePeriodique(this.datepipe.transform(this.date1, 'dd-MM-yyyy'),this.datepipe.transform(this.date2, 'dd-MM-yyyy'),currentService.codeservice).subscribe(data =>{
-            //     console.log(data)
-            // }, error => {
-            //     console.log(error)
-            // })
-        }
-      // console.log(date1, date2, currentService)
+             }
+     
     }
-
-    // rechercheGlobale(date1: Date, date2: Date) {
-    //     this.submitted=true;
-    //     console.log(this.date1, this.date2)
-    //     if(this.date1 && this.date2){
-    //         this.truc=""+this.date1;
-    //         this.truc2=""+this.date2;
-    //     }
-    //     if (this.truc.trim() && this.truc2.trim()){
-    //         this.pointagesService.getPointageGlobale(this.datepipe.transform(this.date1, 'dd-MM-yyyy'),this.datepipe.transform(this.date2, 'dd-MM-yyyy')).subscribe(data => {
-    //             this.result = data;
-    //         }, error => {
-    //             console.log(error)
-    //         })
-    //     }
-    // }
 
     exportAsXLSX(result):void {
       this.tab=[];
@@ -229,12 +194,14 @@ export class RapportPointageComponent implements OnInit {
 
     exportPDF(result){
         this.tab=[];
+        console.log(this.tab)
         for (let i = 0; i < this.result?.length; i++) {
             const tb={
+              
                 matricule : this.result[i]?.agent.matricule,
                 prenom: this.result[i]?.agent.prenomagent,
-                nom: this.result[i]?.agent.nomagent,
-                // this.json.service = this.result[i].agent.service.nomservice,
+                nom:this.result[i]?.agent.nomagent, 
+                service:this.result[i].agent.service.nomservice,
                 date: this.result[i]?.datepointage,
                 arrivee: this.result[i]?.heurearrivee,
                 descente: this.result[i]?.heuredescente,
@@ -264,6 +231,7 @@ export class RapportPointageComponent implements OnInit {
             body: data,
             startY: 30,
         })
+        console.log(this.tab);
         doc.save(this.currentService.nomservice+'_RapportPeriodiqueService.pdf');
     }
 

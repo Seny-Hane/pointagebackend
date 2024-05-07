@@ -169,28 +169,28 @@ handleNewService(){
     }
     }
 
-    deleteService(service: Service){
-        this.confirmationService.confirm({
-            message: 'Etes-vous sûr de vouloir supprimer ' + service.nomservice + ' ?',
-            header: 'Confirmation',
-            icon: 'pi pi-exclamation-triangle',
-            acceptLabel: 'Oui',
-            rejectLabel: 'Non',
-            accept: () => {
-                this.services = this.services.filter(val => val.codeservice !== service.codeservice);
-                this.serviceService.deleteService(service.codeservice).subscribe(data =>
-                    {
-                        this.getAllService();
-                    },
-                    error => {
-                        console.log(error);
-                    }
-                );
-                this.service = {drp:null, typeService:null};
-                this.messageService.add({severity:'success', summary: 'Réussi', detail: 'Service Supprimé', life: 3000});
-            }
-        });
-    }
+    // deleteService(service: Service){
+    //     this.confirmationService.confirm({
+    //         message: 'Etes-vous sûr de vouloir supprimer ' + service.nomservice + ' ?',
+    //         header: 'Confirmation',
+    //         icon: 'pi pi-exclamation-triangle',
+    //         acceptLabel: 'Oui',
+    //         rejectLabel: 'Non',
+    //         accept: () => {
+    //             this.services = this.services.filter(val => val.codeservice !== service.codeservice);
+    //             this.serviceService.deleteService(service.codeservice).subscribe(data =>
+    //                 {
+    //                     this.getAllService();
+    //                 },
+    //                 error => {
+    //                     console.log(error);
+    //                 }
+    //             );
+    //             this.service = {drp:null, typeService:null};
+    //             this.messageService.add({severity:'success', summary: 'Réussi', detail: 'Service Supprimé', life: 3000});
+    //         }
+    //     });
+    // }
     filterItemsDrp(event) {
       let filtered : Drp[] = [];
       let query = event.query;
