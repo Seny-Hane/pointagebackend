@@ -26,7 +26,7 @@ public class InsertionAbsenceJob {
 
     // Obtenir l'objet Authentication à partir du contexte de sécurité
 
-   // @Scheduled(cron = "0 10 */11 * * *")
+  //  @Scheduled(cron = "0 42 */14 * * *")
     @Scheduled(cron = "0 0 23 * * *")
     public void executeTask() {
         List<Agent> list = absenceService.ListeAgAbs();

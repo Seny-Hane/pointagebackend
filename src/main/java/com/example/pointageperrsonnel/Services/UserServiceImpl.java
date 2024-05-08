@@ -78,7 +78,9 @@ public class UserServiceImpl implements UserService {
        // Role role = roleRepository.getById(userDTO.getRole());
       //  user.setRole(role);
         com.example.pointageperrsonnel.Entity.Service service = serviceRepository.getById(userDTO.getService().getCodeservice());
+        Role role= roleRepository.getById(userDTO.getRole().getId());
         user.setService(service);
+        user.setRole(role);
         user.setNom(userDTO.getNom());
         user.setEmail(userDTO.getEmail());
         user.setPrenom(userDTO.getPrenom());

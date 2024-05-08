@@ -3,12 +3,11 @@ package com.example.pointageperrsonnel.Services;
 import com.example.pointageperrsonnel.Entity.Agent;
 import com.example.pointageperrsonnel.Entity.Pointage;
 import com.example.pointageperrsonnel.Repository.PointageRepository;
-import javafx.print.Collation;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -48,15 +47,17 @@ public class PointageServiceImpl implements PointageService{
     }
 
     @Override
-    public List<Pointage> findAllPointageByDatesIntervalle(Date datepointage1, Date datepointage2, int codeservice){
+    public List<Pointage> findAllPointageByDatesIntervalle(LocalDate datepointage1, LocalDate datepointage2, int codeservice){
         return pointageRepository.findAllPointageByDatesIntervalle(datepointage1, datepointage2, codeservice);
     }
 
-    //Liste pointage en fonction d'une date pour les absents
     @Override
-    public List<Pointage> listPointage(Date datepointage){
+    public List<Pointage> listPointage(LocalDate datepointage) {
         return pointageRepository.listPointage(datepointage);
     }
+
+    //Liste pointage en fonction d'une date pour les absents
+
 
     //liste pointage perriodique pour les absents
     @Override
@@ -104,7 +105,7 @@ public class PointageServiceImpl implements PointageService{
     }
 
     @Override
-    public List<Pointage> listPointageAgent(Date datepointage1, Date datepointage2, String matricule) {
+    public List<Pointage> listPointageAgent(LocalDate datepointage1, LocalDate datepointage2, String matricule) {
         //if(agentService.verifierExistanceMatricule(matricule)){
 
             return pointageRepository.listPointageAgent(datepointage1,datepointage2,matricule);
@@ -117,7 +118,7 @@ public class PointageServiceImpl implements PointageService{
     }
 
     @Override
-    public List<Pointage> listPointageDateIntervallByService(Date datepointage1, Date datepointage2,int codeservice) {
+    public List<Pointage> listPointageDateIntervallByService(LocalDate datepointage1, LocalDate datepointage2,int codeservice) {
         return pointageRepository.listPointageDatesIntervalleByService(datepointage1,datepointage2,codeservice);
     }
 

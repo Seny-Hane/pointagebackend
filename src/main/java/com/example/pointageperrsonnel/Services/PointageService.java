@@ -3,6 +3,7 @@ package com.example.pointageperrsonnel.Services;
 import com.example.pointageperrsonnel.Entity.Agent;
 import com.example.pointageperrsonnel.Entity.Pointage;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -24,10 +25,13 @@ public interface PointageService {
     List<Pointage> findByAbsenceDatepointage(Date datepointage, int codeservice);
 
     //Liste des pointages perriodique par service de tous les agents de la service
-    List<Pointage> findAllPointageByDatesIntervalle(Date datepointage1, Date datepointage2, int codeservice);
+    List<Pointage> findAllPointageByDatesIntervalle(LocalDate datepointage1, LocalDate datepointage2, int codeservice);
 
     //Liste pointage
-    List<Pointage> listPointage(Date datepointage);
+  //  List<Pointage> listPointage(Date datepointage);
+
+    //Liste pointage en fonction d'une date pour les absents
+    List<Pointage> listPointage(LocalDate datepointage);
 
     //Liste pointage perriodique pour les absents
     List<Pointage> listPointageDatesIntervalle(Date datepointage1, Date datepointage2);
@@ -48,7 +52,7 @@ public interface PointageService {
      Collection<Pointage> getCumulheure(Date datepointage1, Date datepointage2, String matricule, int codeservice);
 
      //Liste pointage en fonction du matricule
-    List<Pointage>listPointageAgent(Date datepointage1, Date datepointage2, String matricule);
+    List<Pointage>listPointageAgent(LocalDate datepointage1, LocalDate datepointage2, String matricule);
 
-    List<Pointage> listPointageDateIntervallByService(Date datepointage1, Date datepointage2,int codeservice);
+    List<Pointage> listPointageDateIntervallByService(LocalDate datepointage1, LocalDate datepointage2,int codeservice);
 }

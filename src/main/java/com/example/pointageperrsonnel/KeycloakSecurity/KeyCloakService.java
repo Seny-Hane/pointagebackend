@@ -4,6 +4,7 @@ import com.example.pointageperrsonnel.DTO.UserDTO;
 import com.example.pointageperrsonnel.Entity.User;
 import com.example.pointageperrsonnel.Services.UserMapper;
 import lombok.AllArgsConstructor;
+import org.keycloak.admin.client.resource.RoleResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
@@ -38,11 +39,14 @@ public class KeyCloakService {
         newUser.setRequiredActions(Collections.singletonList("UPDATE_PASSWORD"));
         System.out.println(newUser.toString());
 
+
+
         UsersResource instance = getInstance();
         instance.create(newUser);
         /*if (instance.create(newUser)!=null){
             result = true;
         }*/
+
         return true;
     }
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -51,9 +52,11 @@ public class AbsenceController {
         Date datedebut = new SimpleDateFormat("yyyy-MM-dd").parse(datepointage1);
         Date datefin = new SimpleDateFormat("yyyy-MM-dd").parse(datepointage2);
 
-        //Agent agent=agentRepository.findAgentByMatricule(matricule);
-        List<Absence> absences = absenceRepository.listAbsenceByInterDate(datedebut, datefin, codeservice);
-        return absences;
+//        LocalDate datedebut =LocalDate.parse(datepointage1);
+//        LocalDate datefin =LocalDate.parse(datepointage2);
+
+        return  absenceRepository.listAbsenceByInterDate(datedebut, datefin, codeservice);
+
     }
 
     @GetMapping(value = "/listAbsentsPerriodiqByAgent/{datepointage1}/{datepointage2}/{matricule}")
@@ -61,14 +64,20 @@ public class AbsenceController {
         Date datedebut = new SimpleDateFormat("yyyy-MM-dd").parse(datepointage1);
         Date datefin = new SimpleDateFormat("yyyy-MM-dd").parse(datepointage2);
 
-        //Agent agent=agentRepository.findAgentByMatricule(matricule);
-        List<Absence> absences = absenceRepository.listAbsenceByAgent(datedebut, datefin, matricule);
-        return absences;
+//        LocalDate datedebut =LocalDate.parse(datepointage1);
+//        LocalDate datefin =LocalDate.parse(datepointage2);
+        return   absenceService.findAllAbsenceByDatesIntervalle(datedebut, datefin, matricule);
     }
 
     @PutMapping(value = "/editabsence/{idAbsent}")
     public Absence updateAbsence(@PathVariable Long idAbsent, @RequestBody Absence absence){
         absence.setId(idAbsent);
         return absenceRepository.save(absence);
+    }
+
+    @GetMapping(value = "listAgentAbsByMatricule/{matricule}")
+    public List<Absence> listAgentAbs(@PathVariable String matricule){
+        List<Absence> listAgentAB = absenceRepository.listAbsenceByMatricule(matricule);
+        return  listAgentAB;
     }
 }

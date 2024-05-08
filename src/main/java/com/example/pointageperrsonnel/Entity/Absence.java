@@ -2,9 +2,7 @@ package com.example.pointageperrsonnel.Entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,9 +10,9 @@ import java.util.Date;
 
 
 @Entity
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter @Getter @ToString
 public class Absence {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -3,9 +3,7 @@ package com.example.pointageperrsonnel.Entity;
 
 import com.example.pointageperrsonnel.Entity.enums.Statut_Presence;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -17,9 +15,10 @@ import java.util.Set;
 
 
 @Entity
-@Data
+
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter @Setter @ToString
 public class Agent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

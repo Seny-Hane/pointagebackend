@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Time;
 import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -26,10 +27,17 @@ public interface PointageRepository extends JpaRepository<Pointage, Integer> {
 
     //Liste poinatage en fonction de la date
     //@Query(value = "SELECT * FROM pointage WHERE  DATE_FORMAT(datepointage,'%d-%m-%Y')=DATE_FORMAT(datepointage,'%d-%m-%Y')",nativeQuery = true)
-    //@Query("select d from pointage d where function('DATE_FORMAT',d.datepointage,'%d-%m-%Y')=:DATE_FORMAT(datepointage,'%d-%m-%Y')")
-    List<Pointage> findByDatepointage(Date datepointage);
-    /*@Query("select d from Pointage d where d.datepointage=:datepointage")
-    List<Pointage> findByDatepointage(@Param("datepointage") Date datepointage);*/
+    @Query("select d from Pointage d where function('DATE_FORMAT',d.datepointage,'%d-%m-%Y') = function('DATE_FORMAT', :date, '%d-%m-%Y')")
+    List<Pointage> findByDatepointage(@Param("date") LocalDate datepointage);
+
+
+    @Query("select d from Pointage d where d.datepointage=:datepointage")
+    List<Pointage> findByDatepoint(@Param("datepointage") LocalDate datepointage);
+
+    //@Query("select d from Pointage d where d.datepointage=:datepointage")
+    @Query("SELECT a FROM Agent a WHERE NOT EXISTS (SELECT p FROM Pointage p WHERE p.agent = a AND   (p.datepointage) = :datepointage)")
+    List<Agent> findByDateNotpoint(@Param("datepointage") LocalDate datepointage);
+
 
     //Liste pointage par agent et service
     @Query("SELECT p FROM Pointage p WHERE (p.datepointage BETWEEN :datepointage1 AND :datepointage2) AND p.agent.idagent=:idagent AND p.agent.service.codeservice=:codeservice")
@@ -52,8 +60,8 @@ public interface PointageRepository extends JpaRepository<Pointage, Integer> {
     List<Pointage> findByAbsenceDatepointage(@Param("datepointage") Date datepointage, @Param("codeservice") int codeservice);
 
     //Liste des pointage perriodique par service en affichant tous les agents de la service
-    @Query("SELECT p FROM Pointage p WHERE (p.datepointage BETWEEN :datepointage1 AND :datepointage2) AND p.agent.service.codeservice=:codeservice")
-     List<Pointage> findAllPointageByDatesIntervalle(@Param("datepointage1") Date datepointage1, @Param("datepointage2") Date datepointage2, @Param("codeservice") int codeservice);
+    @Query("SELECT p FROM Pointage p WHERE (p.datepointage BETWEEN :datepointage1 AND :datepointage2) OR p.datepointage = :datepointage1 AND (p.agent.service.codeservice=:codeservice)")
+     List<Pointage> findAllPointageByDatesIntervalle(@Param("datepointage1") LocalDate datepointage1, @Param("datepointage2") LocalDate datepointage2, @Param("codeservice") int codeservice);
 
     //Liste des pointages perriodiques global
     @Query("SELECT p FROM Pointage p WHERE (p.datepointage BETWEEN :datepointage1 AND :datepointage2)")
@@ -68,7 +76,7 @@ public interface PointageRepository extends JpaRepository<Pointage, Integer> {
 
     //Liste pointage en fonction d'une date pour les absents
     @Query("SELECT p FROM Pointage p WHERE p.datepointage=:datepointage")
-    List<Pointage> listPointage(@Param("datepointage") Date datepointage);
+    List<Pointage> listPointage(@Param("datepointage") LocalDate datepointage);
 
    //Liste pointage perriodique pour les absents
    @Query("SELECT p FROM Pointage p WHERE (p.datepointage BETWEEN :datepointage1 AND :datepointage2)")
@@ -76,8 +84,8 @@ public interface PointageRepository extends JpaRepository<Pointage, Integer> {
 
     //@Query(value = "SELECT p FROM Pointage p WHERE   (SELECT * from pointage where pointage.datepointag BETWEEN :datepointage1 AND :datepointage2) AND  p.agent.service.codeservice=:codeservice", nativeQuery = true)
 
-    @Query("SELECT p FROM Pointage p WHERE   (p.datepointage BETWEEN :datepointage1 AND :datepointage2) AND  p.agent.service.codeservice=:codeservice")
-    List<Pointage> listPointageDatesIntervalleByService(@Param("datepointage1") Date datepointage1, @Param("datepointage2") Date datepointage2,@Param("codeservice") int codeservice);
+    @Query("SELECT p FROM Pointage p WHERE   (p.datepointage BETWEEN :datepointage1 AND :datepointage2) OR p.datepointage = :datepointage1  AND  p.agent.service.codeservice=:codeservice")
+    List<Pointage> listPointageDatesIntervalleByService(@Param("datepointage1") LocalDate datepointage1, @Param("datepointage2") LocalDate datepointage2,@Param("codeservice") int codeservice);
 
     //Les agents n'ayant pas pointes par service en fonction d'une date
     @Query(value ="SELECT * FROM agent WHERE codeservice=:codeservice AND (idagent NOT IN (SELECT idagent FROM pointage WHERE datepointage=:datepointage))", nativeQuery = true)
@@ -101,6 +109,6 @@ public interface PointageRepository extends JpaRepository<Pointage, Integer> {
     int systeme();
 
     //Liste pointage en fonction du matricule
-    @Query("SELECT p FROM Pointage p WHERE p.datepointage BETWEEN :datepointage1 AND :datepointage2 AND p.agent.matricule=:matricule")
-    List<Pointage> listPointageAgent(@Param("datepointage1") Date datepointage1, @Param("datepointage2") Date datepointage2, @Param("matricule") String matricule );
+    @Query("SELECT p FROM Pointage p WHERE p.datepointage BETWEEN :datepointage1 AND :datepointage2 OR  p.datepointage = :datepointage1  AND p.agent.matricule=:matricule")
+    List<Pointage> listPointageAgent(@Param("datepointage1") LocalDate datepointage1, @Param("datepointage2") LocalDate datepointage2, @Param("matricule") String matricule );
 }

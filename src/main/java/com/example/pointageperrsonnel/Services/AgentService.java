@@ -2,7 +2,9 @@ package com.example.pointageperrsonnel.Services;
 
 import com.example.pointageperrsonnel.Entity.Agent;
 import com.example.pointageperrsonnel.Entity.Pointage;
+import org.apache.tomcat.jni.Local;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +21,6 @@ public interface AgentService {
     List<Agent> findAllAgent();
 
     // liste agents absents periodique par service
-    List<Agent> listAbsence(Date datepointage1, Date datepointage2,int codeservice);
+    List<Agent> listAbsence(LocalDate datepointage1, LocalDate datepointage2, int codeservice);
 
 }

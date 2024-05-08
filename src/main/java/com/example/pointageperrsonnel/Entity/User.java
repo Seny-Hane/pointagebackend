@@ -42,9 +42,9 @@ public class User {
     @ManyToOne
     private Service service;
 
-//
-//    @JsonIgnoreProperties(value = {"Role"},allowSetters = true)
-//    @ManyToOne
-//    private Role role;
+
+    @JsonIgnoreProperties(value = {"Role"},allowSetters = true)
+    @ManyToOne
+    private Role role;
 
 }

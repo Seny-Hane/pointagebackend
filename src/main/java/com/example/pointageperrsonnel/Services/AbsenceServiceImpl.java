@@ -59,4 +59,10 @@ public class AbsenceServiceImpl implements  AbsenceService{
         }
         return absences;
     }
+
+    @Override
+    public List<Absence> findAllAbsenceByDatesIntervalle(Date datepointage1, Date datepointage2,  String matricule) {
+        return absenceRepository.listAbsenceByAgent(datepointage1, datepointage2, matricule);
+
+    }
 }

@@ -14,10 +14,8 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
 @RestController
 @CrossOrigin("*")
@@ -57,15 +55,18 @@ public class PointageController {
     }
 
     //Liste pointage en fonction de la date
-   @GetMapping(value = "/bydate/{date}")
-    public List<Pointage> listPointageDate(@PathVariable Date date){
-        return pointageRepository.findByDatepointage(date);
+   @GetMapping(value = "/bydate")
+    public List<Pointage> listPointageDate(){
+       LocalDate dateSysteme = LocalDate.now(); // Récupérer la date système
+        return pointageRepository.findByDatepointage(dateSysteme);
     }
-    /* @GetMapping(value = "/bydate/{datepointage}")
-    public List<Pointage> listPointageDate(@PathVariable String datepointage) throws ParseException {
-        Date date= new SimpleDateFormat("dd-MM-yyyy").parse(datepointage);
-        return pointageRepository.findByDatepointage(date);
-    }*/
+     @GetMapping(value = "/bydate/{date}")
+    public List<Pointage> listPointageDate(@PathVariable("date") String datepointage) throws ParseException {
+//LocalDate date= new SimpleDateFormat("dd-MM-yyyy").parse(datepointage);
+        LocalDate date =LocalDate.parse(datepointage);
+         System.out.println("-----------"+date);
+        return pointageRepository.findByDatepoint(date);
+    }
 
    //Liste des pointages par agent d'un service
    @GetMapping(value = "/{datepointage1}/{datepointage2}/agent/{idagent}/{codeservice}")
@@ -116,13 +117,15 @@ public class PointageController {
     }
 
     //Liste pointage perriodique par service
-    @GetMapping(value = "/listeperriodique/{datepointage1}/{datepointage2}/service/{codeservice}")
+    @GetMapping(value = "/listeperriodique/{datepointage1}/{datepointage2}/{codeservice}")
      public  List<Pointage> findAllPointageByDatesIntervalle(@PathVariable String datepointage1, @PathVariable String datepointage2, @PathVariable int codeservice) throws ParseException {
        //List<Agent> agent=agentRepository.findAgentByService(serviceRepository.findById(codeservice).get());
 
-       Date datedebut= new SimpleDateFormat("dd-MM-yyyy").parse(datepointage1);
-       Date datefin= new SimpleDateFormat("dd-MM-yyyy").parse(datepointage2);
+      // Date datedebut= new SimpleDateFormat("dd-MM-yyyy").parse(datepointage1);
+       //Date datefin= new SimpleDateFormat("dd-MM-yyyy").parse(datepointage2);
 
+        LocalDate datedebut =LocalDate.parse(datepointage1);
+        LocalDate datefin =LocalDate.parse(datepointage2);
         return pointageService.findAllPointageByDatesIntervalle(datedebut, datefin, codeservice);
     }
 
@@ -190,10 +193,11 @@ public class PointageController {
     }
 
     @GetMapping(value = "/listPointageDateInvterByService/{datepointage1}/{datepointage2}/{codeservice}")
-    public Collection<Pointage> getListePointageByService(@PathVariable String datepointage1, @PathVariable String datepointage2, @PathVariable int codeservice)throws ParseException{
-        Date datedebut= new SimpleDateFormat("dd-MM-yyyy").parse(datepointage1);
-        Date datefin= new SimpleDateFormat("dd-MM-yyyy").parse(datepointage2);
-
+    public Collection<Pointage> getListePointageByService(@PathVariable String datepointage1, @PathVariable String datepointage2, @PathVariable int codeservice){
+//        Date datedebut= new SimpleDateFormat("dd-MM-yyyy").parse(datepointage1);
+//        Date datefin= new SimpleDateFormat("dd-MM-yyyy").parse(datepointage2);
+        LocalDate datedebut =LocalDate.parse(datepointage1);
+        LocalDate datefin =LocalDate.parse(datepointage2);
 
         return pointageService.listPointageDateIntervallByService(datedebut,datefin,codeservice);
     }
