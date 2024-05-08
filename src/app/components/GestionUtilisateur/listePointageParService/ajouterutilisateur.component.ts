@@ -78,8 +78,8 @@ ngOnInit(): void {
 
     rechercheByService(date1: Date, date2: Date) {
       this.submitted=true
-        this.d1 = this.datepipe.transform(this.date1, 'dd-MM-yyyy');
-        this.d2 = this.datepipe.transform(this.date2, 'dd-MM-yyyy');
+        this.d1 = this.datepipe.transform(this.date1, 'yyyy-MM-dd');
+        this.d2 = this.datepipe.transform(this.date2, 'yyyy-MM-dd');
         console.log(this.d1,this.d2)
 
         if (this.d1 && this.d2){

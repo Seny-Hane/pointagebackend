@@ -1,13 +1,14 @@
 <div class="card">
+    <p-toast [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'1000ms'" [hideTransitionOptions]="'1000ms'" [showTransformOptions]="'translateX(100%)'"></p-toast>
     <div class="p-fluid grid formgrid">
         <div class="field col-3 md:col-3">
             <h5>Date Début</h5>
-            <p-calendar appendTo="body" [(ngModel)]="date1" dateFormat="dd/mm/yy" id="date1"  required [ngClass]="{'ng-invalid ng-dirty' : submitted && !date1}"></p-calendar>
+            <p-calendar appendTo="body" [(ngModel)]="date1" dateFormat="yy/mm/dd" id="date1"  required [ngClass]="{'ng-invalid ng-dirty' : submitted && !date1}"></p-calendar>
             <small *ngIf="submitted && !date1" class="p-error">Renseignez la date de début.</small>
         </div>
         <div class="field col-3 md:col-3">
             <h5>Date Fin</h5>
-            <p-calendar appendTo="body" [(ngModel)]="date2" dateFormat="dd/mm/yy" id="date2"  required [ngClass]="{'ng-invalid ng-dirty' : submitted && !date2}"></p-calendar>
+            <p-calendar appendTo="body" [(ngModel)]="date2" dateFormat="yy/mm/dd" id="date2"  required [ngClass]="{'ng-invalid ng-dirty' : submitted && !date2}"></p-calendar>
             <small *ngIf="submitted && !date2" class="p-error">Renseignez la date de fin.</small>
         </div>
         <div class="field col-3 md:col-3">
@@ -78,7 +79,7 @@
                         <th pSortableColumn="heurearrivee">Arrivée<p-sortIcon field="heurearrivee"></p-sortIcon></th>
                         <th pSortableColumn="heuredescente">Descente<p-sortIcon field="heuresortie"></p-sortIcon></th>
                         <th pSortableColumn="cumulheure">Cumul<p-sortIcon field="cumulheure"></p-sortIcon></th>
-                        <th pSortableColumn="motif.motif">Status <p-sortIcon field="motif.motif"></p-sortIcon></th>
+<!--                        <th pSortableColumn="motif.motif">Status <p-sortIcon field="motif.motif"></p-sortIcon></th>-->
                         <th></th>
                     </tr>
                     <tr *ngIf="currentService">
@@ -89,7 +90,7 @@
                         <th pSortableColumn="heurearrivee">Arrivée<p-sortIcon field="heurearrivee"></p-sortIcon></th>
                         <th pSortableColumn="heuredescente">Descente<p-sortIcon field="heuresortie"></p-sortIcon></th>
                         <th pSortableColumn="cumulheure">Cumul<p-sortIcon field="cumulheure"></p-sortIcon></th>
-                        <th pSortableColumn="motif.motif">Status<p-sortIcon field="motif.motif"></p-sortIcon></th>
+<!--                        <th pSortableColumn="motif.motif">Status<p-sortIcon field="motif.motif"></p-sortIcon></th>-->
                         <th></th>
                     </tr>
                 </ng-template>
@@ -126,10 +127,10 @@
                             <span class="p-column-title">Cumul heure</span>
                             {{pointage.cumulheure}}
                         </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">Status</span>
-                            {{pointage.motif.motif}}
-                        </td>
+<!--                        <td style="width:14%; min-width:10rem;">-->
+<!--                            <span class="p-column-title">Status</span>-->
+<!--                            {{pointage.motif.motif}}-->
+<!--                        </td>-->
                 </ng-template>
                 <ng-template *ngIf="currentService" pTemplate="body" let-pointage>
                     <tr>
@@ -164,10 +165,10 @@
                             <span class="p-column-title">Cumul heure</span>
                             {{pointage.cumulheure}}
                         </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">Status</span>
-                            {{pointage.motif.motif}}
-                        </td>
+<!--                        <td style="width:14%; min-width:10rem;">-->
+<!--                            <span class="p-column-title">Status</span>-->
+<!--                            {{pointage.motif.motif}}-->
+<!--                        </td>-->
                 </ng-template>
             </p-table>
         </div>

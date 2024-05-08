@@ -77,7 +77,7 @@ export class ListPointageComponent implements OnInit {
     getListPointageByDate(date1: Date) {
 
         let formatted_date = this.date1.getDate() + "-" + (this.date1.getMonth() + 1) + "-" + this.date1.getFullYear()
-        this.pointageService.getPointageByDate(formatted_date).subscribe(data => {
+        this.pointageService.getPointageByDate().subscribe(data => {
             this.pointages = data;
             this.pointages.sort((a,b) => b.idpointage - a.idpointage);
             if( data.length == 0) {

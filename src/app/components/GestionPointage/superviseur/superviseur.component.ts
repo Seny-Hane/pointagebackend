@@ -8,6 +8,7 @@ import {KeycloakService} from "keycloak-angular";
 import {AgentService} from "../../../service/agent.service";
 import {Agent} from "../../../models/agent.model";
 import { DatePipe } from '@angular/common';
+import {UserService} from "../../../service/user.service";
 
 @Component({
   selector: 'app-superviseur',
@@ -34,6 +35,8 @@ export class SuperviseurComponent implements OnInit {
     tourner:boolean;
     erreur:boolean;
     today: string;
+    users: any;
+    username: any;
     todayWithPipe = null;
     pipe = new DatePipe('en-US');
 
@@ -42,7 +45,27 @@ export class SuperviseurComponent implements OnInit {
                 private messageService: MessageService,
                 private router : Router,
                 private agentService : AgentService,
-                private keycloak: KeycloakService) { }
+                public keycloak: KeycloakService,
+                public userService: UserService) {
+        this.keycloak.loadUserProfile().then( res =>
+        {
+            // console.log(res);
+            this.users = res;
+            this.username= res.email;
+            console.log(res.username);
+            this.getUser(this.username);
+        });
+
+    }
+    public getUser(username){
+        // console.log(username);
+        return this.userService.getUserByUsername(username).subscribe(data =>
+        {
+            // console.log(data);
+            this.users = data;
+            console.log(this.users);
+        })
+    }
 
     ngOnInit(): void {
 
@@ -54,7 +77,7 @@ export class SuperviseurComponent implements OnInit {
             this.getAllPointage()
         })
         //console.log(this.keycloak.getKeycloakInstance().profile.username)
-        this.agentService.getAgentByMatricule(this.keycloak.getKeycloakInstance().profile.username).subscribe(
+        this.agentService.getAgentByMatricule(this.users.matricule).subscribe(
             (data)=>{
                 this.agent=data;
                 console.log(this.agent)
@@ -71,7 +94,7 @@ export class SuperviseurComponent implements OnInit {
                 this.pointages = data;
                 this.tourner=false;
                 this.erreur=false;
-                this.pointages = this.pointages.filter(use => use.agent.service.codeservice === this.agent.service.codeservice);
+                this.pointages = this.pointages.filter(use => use?.agent?.service?.codeservice === this.users?.service.codeservice);
                 this.pointages.sort((a,b) => b.idpointage - a.idpointage);
                 // this.pointageSubject.next()
                 // this.pointages.forEach(element => {
@@ -92,13 +115,13 @@ export class SuperviseurComponent implements OnInit {
     }
 
     getListPointageByDate(date1: Date) {
-        this.tourner=true;
-        let formatted_date = this.date1.getDate() + "-" + (this.date1.getMonth() + 1) + "-" + this.date1.getFullYear()
-        this.pointageService.getPointageByDate(formatted_date).subscribe(data => {
+   //     this.tourner=true;
+       // let formatted_date = this.date1.getDate() + "-" + (this.date1.getMonth() + 1) + "-" + this.date1.getFullYear()
+        this.pointageService.getPointageByDate().subscribe(data => {
             this.pointages = data;
             this.tourner=false;
             this.erreur=false;
-            this.pointages = this.pointages.filter(use => use.agent.service.codeservice === this.agent.service.codeservice);
+            this.pointages = this.pointages.filter(use => use.agent.service.codeservice === this.users?.service.codeservice);
             this.pointages.sort((a,b) => b.idpointage - a.idpointage);
             if( data.length == 0) {
                 this.messageService.add({severity: 'erreur', summary: 'Erreur', detail: "absence de données à la date choisie", life: 8000});
@@ -115,7 +138,7 @@ export class SuperviseurComponent implements OnInit {
     }
 
     getList_PointageByDate() {
-        this.pointageService.getPointageByDate(this.today).subscribe(data => {
+        this.pointageService.getPointageByDate().subscribe(data => {
             this.pointages = data;
             this.pointages.sort((a,b) => b.idpointage - a.idpointage);
             if( data.length == 0) {

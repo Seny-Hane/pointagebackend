@@ -110,8 +110,11 @@ export class AbsencePeriodiqueParServiceComponent implements OnInit {
         this.submitted=true;
         this.tourner=true;
         this.erreur=true;
-        this.absenceService.getAbsencesPeriodiqueParInterDate(this.datepipe.transform(this.date1, 'yyyy-MM-dd'),this.datepipe.transform(this.date2, 'yyyy-MM-dd'),currentService.codeservice).subscribe(data => {
+        console.log(currentService)
+        this.absenceService.getAbsencesPeriodiqueParInterDate(this.datepipe.transform(this.date1, 'yyyy-MM-dd'),this.datepipe.transform(this.date2, 'yyyy-MM-dd'),currentService?.codeservice).subscribe(data => {
             this.results = data;
+            this.results = this.results.filter(use => use.service?.codeservice === currentService?.codeservice);
+
             console.log(this.results);
             this.tourner=false;
             this.erreur=false;

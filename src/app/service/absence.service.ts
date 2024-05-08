@@ -29,6 +29,11 @@ export class AbsenceService {
 
     }
 
+    getAllAbsByMat(matricule: string){
+        return this.http.get<Absence[]>(environment.apiUrl+'/absence/listAgentAbsByMatricule/'+matricule);
+
+    }
+
     public getAbsencesPeriodiqueParAgent(date1: string, date2: string, matricule: any) : Observable<Absence[]> {
         //debugger
         return this.http.get<Absence[]>(environment.apiUrl+'/absence/listAbsentsPerriodiqByAgent/'+date1+'/'+date2+'/'+matricule);
