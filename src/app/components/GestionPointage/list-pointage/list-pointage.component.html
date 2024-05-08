@@ -10,6 +10,10 @@
         <div class="card">
             <p-toast></p-toast>
             <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="right">
+                    <button pButton pRipple label="Export excel" icon="pi pi-upload" class="mr-2 inline-block" (click)="exportAsXLSX(result)"></button>
+                    <button pButton pRipple label="Export PDF" icon="pi pi-upload" class="p-button-success mr-2" (click)="exportPDF(result)" ></button>
+                </ng-template>
                 <ng-template pTemplate="left">
                     <div class="my-2">
                             <p-calendar inputId="icon" showIcon="true" dateFormat="dd-mm-yy" placeholder="Choisir une date" [(ngModel)]="date1" (onSelect)="getListPointageByDate(date1)"></p-calendar>
