@@ -28,7 +28,8 @@ export class AbsencePeriodiqueComponent implements OnInit {
     erreur:boolean=false;
     disabled:boolean=true;
     tab = [];
-    json= {dateAbsente : null};
+    json= {matricule : null, prenom: null, nom : null,dateAbsente : null};
+    
     date:any;
     cols: any;
     // title = 'PDFGenerator';
@@ -41,6 +42,9 @@ export class AbsencePeriodiqueComponent implements OnInit {
     ngOnInit(): void {
         console.log(this.erreur);
         this.cols= [
+            {field: 'matricule', header: 'matricule'},
+            {field: 'prenom', header: 'prenom'},
+            {field: 'nom', header: 'nom'},
             {field: 'Date(s)Absence', header: 'Date(s)Absence'},
 
 
@@ -57,6 +61,9 @@ export class AbsencePeriodiqueComponent implements OnInit {
 
         for (let i = 0; i<this.result.length; i++){
             console.log(this.result[i]);
+            this.json.matricule = this.result[i].agent.matricule,
+            this.json.prenom = this.result[i].agent.prenomagent,
+            this.json.nom = this.result[i].agent.nomagent,
             this.json.dateAbsente=this.datepipe.transform(this.result[i], 'dd-MM-yyyy');
             console.log(this.json.dateAbsente);
             this.tab.push({...this.json});
@@ -98,7 +105,11 @@ export class AbsencePeriodiqueComponent implements OnInit {
         const pdf = new jsPDF();
         this.tab=[];
         for (let i = 0; i< this.result.length; i++){
-            this.json.dateAbsente=this.datepipe.transform(this.result[i], 'dd-MM-yyyy');
+           
+                this.json.prenom = this.result[i].agent.prenomagent,
+                this.json.nom = this.result[i].agent.nomagent,
+                this.json.matricule = this.result[i].agent.matricule,
+             this.json.dateAbsente=this.datepipe.transform(this.result[i], 'dd-MM-yyyy');
 
             this.tab.push({...this.json});
             console.log(this.tab);
