@@ -10,7 +10,7 @@ public interface UserService {
 
   public User findByEmail(String email);
 
-    public List<UserDTO> getAllUsers();
+    public List<User> getAllUsers();
 
     public UserDTO saveuser(UserDTO userDTO);
 
@@ -19,9 +19,11 @@ public interface UserService {
     UserDTO  getUserById(long userId) ;
 
 
-    UserDTO updateUser(int userId,UserDTO userDTO);
+   // UserDTO updateUser(int userId,User user);
+  User updateUser(User user);
 
-    List<User> getUserByServiceCodeservice(int serviceCodeservice);
+
+  List<User> getUserByServiceCodeservice(int serviceCodeservice);
 
     public User findUserByEmail(String email);
 

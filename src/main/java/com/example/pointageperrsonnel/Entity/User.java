@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -29,22 +31,23 @@ public class User {
     @Column(unique = true)
     private String matricule;
     private boolean isEnable;
-
-    /* @JsonIgnoreProperties(value={"users"},allowSetters = true)
+//
+     @JsonIgnoreProperties(value={"users"},allowSetters = true)
     @ManyToMany
     @JoinTable( name = "Users_Roles_Associations",
             joinColumns = @JoinColumn( name = "id_user" ),
             inverseJoinColumns = @JoinColumn( name = "id_role" ) )
-    private List<Role> roles = new ArrayList<>();*/
+    private List<Role> roles = new ArrayList<>();
+
+//    @JsonIgnoreProperties(value = {"Role"},allowSetters = true)
+//    @ManyToOne
+//    private Role role;
 
     // @JsonManagedReference
-    @JsonIgnoreProperties(value = {"Service"},allowSetters = true)
+    @JsonIgnoreProperties(value = {"drp","typeService"},allowSetters = true)
     @ManyToOne
     private Service service;
 
 
-    @JsonIgnoreProperties(value = {"Role"},allowSetters = true)
-    @ManyToOne
-    private Role role;
 
 }

@@ -56,20 +56,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> getAllUsers() {
-        List<UserDTO> users = new ArrayList<UserDTO>();
+    public List<User> getAllUsers() {
+        List<User> users = new ArrayList<User>();
         List<User> allUsers = userRepository.findAll();
-        /*for (User user : allUsers){
+        for (User user : allUsers){
             if (user.isEnable()){
                 users.add(user);
             }
-        }*/
-//        System.out.println(allUsers.size());
-//        return allUsers;
+        }
+       System.out.println(allUsers.size());
+       return allUsers;
 
-        List<UserDTO> userDTOS = allUsers.stream().map(user -> userMapper.mapToUserDto(user))
-                .collect(Collectors.toList());
-        return  userDTOS;
+
+
     }
 
     @Override
@@ -78,9 +77,9 @@ public class UserServiceImpl implements UserService {
        // Role role = roleRepository.getById(userDTO.getRole());
       //  user.setRole(role);
         com.example.pointageperrsonnel.Entity.Service service = serviceRepository.getById(userDTO.getService().getCodeservice());
-        Role role= roleRepository.getById(userDTO.getRole().getId());
+        Role role= roleRepository.getById(userDTO.getId());
         user.setService(service);
-        user.setRole(role);
+       // user.setRoles((userDTO.get role);
         user.setNom(userDTO.getNom());
         user.setEmail(userDTO.getEmail());
         user.setPrenom(userDTO.getPrenom());
@@ -131,33 +130,38 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-
-
     @Override
-    public UserDTO updateUser(int userId,UserDTO userDTO) {
-       // User user = userMapper.mapToUser(userDTO);
-        com.example.pointageperrsonnel.Entity.Service service = serviceRepository.getById(userDTO.getService().getCodeservice());
-
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
-            User user1=user.get();
-            user1.setService(service);
-            user1.setNom(userDTO.getNom());
-            user1.setEmail(userDTO.getEmail());
-            user1.setPrenom(userDTO.getPrenom());
-            user1.setMatricule(userDTO.getMatricule());
-            user1.setReference(userDTO.getReference());
-            user1.setTelephone(userDTO.getTelephone());
-            user1.setEnable(userDTO.isEnable());
-
-
-            User saved = userRepository.save(user1);
-            return userMapper.mapToUserDto(saved);
-        }else {
-            throw new EntityNotFoundException("Objet non trouvé avec l'ID : " + userId);
-
-        }
+    public User updateUser(User user) {
+        return userRepository.save(user);
     }
+
+
+//    @Override
+//    public User updateUser(int userId,User user) {
+//       // User user = userMapper.mapToUser(userDTO);
+//        com.example.pointageperrsonnel.Entity.Service service = serviceRepository.getById(user.getService().getCodeservice());
+//
+//        Optional<User> user2 = userRepository.findById(userId);
+//        if (user2.isPresent()) {
+//            User user1= user2.get();
+//            user1.setService(service);
+//            user1.setNom(user.getNom());
+//            user1.setEmail(user.getEmail());
+//            user1.setPrenom(user.getPrenom());
+//            user1.setMatricule(user.getMatricule());
+//            user1.setReference(user.getReference());
+//            user1.setTelephone(user.getTelephone());
+//            user1.setEnable(user.isEnable());
+//
+//
+//            User saved = userRepository.save(user1);
+//          //  return userMapper.mapToUserDto(saved);
+//            return saved;
+//        }else {
+//            throw new EntityNotFoundException("Objet non trouvé avec l'ID : " + userId);
+//
+//        }
+//    }
 
     public List<User> getUserByServiceCodeservice(int serviceCodeservice) {
         List<User> users = new ArrayList<User>();

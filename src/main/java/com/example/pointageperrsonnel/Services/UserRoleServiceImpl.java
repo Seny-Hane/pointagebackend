@@ -1,12 +1,17 @@
 package com.example.pointageperrsonnel.Services;
 
 import com.example.pointageperrsonnel.Entity.Role;
+import com.example.pointageperrsonnel.Entity.User;
 import com.example.pointageperrsonnel.Entity.UserRole;
+import com.example.pointageperrsonnel.KeycloakSecurity.KeyCloakService;
 import com.example.pointageperrsonnel.Repository.RoleRepository;
 import com.example.pointageperrsonnel.Repository.UserRepository;
 import com.example.pointageperrsonnel.Repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -21,6 +26,8 @@ public class UserRoleServiceImpl implements UserRoleService{
     @Autowired
     UserRoleRepository userRoleRepository;
 
+    @Autowired
+    KeyCloakService keyCloakService;
     @Override
     public void affectRoleToUser(UserRole userRole) {
     }
@@ -51,17 +58,79 @@ public class UserRoleServiceImpl implements UserRoleService{
 
     @Override
     public void deleteGroupRoleToUser(List<UserRole> userRoles) {
+        int size = userRoles.size();
+        int counter = 0;
+
+        List<UserRole> temp = new ArrayList<>();
+
+        for (UserRole emp : userRoles) {
+            temp.add(emp);
+
+            if ((counter + 1) % 500 == 0 || (counter + 1) == size) {
+                for (UserRole tempEmp : temp) {
+                    String username = tempEmp.getUser().getEmail();
+                    String roleName = tempEmp.getRole().getAuthority();
+                    keyCloakService.removeRealmRoleToUser(username, roleName);
+                }
+                userRoleRepository.deleteAll(temp);
+                temp.clear();
+            }
+            counter++;
+        }
+
 
     }
 
     @Override
-    public void deleteGroupRoleToUser2(int user, List<Role> roles) {
+    public void deleteGroupRoleToUser2(int idUser, List<Role> roles) {
+        int size = roles.size();
+        int counter = 1;
+        User user1 = userRepository.findById(idUser).get();
+        List<UserRole> userRoleList = new ArrayList<>();
+
+        for (Role role : roles) {
+            UserRole userRole = new UserRole(user1,role);
+            userRoleList.add(userRole);
+
+            if (counter == size) {
+                for (UserRole user_role : userRoleList) {
+                    String username = user_role.getUser().getEmail();
+                    String roleName = user_role.getRole().getAuthority();
+                    keyCloakService.removeRealmRoleToUser(username, roleName);
+                }
+                userRoleRepository.deleteAll(userRoleList);
+                userRoleList.clear();
+            }
+            counter++;
+        }
 
     }
 
     @Override
-    public String affectGroupRoleToUser2(int user, List<Role> roles) {
-        return null;
+    public String affectGroupRoleToUser2(int idUser, List<Role> roles) {
+        String message = null;
+        int size = roles.size();
+        int counter = 1;
+        List<UserRole> userRoleList = new ArrayList<>();
+        User user1 = userRepository.findById(idUser).get();
+        for (Role role : roles) {
+            UserRole userRole = new UserRole(user1,role,new Date());
+           // if (this.findUserRoleByRoleReceveur(userRole)){
+                userRoleList.add(userRole);
+                if (counter == size) {
+                    if (userRoleRepository.saveAll(userRoleList)!=null){
+                        for (UserRole user_role : userRoleList) {
+                            String username = user_role.getUser().getEmail();
+                            String roleName = user_role.getRole().getAuthority();
+                            keyCloakService.addRealmRoleToUser(username, roleName);
+                        }
+                    }
+                    userRoleList.clear();
+                }
+                counter++;
+          //  }
+        }
+        return message;
     }
 
     @Override

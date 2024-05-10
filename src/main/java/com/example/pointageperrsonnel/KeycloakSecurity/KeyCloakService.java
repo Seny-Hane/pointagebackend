@@ -24,7 +24,7 @@ public class KeyCloakService {
 
     UserMapper userMapper;
 
-    public boolean addUser(UserDTO userDTO){
+    public boolean addUser1(UserDTO userDTO){
         System.out.println(userDTO.toString());
         boolean result = false;
         CredentialRepresentation credential = Credentials
@@ -46,6 +46,32 @@ public class KeyCloakService {
         /*if (instance.create(newUser)!=null){
             result = true;
         }*/
+
+        return true;
+    }
+    public boolean addUser(User user){
+        System.out.println(user.toString());
+        boolean result = false;
+        CredentialRepresentation credential = Credentials
+                .createPasswordCredentials("1234");
+        UserRepresentation newUser = new UserRepresentation();
+        newUser.setUsername(user.getEmail());
+        newUser.setFirstName(user.getPrenom());
+        newUser.setLastName(user.getNom());
+        newUser.setEmail(user.getEmail());
+        newUser.setCredentials(Collections.singletonList(credential));
+        newUser.setEnabled(user.isEnable());
+        newUser.setRequiredActions(Collections.singletonList("UPDATE_PASSWORD"));
+        System.out.println(newUser.toString());
+
+
+
+        UsersResource instance = getInstance();
+        instance.create(newUser);
+        /*if (instance.create(newUser)!=null){
+            result = true;
+        }*/
+
 
         return true;
     }
@@ -93,9 +119,9 @@ public class KeyCloakService {
         return user;
     }
 
-    public void updateUser(String userId, UserDTO  userDTO){
+    public void updateUser(String userId, User  user){
         UserRepresentation newUser = new UserRepresentation();
-        User user =  userMapper.mapToUser(userDTO);
+       // User user =  userMapper.mapToUser(userDTO);
         newUser.setUsername(user.getEmail());
         newUser.setFirstName(user.getPrenom());
         newUser.setLastName(user.getNom());
@@ -151,8 +177,31 @@ public class KeyCloakService {
 
 
 
-    private void addRealmRoleToUser(String username, String roleName) {}
-
+    /**
+     * méthode pour ajouter un rôle client spécifié par son nom à un utilisateur spécifié par un nom d'utilisateur
+     * @param userName
+     * @param role_name
+     */
+    public void addRealmRoleToUser(String userName, String role_name){
+        String userId = KeycloakConfig.getInstance()
+                .realm(realm)
+                .users()
+                .search(userName)
+                .get(0)
+                .getId();
+        UserResource user = KeycloakConfig.getInstance()
+                .realm(realm)
+                .users()
+                .get(userId);
+        List<RoleRepresentation> roleToAdd = new LinkedList<>();
+        roleToAdd.add(KeycloakConfig.getInstance()
+                .realm(realm)
+                .roles()
+                .get(role_name)
+                .toRepresentation()
+        );
+        user.roles().realmLevel().add(roleToAdd);
+    }
     public List<String> getAllRoles(){
         List<String> availableRoles = KeycloakConfig.getInstance()
                 .realm(realm)
@@ -231,7 +280,7 @@ public class KeyCloakService {
      * méthode pour supprimer un rôle client spécifié par son nom à un utilisateur spécifié par un nom d'utilisateur
      * @param userName
      * @param role_name
-     *//*
+     */
     public void removeRealmRoleToUser(String userName, String role_name){
         String userId = KeycloakConfig.getInstance()
                 .realm(realm)
@@ -253,7 +302,7 @@ public class KeyCloakService {
         user.roles().realmLevel().remove(roleToAdd);
     }
 
-
+/*
     public String getUserIdKeycloak(String userName){
         String userId = KeycloakConfig.getInstance()
                 .realm(realm)
@@ -262,7 +311,7 @@ public class KeyCloakService {
                 .get(0)
                 .getId();
         return userId;
-    }*/
-
+    }
+*/
 
 }

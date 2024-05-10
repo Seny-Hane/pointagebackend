@@ -40,6 +40,7 @@ public class UserRoleController {
 
     @PostMapping(value = "/affectGroupRoleToUser/{idUser}")
     public String affectGroupRoleToUser2(@PathVariable int idUser, @RequestBody List<Role> userRoles){
+
         return userRoleService.affectGroupRoleToUser2(idUser, userRoles);
     }
 

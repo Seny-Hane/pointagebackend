@@ -22,11 +22,11 @@ public class KeycloakController {
         return "Users Added Successfully.";
     }*/
 
-    /*@PostMapping
-    public String addListUser(@RequestBody User user){
-        service.addUser(user);
-        return "User Added Successfully.";
-    }*/
+//    @PostMapping
+//    public String addListUser(@RequestBody User user){
+//        service.addUser(user);
+//        return "User Added Successfully.";
+//    }
 
     @GetMapping(path = "/{userName}")
     public List<UserRepresentation> getUser(@PathVariable("userName") String userName){
@@ -41,8 +41,8 @@ public class KeycloakController {
     }
 
     @PutMapping(path = "/update/{userId}")
-    public String updateUser(@PathVariable("userId") String userId, @RequestBody UserDTO userDTO){
-        service.updateUser(userId, userDTO);
+    public String updateUser(@PathVariable("userId") String userId, @RequestBody User user){
+        service.updateUser(userId, user);
         return "User Details Updated Successfully.";
     }
 
