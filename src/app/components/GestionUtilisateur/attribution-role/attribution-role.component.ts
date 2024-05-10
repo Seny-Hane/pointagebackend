@@ -17,6 +17,8 @@ import {ExcelService} from "../../../service/excel.service";
 // import {Service} from "../../../models/service.model";
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import {Router} from "@angular/router";
+import {Sauvegarde} from "../../GestionAgent/modifier-motif/Sauvegarde";
 
 @Component({
   selector: 'app-attribution-role',
@@ -33,7 +35,7 @@ export class AttributionRoleComponent implements OnInit {
 
 
     cities: any[];
-    
+
     deleteProductDialog: boolean = false;
 
     deleteProductsDialog: boolean = false;
@@ -115,7 +117,7 @@ export class AttributionRoleComponent implements OnInit {
 
     constructor(private http: HttpClient,private productService: ProductService, private messageService: MessageService,
                 private userService: UserService, private roleService : RoleService, private serviceServices: ServicesService,
-                public excelService: ExcelService, ){}
+                public excelService: ExcelService,private router: Router,public sauvegarde: Sauvegarde ){}
 
     ngOnInit() {
         this.usere=[];
@@ -158,7 +160,15 @@ export class AttributionRoleComponent implements OnInit {
             // {field: 'etat', header: 'etat'}
           ];
     }
-   
+
+
+    nextPage(utilisateur: Users) {
+        this.utilisateur = {...utilisateur};
+        this.sauvegarde.Users_Information = this.utilisateur;
+        console.log(this.sauvegarde.Users_Information);
+        console.log(this.utilisateur);
+        this.router.navigate(['gestion/role']   );
+    }
 
 
     // haveAllFonction() {
@@ -481,7 +491,7 @@ export class AttributionRoleComponent implements OnInit {
             if(country.authority.toLowerCase().indexOf(query.toLowerCase()) ==0){
                 filtered.push(country);
             }
-                
+
 
         }
 
@@ -518,14 +528,14 @@ export class AttributionRoleComponent implements OnInit {
             this.json.telephone= this.user[i].telephone,
             this.json.reference= this.user[i].reference,
             // this.json.etat= this.result[i].enable,
-  
+
             this.tab.push({...this.json});
             // console.log(this.result[i].utilisateur.matricule)
         }
         this.excelService.exportAsExcelFile(this.tab);
          console.log(this.tab)
     }
-   
+
     exportPDF(user){
         this.tab=[];
         console.log(this.user)
@@ -539,14 +549,14 @@ export class AttributionRoleComponent implements OnInit {
                 reference: this.user[i].reference,
                 // etat: this.result[i].enable,
             };
-  
+
             this.tab.push({...tb});
             console.log(this.tab)
         }
         const colums= this.cols.map(col => col.field);
         const data = this.tab.map(row => colums.map(col => row[col]));
         console.log(data)
-        
+
         const doc = new jsPDF();
 
         const texte = "Liste des utilisateur:  "+ this.currentService?.service.nomservice;
@@ -555,7 +565,7 @@ export class AttributionRoleComponent implements OnInit {
         const logoImg = new Image();
         logoImg.src = 'assets/layout/images/logoPoste.png';
         doc.addImage(logoImg, 'PNG', 15, 15, 14, 14);
-        
+
         autoTable(doc,{
             head: [colums],
             body: data,

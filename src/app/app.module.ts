@@ -132,6 +132,8 @@ import { UtilisateursComponent } from './components/GestionUtilisateur/utilisate
 import { AjouterutilisateurComponent } from './components/GestionUtilisateur/listePointageParService/ajouterutilisateur.component';
 import { ListAbsenceComponent } from './components/GestionAgent/list-absence/list-absence.component';
 import { ListAbsenceParAgentComponent } from './components/GestionAgent/list-absence-par-agent/list-absence-par-agent.component';
+import { ListGlobalAbsenceComponent } from './components/GestionAgent/list-global-absence/list-global-absence.component';
+import { ModifierMotifComponent } from './components/GestionAgent/modifier-motif/modifier-motif.component';
 
 
 @NgModule({
@@ -263,6 +265,8 @@ import { ListAbsenceParAgentComponent } from './components/GestionAgent/list-abs
         AjouterutilisateurComponent,
         ListAbsenceComponent,
         ListAbsenceParAgentComponent,
+        ListGlobalAbsenceComponent,
+        ModifierMotifComponent,
 
 
     ],

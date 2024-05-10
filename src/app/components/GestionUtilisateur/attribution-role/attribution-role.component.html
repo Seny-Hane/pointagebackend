@@ -10,7 +10,7 @@
 <!--                        <button pButton pRipple label="Management Fonction" icon="pi pi-plus" class="p-button-primary mr-2" (click)="openNewF()"></button>-->
                     </div>
                 </ng-template>
-               
+
                 <ng-template pTemplate="right">
 
                     <button pButton pRipple label="Export PDF" icon="pi pi-upload" class="p-button-help mr-2 " (click)="exportPDF(user)"></button>
@@ -31,17 +31,17 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th style="width: 3rem">
+                        <th style="width: 1rem">
                         </th>
                         <th pSortableColumn="nom">Nom <p-sortIcon field="nom"></p-sortIcon></th>
                         <th pSortableColumn="prenom">Prenom <p-sortIcon field="prenom"></p-sortIcon></th>
                         <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
                         <th pSortableColumn="matricule">Matricule <p-sortIcon field="matricule"></p-sortIcon></th>
-                        <th pSortableColumn="telephone">Telephone <p-sortIcon field="telephone"></p-sortIcon></th>
-                        <th pSortableColumn="reference">Reference <p-sortIcon field="reference"></p-sortIcon></th>
+                        <th pSortableColumn="Service">Service" <p-sortIcon field="telephone"></p-sortIcon></th>
+                        <th pSortableColumn="Role">Role <p-sortIcon field="reference"></p-sortIcon></th>
 <!--                        <th pSortableColumn="structure">Structure <p-sortIcon field="structure"></p-sortIcon></th>-->
                         <th pSortableColumn="structure">Etat <p-sortIcon field="etat"></p-sortIcon></th>
-                        <th></th>
+                        <th>Action</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -65,15 +65,25 @@
                             <span class="p-column-title">Matricule</span>                            {{utilisateur.matricule}}
                         </td>
                         <td style="min-width:10rem;">
-                            <span class="p-column-title">Telephone</span>
-                            {{utilisateur.telephone}}
+                            <span class="p-column-title">Service</span>
+                            {{utilisateur.service.nomservice}}
                         </td>
+<!--                        <td style="min-width:10rem;">-->
+<!--                            <span class="p-column-title">Telephone</span>-->
+<!--                            {{utilisateur.telephone}}-->
+<!--                        </td>-->
 
+<!--                        <td style="min-width:10rem;">-->
+<!--                            <span class="p-column-title">Reference</span>-->
+<!--                            {{utilisateur.reference}}-->
+<!--                        </td>-->
                         <td style="min-width:10rem;">
-                            <span class="p-column-title">Reference</span>
-                            {{utilisateur.reference}}
-                        </td>
+                            <span class="p-column-title">Role</span>
+                            <span *ngFor="let ro of utilisateur.roles">
+                                        {{ro.description}}, &nbsp;
 
+                            </span>
+                        </td>
                         <td style="min-width:10rem;">
                             <p-badge *ngIf="utilisateur.enable!=true"  class="user"  value=" Inactif" size="large" severity="danger"></p-badge>
                             <p-badge *ngIf="utilisateur.enable==true" class="user"  value="Actif" size="large" severity="success"></p-badge>
@@ -82,12 +92,12 @@
                         <td>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-primary mr-2" (click)="editUser(utilisateur)"></button>
+                                <button pButton pRipple icon="pi pi-search" class="p-button-rounded p-button-success mr-2 mb-2" (click)="nextPage(utilisateur)"></button>
+
                             </div>
-                        </td>
-                        <td>
-<!--                            <div class="flex">-->
-<!--                                <button pButton pRipple icon="pi pi-bookmark" class="p-button-rounded p-button-secondary mr-2 mb-2" (click)="editStru(utilisateur)" pTooltip="Modifier Structures et Fonctions"></button>-->
-<!--                            </div>-->
+
+
+
                         </td>
                     </tr>
                 </ng-template>
@@ -155,12 +165,12 @@
 <!--                                        [suggestions]="filteredRole" (completeMethod)="filterRoles($event)" field="authority" [dropdown]="true" ></p-autoComplete>-->
 
 <!--                    </div>-->
-                    <div class="field col">
-                        <label>Role</label>
-                        <br>
-                        <p-autoComplete placeholder="Choisir un role" appendTo="body"  [(ngModel)]="utilisateur.role" [size]="2" [virtualScroll]="true"
-                                        [suggestions]="filteredRole" (completeMethod)="filterRoles($event)" field="authority" [dropdown]="true" ></p-autoComplete>
-                    </div>
+<!--                    <div class="field col">-->
+<!--                        <label>Role</label>-->
+<!--                        <br>-->
+<!--                        <p-autoComplete placeholder="Choisir un role" appendTo="body"  [(ngModel)]="utilisateur.role" [size]="2" [virtualScroll]="true"-->
+<!--                                        [suggestions]="filteredRole" (completeMethod)="filterRoles($event)" field="authority" [dropdown]="true" ></p-autoComplete>-->
+<!--                    </div>-->
                 </div>
                 <h5>Etat compte</h5>
                 <p-toggleButton [(ngModel)]="utilisateur.enable" onLabel="Actif" offLabel="Inactif" [style]="{width:'10em'}"></p-toggleButton>

@@ -79,13 +79,13 @@ export class SupervisionPointageComponent implements OnInit {
     }
 
     getListPointageByDate() {
-        this.pointageService.getPointageByDate(this.today).subscribe(data => {
+        this.pointageService.getPointageByDate().subscribe(data => {
             this.pointages = data;
             this.pointages.sort((a,b) => b.idpointage - a.idpointage);
+            console.log(this.pointages)
             if( data.length == 0) {
                 this.messageService.add({severity: 'error', summary: 'Erreur', detail: "absence de données à la date choisie", life: 8000});
                 // alert("absence de données sur la date choisie");
-
             }
         }, error => {
             console.log(error)

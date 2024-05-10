@@ -59,8 +59,10 @@ export class ListAbsenceParAgentComponent implements OnInit {
         this.absenceService.getAbsencesPeriodiqueParAgent(this.datepipe.transform(this.date1, 'yyyy-MM-dd'),
             this.datepipe.transform(this.date2, 'yyyy-MM-dd'), matricule).subscribe(data => {
                 this.result = data
+                this.result = this.result.filter(use => use?.agent?.matricule === matricule);
+
                 console.log(this.result);
-                this.tourner=false;
+               this.tourner=false;
                 this.erreur=false;
             },
             error => {
@@ -112,7 +114,7 @@ export class ListAbsenceParAgentComponent implements OnInit {
         this.submitted = true;
         this.abs.motif = this.justiSelected;
         this.abs.commentaire = this.commentaire;
-       // console.log(this.abs)
+       console.log(this.abs)
             this.absenceService.putAbs(this.abs.id, this.abs).subscribe(
                 (data)=>{
                    this.listAbModi=data;

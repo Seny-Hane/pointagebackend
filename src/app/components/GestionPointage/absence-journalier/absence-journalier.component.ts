@@ -43,12 +43,18 @@ export class AbsenceJournalierComponent implements OnInit {
     motifs: any[];
     filteredmotifs: any;
 
+    currentDate: Date;
+     todayWithPipe: any;
   constructor(public pointagesService: PointageService,
               public datepipe : DatePipe,
               public excelService: ExcelService,
               public agentService : AgentService,
               public service : ServicesService,
-              public motifservice : MotifService,) { }
+              public motifservice : MotifService,) {
+
+      this.currentDate = new Date();
+     // this.datepipe.transform(this.currentDate, 'yyyy-MM-dd')
+  }
 
   ngOnInit(): void {
 
@@ -76,13 +82,13 @@ export class AbsenceJournalierComponent implements OnInit {
     }
 
 
-    rechercheByService(date1: Date, currentService: Service) {
+    rechercheByService( currentService: Service) {
         this.submitted=true;
-        console.log(date1, currentService)
-        if(this.date1){
-            this.truc=""+this.date1;
-
-        }
+       // console.log(date1, currentService)
+       //  if(this.date1){
+       //      this.truc=""+currentService;
+       //
+       //  }
         // if (!currentService){
         //     this.pointagesService.getPointageGlobale(this.datepipe.transform(this.date1, 'dd-MM-yyyy'),this.datepipe.transform(this.date2, 'dd-MM-yyyy')).subscribe(data => {
         //         this.result = data;
@@ -90,17 +96,20 @@ export class AbsenceJournalierComponent implements OnInit {
         //         console.log(error)
         //     })
         // }
-        if(this.truc.trim() ){
+      //  if(this.truc.trim() ){
             // console.log(this.date1, this.date2, this.currentService)
-            this.pointagesService.getAbsenceParDate(currentService.codeservice,this.datepipe.transform(this.date1, 'dd-MM-yyyy')).subscribe(data => {
+            this.pointagesService.getAbsenceParJour(currentService.codeservice).subscribe(data => {
                     this.result = data;
+                    this.result = this.result.filter(use => use.service?.codeservice === currentService?.codeservice);
+
+
                     console.log(data)
 
                 },
                 error =>  {
                     console.log(error)
                 })
-        }
+        //}
         // console.log(date1, date2, currentService)
     }
 

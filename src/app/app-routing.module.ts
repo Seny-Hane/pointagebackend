@@ -23,6 +23,8 @@ import {ListAbsenceComponent} from "./components/GestionAgent/list-absence/list-
 import {
     ListAbsenceParAgentComponent
 } from "./components/GestionAgent/list-absence-par-agent/list-absence-par-agent.component";
+import {ListGlobalAbsenceComponent} from "./components/GestionAgent/list-global-absence/list-global-absence.component";
+import {ModifierMotifComponent} from "./components/GestionAgent/modifier-motif/modifier-motif.component";
 @NgModule({
     imports: [
         RouterModule.forRoot([
@@ -40,22 +42,24 @@ import {
                     {path: 'gestion/listpointage', component: ListPointageComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_DRH']}},
                     {path: 'gestion/supervisionpointage', component: SupervisionPointageComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_SUPERVISEUR']}},
                     {path: 'gestion/superviseur', component: SuperviseurComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_CHEFDESERVICE']}},
-                    {path: 'rapport/rapportpointage', component: RapportPointageComponent, canActivate:[AuthGuard], data: [{roles:['ROLE_SUPERVISEUR']},'ROLE_DRH']},
+                    {path: 'rapport/rapportpointage', component: RapportPointageComponent, canActivate:[AuthGuard], data: [{roles:[ 'ROLE_DRH']},'ROLE_SUPERVISEUR']},
                     {path: 'gestion/absencejournaliere', component: AbsenceJournalierComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_DRH']},'ROLE_CHEFDESERVICE']},
-                    {path: 'rapport/raportpointage', component: RapportPointageComponent, canActivate:[AuthGuard], data: {roles:['ROLE_CHEFDESERVICE']}},
+                   // {path: 'rapport/raportpointage', component: RapportPointageComponent, canActivate:[AuthGuard], data: {roles:['ROLE_CHEFDESERVICE']}},
                     // {path: 'gestion/absencjournaliere', component: AbsenceJournalierComponent, canActivate:[AuthGuard], data: {roles:  [ 'ROLE_CHEFDESERVICE']}},
-                    {path: 'gestion/absenceperiodique', component: AbsencePeriodiqueComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_CHEFDESERVICE']}},
+                    {path: 'gestion/absenceperiodique', component: AbsencePeriodiqueComponent, canActivate:[AuthGuard], data: [{roles: ['ROLE_CHEFDESERVICE']},'ROLE_SUPERVISEUR']},
 
                     // {path: 'gestion/absenceperiodiqueparservice', component: AbsencePeriodiqueParServiceComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_CHEFDESERVICE','ROLE_DRH']}},
                     {path: 'gestion/absenceperiodiqueparservice', component: AbsencePeriodiqueParServiceComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_CHEFDESERVICE']},'ROLE_DRH']},
                 //     {path: 'gestion/attributionroles', loadChildren: () => import('./components/GestionUtilisateur/attribution-role/service.module').then(t => t.serviceModule)},
                      {path: 'gestion/attributionroles', component: AttributionRoleComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_DRH']},'ROLE_AGENT','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE']},
 
-                    {path: 'gestion/servicesPoste', component: ServicesPosteComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_DRH']}},
+                    {path: 'gestion/servicesPoste', component: ServicesPosteComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_DRH']},'ROLE_CHEFDESERVICE']},
                     {path: 'gestion/utilisateur', component: UtilisateursComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_CHEFDESERVICE']}},
                     {path: 'gestion/ListPointageByService', component: AjouterutilisateurComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']},'ROLE_CHEFDESERVICE']},
                     {path: 'gestion/ListAgentAbsByService', component: ListAbsenceComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']},'ROLE_CHEFDESERVICE']},
                     {path: 'gestion/ListAgentAbsByMatricule', component: ListAbsenceParAgentComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']},'ROLE_CHEFDESERVICE']},
+                    {path: 'gestion/AllLiseAbs', component: ListGlobalAbsenceComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']},'ROLE_CHEFDESERVICE']},
+                    {path: 'gestion/role', component: ModifierMotifComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_DRH']}},
 
                 ],
             },

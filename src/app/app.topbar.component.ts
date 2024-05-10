@@ -31,6 +31,7 @@ export class AppTopBarComponent {
             this.username= res.username;
              console.log(res.username);
              console.log(res.email);
+            console.log()
             this.getStructure(this.username);
             this.getUserByEmail(res.email);
         });

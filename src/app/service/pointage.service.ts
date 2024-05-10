@@ -18,12 +18,12 @@ export class PointageService {
         return this.http.get<Pointage[]>(environment.apiUrl+'/pointage/allpointage');
     }
 
-    public getPointageByDate(date: string) : Observable<Pointage[]> {
-        return this.http.get<Pointage[]>(environment.apiUrl+'/pointage/bydate/'+date);
+    public getPointageByDate() : Observable<Pointage[]> {
+        return this.http.get<Pointage[]>(environment.apiUrl+'/pointage/bydate');
     }
 
     public getRapport(date1: string, date2: string, service: any) : Observable<Pointage[]> {
-        return this.http.get<Pointage[]>(environment.apiUrl+'/pointage/listeperriodique/'+date1+'/'+date2+'/service/'+service);
+        return this.http.get<Pointage[]>(environment.apiUrl+'/pointage/listeperriodique/'+date1+'/'+date2+'/'+service);
     }
 
     public controlePointage(matricule : string) : Observable<any> {
@@ -49,7 +49,10 @@ export class PointageService {
 
 
     public getAbsenceParDate(service: any,date1: string) : Observable<Agent[]> {
-        return this.http.get<Agent[]>(environment.apiUrl+'/agent/listagentsAbsents/'+service+'/'+date1);
+        return this.http.get<Agent[]>(environment.apiUrl+'/agent/listagentsAbsentsParJour/'+service+'/'+date1);
+    }
+    public getAbsenceParJour(service: any) : Observable<Agent[]> {
+        return this.http.get<Agent[]>(environment.apiUrl+'/agent/listagentsAbsentsParJour/'+service);
     }
 
     public getPointageGlobale(date1: string, date2: string) : Observable<Pointage[]> {

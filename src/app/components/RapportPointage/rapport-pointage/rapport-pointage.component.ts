@@ -19,6 +19,7 @@ import autoTable from 'jspdf-autotable';
 @Component({
   selector: 'app-rapport-pointage',
   templateUrl: './rapport-pointage.component.html',
+    providers: [MessageService, ConfirmationService],
   styleUrls: ['./rapport-pointage.component.scss']
 })
 export class RapportPointageComponent implements OnInit {
@@ -59,7 +60,7 @@ export class RapportPointageComponent implements OnInit {
               public keycloak: KeycloakService,
               public userService: UserService,
               // public router : Router,
-              // private messageService: MessageService,
+               private messageService: MessageService,
               ) { }
 
   ngOnInit(): void {
@@ -101,13 +102,13 @@ export class RapportPointageComponent implements OnInit {
     getAllService() {
         this.service.getAllService().subscribe( data => {
                 this.services = data;
-                //this.services.sort((a,b) => a.nomservice.localeCompare(b.nomservice));
+                this.services.sort((a,b) => a.nomservice.localeCompare(b.nomservice));
             // },
             // error => {
             //     console.log(error)
              })
 
-        this.ngOnInit()
+
     }
 
     load(index) {
@@ -155,13 +156,19 @@ export class RapportPointageComponent implements OnInit {
             console.log(this.date1, this.date2, this.currentService)
             this.tourner=true;
             this.erreur=true;
-            this.pointagesService.getRapport(this.datepipe.transform(this.date1, 'dd-MM-yyyy'),this.datepipe.transform(this.date2, 'dd-MM-yyyy'),currentService.codeservice).subscribe(data => {
+            this.pointagesService.getRapport(this.datepipe.transform(this.date1, 'yyyy-MM-dd'),this.datepipe.transform(this.date2, 'yyyy-MM-dd'),currentService.codeservice).subscribe(data => {
                     this.result = data;
+                    this.result = this.result.filter(use => use.agent.service.codeservice === this.currentService?.codeservice);
+
                     this.tourner=false;
                     this.erreur=false;
                     console.log(currentService);
                     console.log(this.result)
+                if (this.result==" "){
+                    this.messageService.add({  severity: 'success', summary: 'Success', detail: 'Motif modifié avec success', life: 8000 });
+                }
                     // console.log(data)
+                this.ngOnInit()
                 },
                 error =>  {
                     console.log(error)
