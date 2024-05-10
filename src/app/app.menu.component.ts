@@ -80,6 +80,7 @@ export class AppMenuComponent implements OnInit {
 
 
                     {label: 'Ajouter Utilisateur', icon: 'pi  pi-fw pi-user-plus',routerLink: ['gestion/attributionroles'],roles: this.findRole(['ROLE_DRH'])},
+                    {routerLink: ['gestion/role'],roles: this.findRole(['ROLE_DRH'])},
 
                 ]
             },

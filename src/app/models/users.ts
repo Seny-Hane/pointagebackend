@@ -12,6 +12,6 @@ export class Users {
     telephone?: string;
     matricule?: string;
     service?:any;
-    role?:any;
+    roles?:Roles[];
     enable?:boolean;
 }

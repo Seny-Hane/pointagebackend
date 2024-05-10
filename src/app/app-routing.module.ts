@@ -59,7 +59,7 @@ import {ModifierMotifComponent} from "./components/GestionAgent/modifier-motif/m
                     {path: 'gestion/ListAgentAbsByService', component: ListAbsenceComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']},'ROLE_CHEFDESERVICE']},
                     {path: 'gestion/ListAgentAbsByMatricule', component: ListAbsenceParAgentComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']},'ROLE_CHEFDESERVICE']},
                     {path: 'gestion/AllLiseAbs', component: ListGlobalAbsenceComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']},'ROLE_CHEFDESERVICE']},
-                    {path: 'modifiMotif', component: ModifierMotifComponent},
+                    {path: 'gestion/role', component: ModifierMotifComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_DRH']}},
 
                 ],
             },

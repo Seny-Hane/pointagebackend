@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
 import {Users} from "../models/users";
+import {Roles} from "../models/roles";
 
 @Injectable({
   providedIn: 'root'
@@ -33,13 +34,21 @@ export class UserService {
         return this.http.post<any>(environment.apiUrl +'/user/user1', this.httpOptions)
     }
 
-    updateUser(userId: number,user:Users): Observable<any> {
-        return this.http.post<any>(environment.apiUrl +'/user/user1/'+userId, user, this.httpOptions)
+    updateUser(userId: number,Role:Roles[]): Observable<any> {
+        return this.http.post<any>(environment.apiUrl +'/userRole/affectGroupRoleToUser/'+userId, Role,this.httpOptions)
+    }
+    RemoveRoleToUser(Role:Roles[]): Observable<any> {
+        return this.http.patch<any>(environment.apiUrl +'/userRole/deleteGroupRoleToUser/', Role,this.httpOptions)
     }
 
 
+    // updateUser(userId: number,user:Users): Observable<any> {
+    //     return this.http.put<any>(environment.apiUrl +'/userRole/user1/'+userId, user, this.httpOptions)
+    // }
+
+
     getUserById(id:number):Observable<any> {
-        return this.http.get(environment.apiUrl+'/user/user/'+id);
+        return this.http.get<any>(environment.apiUrl+'/user/user/'+id);
     }
 
 }
