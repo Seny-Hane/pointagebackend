@@ -24,10 +24,7 @@ export class ListPointageComponent implements OnInit {
     selectedPointages: Pointage[];
     pointages: Pointage[];
     pointage : Pointage;
-    agents:Agent[];
-    agent:any
-    selectedService:any;
-    filteredAgents:any;
+    pointagesFiltres: Pointage[];
     pointageSubject = new Subject<void>()
     cols: any[];
     rowsPerPageOptions = [5, 10, 20];
@@ -73,6 +70,8 @@ export class ListPointageComponent implements OnInit {
        ];
 
   }
+  
+
 
   getAllPointage() {
       this.tourner=true;
@@ -160,10 +159,7 @@ export class ListPointageComponent implements OnInit {
         });
         doc.save((this.currentService ? this.currentService.nomservice : "") + 'Liste pointage.pdf');
     }
-    // filterAgentsByService(service: string) {
-    //     this.filteredAgents = this.agents.filter
-    //     (agent => agent.service === selectedService);
-    // }
+   
     exportAsXLSX(result):void {
         this.tab=[];
           for (let i = 0; i < this.result.length; i++) {
