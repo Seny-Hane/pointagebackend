@@ -2,6 +2,8 @@ package com.example.pointageperrsonnel.Controllers;
 
 import com.example.pointageperrsonnel.Entity.Agent;
 import com.example.pointageperrsonnel.Entity.Pointage;
+import com.example.pointageperrsonnel.Entity.Service;
+import com.example.pointageperrsonnel.Entity.enums.Statut_Presence;
 import com.example.pointageperrsonnel.Repository.AgentRepository;
 import com.example.pointageperrsonnel.Repository.MotifRepository;
 import com.example.pointageperrsonnel.Repository.PointageRepository;
@@ -42,9 +44,20 @@ public class PointageController {
       return pointageRepository.findAll();
     }
 
-    //Creation pointage
-    @PostMapping(value = "/savepointage")
-    public Pointage save(@RequestBody Pointage pointage){
+    //Creation pointage for save the form
+    @PostMapping(value = "/{matricule}/{codeservice}")
+    public Pointage save(@PathVariable String matricule,@PathVariable int codeservice) throws Exception{
+        Agent agent = agentRepository.findAgentByMatricule(matricule);
+        Service service = serviceRepository.findServiceByCodeservice(codeservice);
+        agent.setService(service);
+        agent.setStatut_presence(Statut_Presence.PRESENT);
+        Pointage pointage=new Pointage();
+        Date date=new Date();
+        pointage.setDatepointage((LocalDate.now()) );
+        pointage.setHeurearrivee((new Date()));
+        pointage.setHeuredescente(new Date());
+        pointage.setAgent(agent);
+//        pointage.setMotif(motifRepository.findById(1).get());
         return pointageRepository.save(pointage);
     }
 
