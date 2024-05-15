@@ -126,7 +126,7 @@ public class PointageController {
 
         LocalDate datedebut =LocalDate.parse(datepointage1);
         LocalDate datefin =LocalDate.parse(datepointage2);
-        return pointageService.findAllPointageByDatesIntervalle(datedebut, datefin, codeservice);
+        return pointageRepository.findAllPointageByDatesIntervalle(datedebut, datefin, codeservice);
     }
 
 

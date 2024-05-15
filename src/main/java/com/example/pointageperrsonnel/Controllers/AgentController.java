@@ -145,15 +145,16 @@ public class AgentController {
        Date date=new Date();
        pointage.setDatepointage((LocalDate.now()) );
        pointage.setHeurearrivee((new Date()));
+       pointage.setStatut_presence(Statut_Presence.PRESENT);
        //pointage.setHeuredescente(new Date());
        pointage.setAgent(agent);
-       if (5 < date.getHours() && date.getHours() < 19) {
-           pointage.setMotif(motifRepository.findById(1).get());
-       }/*else if(9<date.getHours()&&date.getHours()<14){
-           pointage.setMotif(motifRepository.findById(2).get());
-       } else {
-           pointage.setMotif(motifRepository.findById(3).get());
-       }*/
+//       if (5 < date.getHours() && date.getHours() < 19) {
+//           pointage.setMotif(motifRepository.findById(1).get());
+//       }/*else if(9<date.getHours()&&date.getHours()<14){
+//           pointage.setMotif(motifRepository.findById(2).get());
+//       } else {
+//           pointage.setMotif(motifRepository.findById(3).get());
+//       }*/
        return pointageRepository.save(pointage);
    }
 

@@ -132,8 +132,22 @@ public class KeyCloakService {
         requiredActions.add("UPDATE_PASSWORD");
         newUser.setRequiredActions (requiredActions);
 
+//        UsersResource usersResource = getInstance();
+//        usersResource.get(userId).update(newUser);
+
         UsersResource usersResource = getInstance();
-        usersResource.get(userId).update(newUser);
+        if (usersResource != null) {
+            try {
+                // Met à jour l'utilisateur avec les nouvelles valeurs
+                usersResource.get(userId).update(newUser);
+            } catch (Exception e) {
+                // Gérer toute exception survenue lors de la mise à jour de l'utilisateur
+                e.printStackTrace(); // Vous pouvez logger ou gérer différemment cette exception
+            }
+        } else {
+            // Gérer le cas où l'instance de UsersResource est nulle
+            throw new IllegalStateException("UsersResource instance is null");
+        }
     }
 
     public void deleteUser(String userId){
@@ -182,26 +196,52 @@ public class KeyCloakService {
      * @param userName
      * @param role_name
      */
-    public void addRealmRoleToUser(String userName, String role_name){
-        String userId = KeycloakConfig.getInstance()
+//    public void addRealmRoleToUser(String userName, String role_name){
+//        String userId = KeycloakConfig.getInstance()
+//                .realm(realm)
+//                .users()
+//                .search(userName)
+//                .get(0)
+//                .getId();
+//        UserResource user = KeycloakConfig.getInstance()
+//                .realm(realm)
+//                .users()
+//                .get(userId);
+//        List<RoleRepresentation> roleToAdd = new LinkedList<>();
+//        roleToAdd.add(KeycloakConfig.getInstance()
+//                .realm(realm)
+//                .roles()
+//                .get(role_name)
+//                .toRepresentation()
+//        );
+//        user.roles().realmLevel().add(roleToAdd);
+//    }
+    public void addRealmRoleToUser(String userName, String role_name) {
+        List<UserRepresentation> users = KeycloakConfig.getInstance()
                 .realm(realm)
                 .users()
-                .search(userName)
-                .get(0)
-                .getId();
-        UserResource user = KeycloakConfig.getInstance()
-                .realm(realm)
-                .users()
-                .get(userId);
-        List<RoleRepresentation> roleToAdd = new LinkedList<>();
-        roleToAdd.add(KeycloakConfig.getInstance()
-                .realm(realm)
-                .roles()
-                .get(role_name)
-                .toRepresentation()
-        );
-        user.roles().realmLevel().add(roleToAdd);
+                .search(userName);
+
+        if (!users.isEmpty()) {
+            String userId = users.get(0).getId();
+            UserResource user = KeycloakConfig.getInstance()
+                    .realm(realm)
+                    .users()
+                    .get(userId);
+
+            RoleRepresentation roleToAdd = KeycloakConfig.getInstance()
+                    .realm(realm)
+                    .roles()
+                    .get(role_name)
+                    .toRepresentation();
+
+            user.roles().realmLevel().add(Collections.singletonList(roleToAdd));
+        } else {
+            // Gérer le cas où aucun utilisateur correspondant n'a été trouvé
+            System.out.println("Aucun utilisateur trouvé avec le nom : " + userName);
+        }
     }
+
     public List<String> getAllRoles(){
         List<String> availableRoles = KeycloakConfig.getInstance()
                 .realm(realm)
@@ -240,15 +280,29 @@ public class KeyCloakService {
                     .deleteRole(roleName);
         }
     }
-    public String getUserIdKeycloak(String userName){
-        String userId = KeycloakConfig.getInstance()
-                .realm(realm)
-                .users()
-                .search(userName)
-                .get(0)
-                .getId();
+//    public String getUserIdKeycloak(String userName){
+//        String userId = KeycloakConfig.getInstance()
+//                .realm(realm)
+//                .users()
+//                .search(userName)
+//                .get(0)
+//                .getId();
+//        return userId;
+//    }
+public String getUserIdKeycloak(String userName) {
+    List<UserRepresentation> users = KeycloakConfig.getInstance()
+            .realm(realm)
+            .users()
+            .search(userName);
+
+    if (users != null && !users.isEmpty()) {
+        String userId = users.get(0).getId();
         return userId;
+    } else {
+        // Gérer le cas où aucun utilisateur n'est trouvé
+        return null; // Ou jetez une exception appropriée
     }
+}
 
     /**
      * méthode pour ajouter un rôle client spécifié par son nom à un utilisateur spécifié par un nom d'utilisateur
@@ -281,26 +335,52 @@ public class KeyCloakService {
      * @param userName
      * @param role_name
      */
-    public void removeRealmRoleToUser(String userName, String role_name){
-        String userId = KeycloakConfig.getInstance()
+//    public void removeRealmRoleToUser(String userName, String role_name){
+//        String userId = KeycloakConfig.getInstance()
+//                .realm(realm)
+//                .users()
+//                .search(userName)
+//                .get(0)
+//                .getId();
+//        UserResource user = KeycloakConfig.getInstance()
+//                .realm(realm)
+//                .users()
+//                .get(userId);
+//        List<RoleRepresentation> roleToAdd = new LinkedList<>();
+//        roleToAdd.add(KeycloakConfig.getInstance()
+//                .realm(realm)
+//                .roles()
+//                .get(role_name)
+//                .toRepresentation()
+//        );
+//        user.roles().realmLevel().remove(roleToAdd);
+//    }
+    public void removeRealmRoleToUser(String userName, String role_name) {
+        List<UserRepresentation> users = KeycloakConfig.getInstance()
                 .realm(realm)
                 .users()
-                .search(userName)
-                .get(0)
-                .getId();
-        UserResource user = KeycloakConfig.getInstance()
-                .realm(realm)
-                .users()
-                .get(userId);
-        List<RoleRepresentation> roleToAdd = new LinkedList<>();
-        roleToAdd.add(KeycloakConfig.getInstance()
-                .realm(realm)
-                .roles()
-                .get(role_name)
-                .toRepresentation()
-        );
-        user.roles().realmLevel().remove(roleToAdd);
+                .search(userName);
+
+        if (!users.isEmpty()) {
+            String userId = users.get(0).getId();
+            UserResource user = KeycloakConfig.getInstance()
+                    .realm(realm)
+                    .users()
+                    .get(userId);
+
+            RoleRepresentation roleToRemove = KeycloakConfig.getInstance()
+                    .realm(realm)
+                    .roles()
+                    .get(role_name)
+                    .toRepresentation();
+
+            user.roles().realmLevel().remove(Collections.singletonList(roleToRemove));
+        } else {
+            // Gérer le cas où aucun utilisateur correspondant n'a été trouvé
+            System.out.println("Aucun utilisateur trouvé avec le nom : " + userName);
+        }
     }
+
 
 /*
     public String getUserIdKeycloak(String userName){

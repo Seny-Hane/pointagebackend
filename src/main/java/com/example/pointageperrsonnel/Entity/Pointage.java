@@ -1,5 +1,6 @@
 package com.example.pointageperrsonnel.Entity;
 
+import com.example.pointageperrsonnel.Entity.enums.Statut_Presence;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
@@ -25,6 +26,9 @@ public class Pointage {
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm")
     private Date heuredescente;
     private String cumulheure;
+    @Enumerated(EnumType.STRING)
+    private Statut_Presence statut_presence=Statut_Presence.PRESENT;
+
 
     /*@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pointages")
     private Set<Agent> agents= new HashSet<>();*/
@@ -33,9 +37,10 @@ public class Pointage {
     @JoinColumn(name="idagent")
     private Agent agent;
 
-    @ManyToOne
-    @JoinColumn(name="idmotif")
-    private Motif motif;
+
+//    @ManyToOne
+//    @JoinColumn(name="idmotif")
+//    private Motif motif;
 
     public Pointage(Agent agent, String cumulheure) {
 
