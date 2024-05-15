@@ -89,16 +89,15 @@ public class UserController {
         }
         return user;
     }
-    @PutMapping("/user1/{userId}")
-    public User  updateUser(@PathVariable("userId") int userId,@RequestBody User user){
+    @PutMapping("/user1/{id}")
+    public User  updateUser(@PathVariable("id") int id,@RequestBody User user){
         try {
             //userRepository.save(users);
             String UserId = keyCloakService.getUserIdKeycloak(user.getEmail());
             System.out.println(UserId);
             keyCloakService.updateUser(UserId,user);
-            user.setId(userId);
-            userService.updateUser(user);
-
+            user.setId(id);
+            userRepository.save(user);
 
         }catch (PersistenceException e) {
             e.getMessage();

@@ -22,7 +22,7 @@ public class Motif {
     @OneToMany(mappedBy = "motif", fetch=FetchType.LAZY)
     private Collection<Indisponibilite> indisponibilites;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "motif", fetch=FetchType.LAZY)
-    private Collection<Pointage> pointages;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "motif", fetch=FetchType.LAZY)
+//    private Collection<Pointage> pointages;
 }

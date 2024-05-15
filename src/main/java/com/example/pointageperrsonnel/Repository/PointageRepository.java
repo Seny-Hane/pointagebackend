@@ -44,19 +44,19 @@ public interface PointageRepository extends JpaRepository<Pointage, Integer> {
     List<Pointage> findByDatesIntervalle(@Param("datepointage1") Date datepointage1, @Param("datepointage2") Date datepointage2, @Param("idagent") int idagent, @Param("codeservice") int codeservice);
 
     //Liste de presence perriodique par agent par service
-    @Query("SELECT p FROM Pointage p WHERE (p.datepointage BETWEEN :datepointage1 AND :datepointage2) AND p.agent.idagent=:idagent AND p.agent.service.codeservice=:codeservice AND p.motif.idmotif=1")
+    @Query("SELECT p FROM Pointage p WHERE (p.datepointage BETWEEN :datepointage1 AND :datepointage2) AND p.agent.idagent=:idagent AND p.agent.service.codeservice=:codeservice")
     List<Pointage> findByIntervalleDatesAgentPresent(@Param("datepointage1") Date datepointage1, @Param("datepointage2") Date datepointage2, @Param("idagent") int idagent, @Param("codeservice") int codeservice);
 
     //Liste presence en fonction d'une date par service
-    @Query("SELECT p FROM Pointage p WHERE p.datepointage=:datepointage AND p.agent.service.codeservice=:codeservice AND p.motif.idmotif=1")
+    @Query("SELECT p FROM Pointage p WHERE p.datepointage=:datepointage AND p.agent.service.codeservice=:codeservice ")
     List<Pointage> findByPresenceDatepointage(@Param("datepointage") Date datepointage, @Param("codeservice") int codeservice);
 
     //Liste de retard perriodique par agent d'un service service
-    @Query("SELECT p FROM Pointage p WHERE (p.datepointage BETWEEN :datepointage1 AND :datepointage2) AND p.agent.idagent=:idagent AND p.agent.service.codeservice=:codeservice AND p.motif.idmotif=2")
+    @Query("SELECT p FROM Pointage p WHERE (p.datepointage BETWEEN :datepointage1 AND :datepointage2) AND p.agent.idagent=:idagent AND p.agent.service.codeservice=:codeservice ")
     List<Pointage> findByIntervalleDatesAgentRetard(@Param("datepointage1") Date datepointage1, @Param("datepointage2") Date datepointage2, @Param("idagent") int idagent, @Param("codeservice") int codeservice);
 
     //Liste retard en fonction d'une date par service
-    @Query("SELECT p FROM Pointage p WHERE p.datepointage=:datepointage AND p.agent.service.codeservice=:codeservice AND p.motif.idmotif=2")
+    @Query("SELECT p FROM Pointage p WHERE p.datepointage=:datepointage AND p.agent.service.codeservice=:codeservice ")
     List<Pointage> findByAbsenceDatepointage(@Param("datepointage") Date datepointage, @Param("codeservice") int codeservice);
 
     //Liste des pointage perriodique par service en affichant tous les agents de la service
