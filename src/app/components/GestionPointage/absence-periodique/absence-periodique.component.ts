@@ -7,6 +7,7 @@ import { log } from 'console';
 import autoTable from "jspdf-autotable";
 import jsPDF from "jspdf";
 import * as XLSX from 'xlsx';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-absence-periodique',
@@ -24,17 +25,18 @@ export class AbsencePeriodiqueComponent implements OnInit {
     matricule:any;
     submitted: boolean;
     dateJour:Date = new Date();
-    tourner:boolean;
+    tourner:boolean=false;
     erreur:boolean=false;
     disabled:boolean=true;
     tab = [];
     json= {matricule : null, prenom: null, nom : null,dateAbsente : null};
-    
+
     date:any;
     cols: any;
+    loading: any;
     // title = 'PDFGenerator';
 
-   
+
     constructor(public pointagesService: PointageService,
                 public datepipe: DatePipe,public excelService: ExcelService,) {
     }
@@ -74,9 +76,13 @@ export class AbsencePeriodiqueComponent implements OnInit {
         // const wb: XLSX.WorkBook = XLSX.utils.book_new();
         // const texte = "Liste des absences periodiques de l'agent: ";
         // wb.SheetNames[0] = 'Titre de la feuille';
-       
+
         this.excelService.exportAsExcelFile(this.tab);
         //console.log(this.json.date)
+    }
+    load(index) {
+        this.loading[index] = true;
+        setTimeout(() => this.loading[index] = false, 1000);
     }
 
 //     exportPDF(result){
@@ -105,7 +111,7 @@ export class AbsencePeriodiqueComponent implements OnInit {
         const pdf = new jsPDF();
         this.tab=[];
         for (let i = 0; i< this.result.length; i++){
-           
+
                 this.json.prenom = this.result[i].agent.prenomagent,
                 this.json.nom = this.result[i].agent.nomagent,
                 this.json.matricule = this.result[i].agent.matricule,
@@ -137,9 +143,11 @@ export class AbsencePeriodiqueComponent implements OnInit {
     }
 
     rechercheByMatricule(date1: Date, date2: Date, matricule: any) {
-        this.submitted = true;
-        this.result=null;
+      //  this.submitted = true;
         this.tourner=true;
+        this.erreur=true
+        this.result=null;
+
         console.log(this.erreur);
             this.pointagesService.getAbsencesPeriodiqueParMatricule(this.datepipe.transform(this.date1, 'yyyy-MM-dd'),
                 this.datepipe.transform(this.date2, 'yyyy-MM-dd'), matricule).subscribe(data => {

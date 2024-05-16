@@ -31,10 +31,10 @@ export class UtilisateursComponent implements OnInit {
     json= {reference:null,
             matricule : null,
            prenom: null,
-           nom : null, 
+           nom : null,
            genre:null,
            daterecrutement:null,
-            
+
            };
 
   constructor(private agentService:AgentService,
@@ -55,7 +55,7 @@ export class UtilisateursComponent implements OnInit {
             this.getUserss(this.username);
 
         });
-        
+
        console.log(this.user)
        this.cols= [
         {field:'reference',Header:'reference'.trim()},
@@ -64,9 +64,9 @@ export class UtilisateursComponent implements OnInit {
         {field: 'nom', header: 'nom'.trim()},
         {field:'genre',Header:'genre'.trim()},
         {field:'daterecrutement',Header:'daterecrutement'.trim()}
-        
+
        ];
-      
+
   }
 
     public getUserss(email){
@@ -108,7 +108,7 @@ export class UtilisateursComponent implements OnInit {
       }
       this.excelService.exportAsExcelFile(this.tab);
     }
-    
+
     exportPDF(listAgent):void{
       this.tab = [];
       for (let i = 0; i < this.listAgent?.length; i++){
@@ -123,20 +123,20 @@ export class UtilisateursComponent implements OnInit {
       this.tab.push(tb);
       }
       console.log(this.tab);
-    
+
         const columns = this.cols?.map(col => col.field);
         const data = this.tab?.map(row => columns?.map(col => row[col]));
         console.log(data);
-    
+
         const doc = new jsPDF();
-    
-        const texte = "liste agent:  " + (this.currentService ? this.currentService.nomservice : "");
+
+        const texte = "liste agent:  " +this.user.service?.nomservice;
         doc.text(texte, 40, 20);
-    
+
         const logoImg = new Image();
         logoImg.src = 'assets/layout/images/logoPoste.png';
         doc.addImage(logoImg, 'PNG', 15, 15, 14, 14);
-    
+
         autoTable(doc, {
             head: [columns],
             body: data,

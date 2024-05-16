@@ -46,12 +46,12 @@ import {ModifierMotifComponent} from "./components/GestionAgent/modifier-motif/m
                     {path: 'gestion/absencejournaliere', component: AbsenceJournalierComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_DRH']},'ROLE_CHEFDESERVICE']},
                    // {path: 'rapport/raportpointage', component: RapportPointageComponent, canActivate:[AuthGuard], data: {roles:['ROLE_CHEFDESERVICE']}},
                     // {path: 'gestion/absencjournaliere', component: AbsenceJournalierComponent, canActivate:[AuthGuard], data: {roles:  [ 'ROLE_CHEFDESERVICE']}},
-                    {path: 'gestion/absenceperiodique', component: AbsencePeriodiqueComponent, canActivate:[AuthGuard], data: [{roles: ['ROLE_CHEFDESERVICE']},'ROLE_SUPERVISEUR']},
+                  //  {path: 'gestion/absenceperiodique', component: AbsencePeriodiqueComponent, canActivate:[AuthGuard], data: [{roles: ['ROLE_CHEFDESERVICE']},'ROLE_SUPERVISEUR']},
 
                     // {path: 'gestion/absenceperiodiqueparservice', component: AbsencePeriodiqueParServiceComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_CHEFDESERVICE','ROLE_DRH']}},
                     {path: 'gestion/absenceperiodiqueparservice', component: AbsencePeriodiqueParServiceComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_CHEFDESERVICE']},'ROLE_DRH']},
                 //     {path: 'gestion/attributionroles', loadChildren: () => import('./components/GestionUtilisateur/attribution-role/service.module').then(t => t.serviceModule)},
-                     {path: 'gestion/attributionroles', component: AttributionRoleComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_DRH']},'ROLE_AGENT','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE']},
+                     {path: 'gestion/attributionroles', component: AttributionRoleComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_DRH']},]},
 
                     {path: 'gestion/servicesPoste', component: ServicesPosteComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_DRH']},'ROLE_CHEFDESERVICE']},
                     {path: 'gestion/utilisateur', component: UtilisateursComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_CHEFDESERVICE']}},

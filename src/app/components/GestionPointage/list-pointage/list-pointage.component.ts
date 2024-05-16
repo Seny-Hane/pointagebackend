@@ -11,6 +11,7 @@ import {Agent} from "../../../models/agent.model";
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import {Service} from "../../../models/service.model";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-list-pointage',
@@ -44,7 +45,8 @@ export class ListPointageComponent implements OnInit {
   constructor(private pointageService : PointageService,
               private messageService: MessageService,
               private router : Router,
-              public excelService: ExcelService) { }
+              public excelService: ExcelService,
+              public datepipe: DatePipe) { }
 
   ngOnInit(): void {
 
@@ -66,16 +68,16 @@ export class ListPointageComponent implements OnInit {
         {field: 'cumul', header: 'cumul'.trim()},
         {field: 'status', header: 'status'.trim()},
         // {field: 'motif', header: 'motif'.trim()},
-        
+
        ];
 
   }
-  
+
 
 
   getAllPointage() {
       this.tourner=true;
-      this.pointageService.getAllPointage().subscribe(data => {
+      this.pointageService.getPointageByDate().subscribe(data => {
 
           this.pointages = data;
              // console.log(this.pointages)
@@ -101,12 +103,13 @@ export class ListPointageComponent implements OnInit {
           })
   }
 
-    getListPointageByDate(date1: Date) {
+    getListPointageByDate(date1: string) {
 
-        let formatted_date = this.date1.getDate() + "-" + (this.date1.getMonth() + 1) + "-" + this.date1.getFullYear()
-        this.pointageService.getPointageByDate().subscribe(data => {
+      //  let formatted_date = this.date1.getDate() + "-" + (this.date1.getMonth() + 1) + "-" + this.date1.getFullYear()
+        this.pointageService.getPointageByDateChoi(this.datepipe.transform(this.date1, 'yyyy-MM-dd')).subscribe(data => {
             this.pointages = data;
-            this.pointages.sort((a,b) => b.idpointage - a.idpointage);
+            console.log(this.pointages)
+            //this.pointages.sort((a,b) => b.idpointage - a.idpointage);
             if( data.length == 0) {
                 this.messageService.add({severity: 'error', summary: 'Erreur', detail: "absence de données à la date choisie", life: 8000});
                 // alert("absence de données sur la date choisie");
@@ -122,8 +125,8 @@ export class ListPointageComponent implements OnInit {
         for (let i = 0; i < this.result?.length; i++) {
             const agent = this.result[i]?.agent;
             const serviceNom = agent && agent.service ? agent.service.nomservice : "Service non défini";
-           
-    
+
+
             const tb = {
                 matricule: agent?.matricule,
                 prenom: agent?.prenomagent,
@@ -138,20 +141,20 @@ export class ListPointageComponent implements OnInit {
             this.tab.push(tb);
         }
         console.log(this.tab);
-    
+
         const columns = this.cols?.map(col => col.field);
         const data = this.tab?.map(row => columns?.map(col => row[col]));
         console.log(data);
-    
+
         const doc = new jsPDF();
-    
+
         const texte = "liste pointage:  " + (this.currentService ? this.currentService.nomservice : "");
         doc.text(texte, 40, 20);
-    
+
         const logoImg = new Image();
         logoImg.src = 'assets/layout/images/logoPoste.png';
         doc.addImage(logoImg, 'PNG', 15, 15, 14, 14);
-    
+
         autoTable(doc, {
             head: [columns],
             body: data,
@@ -159,7 +162,7 @@ export class ListPointageComponent implements OnInit {
         });
         doc.save((this.currentService ? this.currentService.nomservice : "") + 'Liste pointage.pdf');
     }
-   
+
     exportAsXLSX(result):void {
         this.tab=[];
           for (let i = 0; i < this.result.length; i++) {
@@ -171,15 +174,15 @@ export class ListPointageComponent implements OnInit {
                           this.json.heureArrivee = this.result[i].heurearrivee,
                           this.json.heureDescente = this.result[i].heuredescente,
                           this.json.cumulHeure= this.result[i].cumulheure,
-                         
-  
+
+
                           this.tab.push({...this.json});
                               // console.log(this.json)
                   }
           this.excelService.exportAsExcelFile(this.tab);
           // console.log(this.tab)
       }
-  
+
 }
 
 

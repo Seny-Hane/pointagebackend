@@ -41,6 +41,7 @@ export class ListAbsenceParAgentComponent implements OnInit {
     private listMtofi: Motif[];
     private listMotifff: any[];
     private commentaire: any;
+     loading: any;
 
 
   constructor(private absenceService:AbsenceService,public datepipe: DatePipe
@@ -49,6 +50,11 @@ export class ListAbsenceParAgentComponent implements OnInit {
   ngOnInit(): void {
       this.getAllMotif()
   }
+
+    load(index) {
+        this.loading[index] = true;
+        setTimeout(() => this.loading[index] = false, 1000);
+    }
 
 
     rechercheByMatricule(date1: Date, date2: Date, matricule: any) {

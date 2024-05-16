@@ -38,7 +38,7 @@ export class UserService {
         return this.http.post<any>(environment.apiUrl +'/userRole/affectGroupRoleToUser/'+userId, Role,this.httpOptions)
     }
     RemoveRoleToUser(Role:Roles[]): Observable<any> {
-        return this.http.patch<any>(environment.apiUrl +'/userRole/deleteGroupRoleToUser/', Role,this.httpOptions)
+        return this.http.patch<any>(environment.apiUrl +'/userRole/deleteGroupRoleToUser', Role,this.httpOptions)
     }
 
 

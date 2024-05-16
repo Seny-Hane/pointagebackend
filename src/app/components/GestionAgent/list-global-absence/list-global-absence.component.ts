@@ -32,6 +32,8 @@ export class ListGlobalAbsenceComponent implements OnInit {
     p_service:Service;
     p_agent:Agent
      absenceDialog: boolean;
+     resultRech: [];
+     loading: any;
   constructor(private absenceService:AbsenceService,public datepipe: DatePipe
 ,public excelService: ExcelService,private messageService: MessageService) { }
 
@@ -64,14 +66,21 @@ export class ListGlobalAbsenceComponent implements OnInit {
 
     rechercheByMatricule( matricule: any) {
         this.submitted = true;
-        this.result=null;
+        this.resultRech=null;
         this.tourner=true;
         console.log(this.erreur);
+        this.getAllListAbsParAgent(matricule);
+
+    }
+
+    getAllListAbsParAgent(matricule){
         this.absenceService.getAllAbsByMat(matricule).subscribe((data)=>{
                 this.result= data
+                this.resultRech
                 console.log(this.result);
                 this.tourner=false;
                 this.erreur=false;
+
             },
             error => {
                 this.tourner = false;
@@ -80,6 +89,11 @@ export class ListGlobalAbsenceComponent implements OnInit {
 
         )
     }
+    load(index) {
+        this.loading[index] = true;
+        setTimeout(() => this.loading[index] = false, 1000);
+    }
+
     exportAsXLSX(result: any) {
 
     }

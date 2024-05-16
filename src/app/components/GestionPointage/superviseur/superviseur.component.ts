@@ -7,7 +7,7 @@ import {Subject} from "rxjs";
 import {KeycloakService} from "keycloak-angular";
 import {AgentService} from "../../../service/agent.service";
 import {Agent} from "../../../models/agent.model";
-import { DatePipe } from '@angular/common';
+import {DatePipe, formatDate} from '@angular/common';
 import {UserService} from "../../../service/user.service";
 
 @Component({
@@ -94,9 +94,13 @@ export class SuperviseurComponent implements OnInit {
                 this.pointages = data;
                 this.tourner=false;
                 this.erreur=false;
+             //   this.currentTime= format(this.currentTime, 'dd/MM/yyyy');
+                console.log(this.today)
+
                 this.pointages = this.pointages.filter(use => use?.agent?.service?.codeservice === this.users?.service.codeservice);
                 this.pointages.sort((a,b) => b.idpointage - a.idpointage);
                 // this.pointageSubject.next()
+                console.log(this.pointages[0].datepointage)
                 // this.pointages.forEach(element => {
                 //
                 //         const date1=element.heuredescente;
@@ -121,7 +125,7 @@ export class SuperviseurComponent implements OnInit {
             this.pointages = data;
             this.tourner=false;
             this.erreur=false;
-            this.pointages = this.pointages.filter(use => use.agent.service.codeservice === this.users?.service.codeservice);
+            this.pointages = this.pointages.filter(use => use.agent.service.codeservice === this.users?.service.codeservice && use.datepointage===date1);
             this.pointages.sort((a,b) => b.idpointage - a.idpointage);
             if( data.length == 0) {
                 this.messageService.add({severity: 'erreur', summary: 'Erreur', detail: "absence de données à la date choisie", life: 8000});

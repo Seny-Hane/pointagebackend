@@ -13,7 +13,11 @@ import {UserService} from "../../../service/user.service";
         selector: 'app-modifier-motif',
         template:`
         <div class="col-12 lg:col-8">
-            <p-toast></p-toast>
+            <p-toast
+                [showTransformOptions]="'translateY(100%)'"
+                [showTransitionOptions]="'1000ms'"
+                [hideTransitionOptions]="'1000ms'"
+                [showTransformOptions]="'translateX(100%)'" ></p-toast>
             <div class="card">
 
                 <h5 *ngIf="utilisateur">Affectation role pour {{utilisateur.prenom}} {{utilisateur.nom}} ({{utilisateur.matricule}})</h5>
@@ -21,7 +25,7 @@ import {UserService} from "../../../service/user.service";
                             dragdrop="true"
                             [responsive]="true" [sourceStyle]="{'height':'250px'}" [targetStyle]="{'height':'250px'}">
                     <ng-template let-role pTemplate="item">
-                        <div *ngIf="role">{{role.authority}}</div>
+                        <div *ngIf="role">{{role.description}}</div>
                         <div *ngIf="!role"></div>
                     </ng-template>
                 </p-pickList>
@@ -156,7 +160,9 @@ export class ModifierMotifComponent implements OnInit {
                   console.log(this.lastsupp[0])
 
             this.userService.RemoveRoleToUser(this.lastsupp[0]).subscribe((data)=>{
-                this.messageService.add({severity: 'danger', summary: 'Successful', detail: 'Deaffectation réussi', life: 3000});
+                this.messageService.add({severity: 'info', summary: 'info', detail: 'Deaffectation réussi', life: 3000});
+
+               // this.messageService.add({severity: 'danger', summary: 'Successful', detail: 'Deaffectation réussi', life: 3000});
 
             },(error) => {
                 this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Affectation Non réussi', life: 3000});

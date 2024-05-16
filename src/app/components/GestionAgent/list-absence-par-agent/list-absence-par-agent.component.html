@@ -23,44 +23,44 @@
     </div>
 </div>
 
-<!--<div class="grid" *ngIf="tourner==true">
+<div class="grid" *ngIf="tourner==true">
     <h5 class="spinner">Veuillez Patienter...</h5>
     <p-progressSpinner class="spinner"></p-progressSpinner>
-</div>-->
+</div>
 
-<!--<div *ngIf="date1!=null && date2!=null && matricule!=null && !result && erreur==true && tourner==false" class="alert alert-danger" >
+<div *ngIf="date1!=null && date2!=null && matricule!=null && !result && erreur==true && tourner==false" class="alert alert-danger" >
     Serveur Indisponible
-</div>-->
+</div>
 <div class="grid" *ngIf="erreur==false && tourner==false">
     <div class="col-12">
         <div class="card">
             <p-toolbar styleClass="mb-4">
+
                 <ng-template pTemplate="right">
                     <!--                    <button pButton pRipple label="Export excel" icon="pi pi-upload" class="mr-2 inline-block"></button>-->
-                    <p-badge   class="user"  value=" Rapport  D'Absence  " size="large" severity="warning"></p-badge>
+                    <b class="left"><u>Total Absence</u>: {{result?.length}} Jour(s)</b>
                 </ng-template>
                 <ng-template pTemplate="left">
                     <button pButton pRipple label="Export excel" icon="pi pi-upload" class="mr-2 inline-block" (click)="exportAsXLSX(result)"></button>
                     <button pButton pRipple label="Export PDF" icon="pi pi-upload" class="p-button-success mr-2"  (click)="exportTableToPDF()"></button>
                 </ng-template>
-            </p-toolbar>
-            <!-- <div *ngIf="result.length==0">
-                Aucune Absence durant la période du {{date1 | date: 'dd/MM/yyyy' }}
-                au {{date2 | date: 'dd/MM/yyyy' }}
-            </div>
-            <div *ngIf="result.length!=0" class="row">
-                <div *ngFor="let resul of result" class="col-2">
-                    <p-card class="date1">
-                        <p class="date">{{resul | date: 'dd/MM/yyyy'}}</p>
-                    </p-card>
-                </div>
-             </div>    -->
 
-            <div *ngIf="result.length==0">
+
+
+            </p-toolbar>
+
+
+
+
+
+            <div *ngIf="result?.length==0">
                 Aucune Absence durant la période du {{date1 | date: 'dd/MM/yyyy' }}
                 au {{date2 | date: 'dd/MM/yyyy' }}
             </div>
-            <div *ngIf="result.length!=0">
+            <div *ngIf="result?.length!=0">
+                <div class="text-center">
+                <p-badge   class="user"  value=" Rapport  D'Absence  " size="large" severity="warning"></p-badge>
+                </div>
                 <p-table [value]="result" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['datepointage']" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedPointages" selectionMode="multiple" [rowHover]="true" dataKey="idpointage">
                     <ng-template pTemplate="header">
                         <tr>
@@ -70,7 +70,7 @@
                             <th>Date D'Absence </th>
                             <th>Justificatif </th>
                             <th>Commentaire </th>
-<!--                            <th>Action </th>-->
+                            <th>Action </th>
                         </tr>
                     </ng-template>
                     <ng-template  pTemplate="body" let-abs>
@@ -99,13 +99,13 @@
                                 <span class="p-column-title">Commentaire</span>
                                {{abs.commentaire}}
                             </td>
-<!--                            <td style="width:14%; min-width:8rem;">-->
-<!--                                   <span>-->
-<!--                                            <button pButton pRipple icon="pi pi-pencil" label="Justifier"-->
-<!--                                                    class="p-button-secondary mr-2 mb-2"-->
-<!--                                                    (click)="editAbs(abs)"></button>-->
-<!--                                   </span>-->
-<!--                            </td>-->
+                            <td style="width:14%; min-width:8rem;">
+                                   <span>
+                                            <button pButton pRipple icon="pi pi-pencil" label="Justifier"
+                                                    class="p-button-secondary mr-2 mb-2"
+                                                    (click)="editAbs(abs)"></button>
+                                   </span>
+                            </td>
 
                     </ng-template>
                 </p-table>

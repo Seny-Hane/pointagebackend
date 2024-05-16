@@ -307,7 +307,7 @@ export class AttributionRoleComponent implements OnInit {
     saveUser(utilisateur) {
         console.log(utilisateur)
         console.log(this.utilisateur)
-
+       // this.utilisateur.roles=null
         if (this.utilisateur.nom.trim()) {
             if (this.utilisateur.id) {
                 this.http.put<Users>(environment.apiUrl+`/user/user1/${this.utilisateur.id}`, this.utilisateur).subscribe((data) => {
