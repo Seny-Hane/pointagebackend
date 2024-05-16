@@ -41,8 +41,8 @@
                     <b class="left"><u>Total Absence</u>: {{result?.length}} Jour(s)</b>
                 </ng-template>
                 <ng-template pTemplate="left">
-                    <button pButton pRipple label="Export excel" icon="pi pi-upload" class="mr-2 inline-block" (click)="exportAsXLSX(result)"></button>
-                    <button pButton pRipple label="Export PDF" icon="pi pi-upload" class="p-button-success mr-2"  (click)="exportTableToPDF()"></button>
+                    <button pButton pRipple label="Export excel" icon="pi pi-upload" class="p-button-success mr-2" (click)="exportAsXLSX(result)"></button>
+                    <button pButton pRipple label="Export PDF" icon="pi pi-upload" class="mr-2 inline-block"  (click)="exportTableToPDF(result)"></button>
                 </ng-template>
 
 
