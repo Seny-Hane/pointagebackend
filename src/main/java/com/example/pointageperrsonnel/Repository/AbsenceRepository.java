@@ -19,7 +19,7 @@ public interface AbsenceRepository extends JpaRepository<Absence,Long>{
 //  @Query( "SELECT a FROM Absence a " +
 //           "WHERE (a.dateAbs BETWEEN :datepointage1 AND :datepointage2) " +
 //           "OR (a.dateAbs = :datepointage1 AND a.agent.matricule = :matricule)"
-          @Query("SELECT a FROM Absence a WHERE (a.dateAbs BETWEEN :datepointage1 AND :datepointage2) OR a.dateAbs = :datepointage1 AND (a.agent.matricule=:matricule)")
+          @Query("SELECT a FROM Absence a WHERE  ( (a.dateAbs BETWEEN :datepointage1 AND :datepointage2) OR a.dateAbs = :datepointage1)AND a.agent.matricule=:matricule")
           List<Absence> listAbsenceByAgent(@Param("datepointage1") Date datepointage1, @Param("datepointage2") Date datepointage2, @Param("matricule") String matricule );
 
     //@Query(value = "SELECT a FROM Absence a  WHERE a.dateAbs BETWEEN :datepointage1 AND :datepointage2 OR a.dateAbs = :datepointage1 AND a.service.codeservice=:codeservice")
