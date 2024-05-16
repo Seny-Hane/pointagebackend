@@ -13,10 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.DateTimeException;
-import java.time.LocalDate;
+import java.time.*;
 import java.util.*;
 
 @RestController
@@ -45,19 +45,34 @@ public class PointageController {
     }
 
     //Creation pointage for save the form
+//    @PostMapping(value = "/{matricule}/{codeservice}")
+//    public Pointage save(@PathVariable String matricule, @PathVariable int codeservice, @RequestBody Pointage pointage) throws Exception {
+//        Agent agent = agentRepository.findAgentByMatricule(matricule);
+//        Service service = serviceRepository.findServiceByCodeservice(codeservice);
+//        agent.setService(service);
+//        agent.setStatut_presence(Statut_Presence.PRESENT);
+//
+//        // Récupérer la date de pointage
+//        LocalDate datePointage = LocalDate.now();
+//        pointage.setDatepointage(datePointage);
+//        pointage.setAgent(agent);
+//
+//        // Mettre à jour les dates de pointage sans modifier l'heure
+//        LocalDateTime heureArrivee = LocalDateTime.of(datePointage, pointage.getHeurearrivee().toLocalTime());
+//        LocalDateTime heureDescente = LocalDateTime.of(datePointage, pointage.getHeuredescente().toLocalTime());
+//        pointage.setHeurearrivee(Timestamp.valueOf(heureArrivee));
+//        pointage.setHeuredescente(Timestamp.valueOf(heureDescente));
+//
+//        return pointageRepository.save(pointage);
+//    }
     @PostMapping(value = "/{matricule}/{codeservice}")
-    public Pointage save(@PathVariable String matricule,@PathVariable int codeservice) throws Exception{
+    public Pointage save(@PathVariable String matricule, @PathVariable int codeservice, @RequestBody Pointage pointage) throws Exception {
         Agent agent = agentRepository.findAgentByMatricule(matricule);
         Service service = serviceRepository.findServiceByCodeservice(codeservice);
         agent.setService(service);
         agent.setStatut_presence(Statut_Presence.PRESENT);
-        Pointage pointage=new Pointage();
-        Date date=new Date();
-        pointage.setDatepointage((LocalDate.now()) );
-        pointage.setHeurearrivee((new Date()));
-        pointage.setHeuredescente(new Date());
+        pointage.setDatepointage(LocalDate.now());
         pointage.setAgent(agent);
-//        pointage.setMotif(motifRepository.findById(1).get());
         return pointageRepository.save(pointage);
     }
 
