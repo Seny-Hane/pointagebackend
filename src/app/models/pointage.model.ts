@@ -1,5 +1,6 @@
 import {Agent} from "./agent.model";
 import {Motif} from "./motif.model";
+import {Time} from "@angular/common";
 
 export class Pointage {
     idpointage? : number;

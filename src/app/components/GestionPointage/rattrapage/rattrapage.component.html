@@ -1,18 +1,18 @@
- 
+
 <div class="grid">
     <div class="card">
         <p-toast></p-toast>
         <form class="form-horizontal">
             <!-- <input type="hidden" class="form-control" > -->
             <div class="form-group row card-header">
-                <h2 class="text-center">Enregistrement de pointage(Rattrapage) </h2> 
+                <h2 class="text-center">Enregistrement de pointage(Rattrapage) </h2>
                 <br>
                 <div class="p-formgrid grid">
                     <div class="col-md-6 form-group" [formGroup]="FormControlPointage">
-                        <label for="matricule">MATRICULE:</label> 
+                        <label for="matricule">MATRICULE:</label>
                         <br>
                         <mat-form-field class="example-full-width">
-                          <input matInput type="text" class="form-control"  id="matricule"  [(ngModel)]="matricule" placeholder="Matricule *" formControlName="matricule" 
+                          <input matInput type="text" class="form-control"  id="matricule"  [(ngModel)]="matricule" placeholder="Matricule *" formControlName="matricule"
                               (keypress)="keyPressAlphaNumericWithCharacters($event)">
                               <mat-error *ngIf="FormControlPointage.controls['matricule'].hasError('minlength')">
                                 le matricule doit composer au moins  <strong>7 caractères</strong>
@@ -21,38 +21,38 @@
                                 le matricule ne doit pas dépasser <strong>7 caractères</strong>
                               </mat-error>
                         </mat-form-field>
-                              
+
                     </div>
                     <div class="col-md-6 form-group"[formGroup]="FormControlPointage">
                         <label for="datepointage">DATE POINTAGE:</label>
                         <br>
                         <mat-form-field>
-                            <input matInput type="date"  placeholder="Date Pointage" [(ngModel)]="pointage.datepointage" formControlName="datepointage"> 
+                            <input matInput type="date"  placeholder="Date Pointage" [(ngModel)]="pointage.datepointage" formControlName="datepointage">
                         </mat-form-field>
                     </div>
-                </div> 
+                </div>
                 <div class="p-formgrid grid">
                     <div class="col-md-6 form-group"[formGroup]="FormControlPointage">
                         <label for="heurearrivee">HEURE ARRIVEE:</label>
                         <br>
                         <mat-form-field>
-                            <input matInput type="time"  placeholder="Heure arriée" [(ngModel)]="pointage.heurearrivee" formControlName="heurearrivee"> 
+                          <input matInput type="time"  placeholder="Heure arriée" [(ngModel)]="pointage.heurearrivee" formControlName="heurearrivee">
                         </mat-form-field>
                     </div>
                     <div class="col-md-6 form-group" [formGroup]="FormControlPointage">
                         <label for="heuredescente">HEURE DESCENTE:</label>
                         <br>
                         <mat-form-field>
-                            <input matInput type="time"  placeholder="heuredescente" [(ngModel)]="pointage.heuredescente" formControlName="heuredescente"> 
+                            <input matInput type="time"  placeholder="heuredescente" [(ngModel)]="pointage.heuredescente" formControlName="heuredescente">
                         </mat-form-field>
                     </div>
-                    <div class="col-md-6 form-group" [formGroup]="FormControlPointage">
-                        <label for="cumulheure">CUMUL HEURE:</label>
-                        <br>
-                        <mat-form-field class="example-full-width">
-                            <input matInput type="time"  placeholder="Cumul Heure" [(ngModel)]="pointage.cumulheure" formControlName="cumulheure"> 
-                        </mat-form-field>
-                    </div>
+<!--                    <div class="col-md-6 form-group" [formGroup]="FormControlPointage">-->
+<!--                        <label for="cumulheure">CUMUL HEURE:</label>-->
+<!--                        <br>-->
+<!--                        <mat-form-field class="example-full-width">-->
+<!--                            <input matInput type="time"  placeholder="Cumul Heure" [(ngModel)]="pointage.cumulheure" formControlName="cumulheure">-->
+<!--                        </mat-form-field>-->
+<!--                    </div>-->
                     <!-- <div class="col-md-6 form-group" [formGroup]="FormControlPointage">
                         <label for="motif">MOTIF:</label>
                         <br>
@@ -60,13 +60,13 @@
                             <mat-select placeholder="Motif" name="motif" [(ngModel)]="mtif" (selectionChange)="selectMotif($event)" formControlName="motif">
                                 <mat-option *ngFor="let m of motifs" [value]="m.idmotif">
                                     {{ m.motif }}
-                                </mat-option>         
+                                </mat-option>
                             </mat-select>
-                        </mat-form-field>  
-                        
+                        </mat-form-field>
+
                     </div> -->
                 </div>
-                
+
             </div>
         </form>
         <!-- <div class="text-center">
@@ -77,8 +77,8 @@
               <span class="btn-label">
               <i class="material-icons"></i>
           </span>Enregistrer</button>
-        
-    </div>   
+
+    </div>
 </div>
 
 

@@ -18,6 +18,10 @@ export class PointageService {
         return this.http.get<Pointage[]>(environment.apiUrl+'/pointage/allpointage');
     }
 
+    public findByPresenceDatepointage(datepointage:string,codeservice:any) : Observable<Pointage[]>{
+        return this.http.get<Pointage[]>(environment.apiUrl+'/pointage/listepresence/'+datepointage+'/service/'+codeservice);
+    }
+
     public getPointageByDate() : Observable<Pointage[]> {
         return this.http.get<Pointage[]>(environment.apiUrl+'/pointage/bydate');
     }
@@ -70,12 +74,12 @@ export class PointageService {
         return this.http.get<Agent[]>(environment.apiUrl+'/pointage/listPointageDateInvterByService/'+date1+'/'+date2+'/'+codeservice);
     }
 
-    public addPointage(matricule: string, codeservice: number): Observable<Pointage> {
-        return this.http.post<Pointage>(environment.apiUrl + '/pointage/' + matricule + '/' + codeservice, {});
+    public addPointage(matricule: string, codeservice: number, pointage:Pointage): Observable<Pointage> {
+        return this.http.post<Pointage>(environment.apiUrl + '/pointage/' + matricule + '/' + codeservice, pointage);
     }
 
     // public addPointage(pointage: Pointage): Observable<Pointage>{
     //     return this.http.post<Pointage>(environment.apiUrl + '/pointage/savepointage',pointage)
     // }
-    
+
 }

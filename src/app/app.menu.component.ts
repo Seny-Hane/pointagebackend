@@ -89,19 +89,19 @@ export class AppMenuComponent implements OnInit {
                 label: 'Gestion Pointage',
                 rootroles: this.findRole(['ROLE_DRH','ROLE_AGENT','ROLE_VIGILE','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE']),
                 items: [
-                    {label: 'Pointage', icon: 'pi pi-fw pi-pencil', routerLink: ['/gestion/pointage'], roles: this.findRole(['ROLE_AGENT','ROLE_VIGILE'])},
+                    {label: 'Pointage', icon: 'pi pi-fw pi-pencil', routerLink: ['/gestion/pointage'], roles: this.findRole(['ROLE_AGENT','ROLE_DRH','ROLE_VIGILE'])},
                     {label: 'Liste des Présents', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/listpointage'], roles: this.findRole(['ROLE_DRH'])}, /*A commenter avant de deployer*/
-                    {label: 'Supervision en temps réel', icon: 'pi pi-fw pi-history', routerLink: ['/gestion/supervisionpointage'], roles: this.findRole(['ROLE_SUPERVISEUR'])},
+                    {label: 'Supervision en temps réel', icon: 'pi pi-fw pi-history', routerLink: ['/gestion/supervisionpointage'], roles: this.findRole(['ROLE_DRH','ROLE_SUPERVISEUR'])},
                     {label: 'Rapport par Service', icon: 'pi pi-fw pi-id-card', routerLink: ['/rapport/rapportpointage'], roles: this.findRole(['ROLE_DRH','ROLE_SUPERVISEUR'])},
-                    {label: 'Rapport De Présence', icon: 'pi pi-fw pi-id-card', routerLink: ['gestion/ListPointageByService'], roles: this.findRole(['ROLE_CHEFDESERVICE','ROLE_SUPERVISEUR'])},
+                    {label: 'Rapport De Présence', icon: 'pi pi-fw pi-id-card', routerLink: ['gestion/ListPointageByService'], roles: this.findRole(['ROLE_CHEFDESERVICE','ROLE_DRH','ROLE_SUPERVISEUR'])},
 
                     // {label: 'Absences Journalières', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/absencejournaliere'], roles: this.findRole(['ROLE_DRH'],)},
-                    {label: 'Liste_Pointage du service', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/superviseur'], roles: this.findRole(['ROLE_CHEFDESERVICE'])},
+                    {label: 'Liste Présence du service', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/superviseur'], roles: this.findRole(['ROLE_DRH','ROLE_CHEFDESERVICE'])},
                     //  {label: 'Rapport par Service', icon: 'pi pi-fw pi-id-card', routerLink: ['/rapport/raportpointage'], roles: this.findRole(['ROLE_SUPERVISEUR'])},
                 /*    {label: 'Absences Journalières', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/absencjournaliere'], roles: this.findRole(['ROLE_CHEFDESERVICE'],)},
                     {label: 'Absences Périodiques', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/absenceperiodique'], roles: this.findRole(['ROLE_CHEFDESERVICE'],)},
                     {label: 'Absences Périodiques Par Service', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/absenceperiodiqueparservice'], roles: this.findRole(['ROLE_CHEFDESERVICE','ROLE_DRH'],)},*/
-                    
+
                 ]
             },
             {
@@ -109,10 +109,10 @@ export class AppMenuComponent implements OnInit {
                 rootroles: this.findRole(['ROLE_CHEFDESERVICE','ROLE_SUPERVISEUR','ROLE_DRH']),
                 items: [
                     {label: 'Gestion Utilisateur', icon: 'pi  pi-fw pi-user-plus',routerLink: ['gestion/attributionroles'],roles: this.findRole(['ROLE_DRH'])},
-                    {routerLink: ['gestion/role'],roles: this.findRole(['ROLE_DRH'])},
-                    {label: 'Liste Agents', icon: 'pi  pi-fw pi-user-plus',routerLink: ['gestion/utilisateur'],roles: this.findRole(['ROLE_CHEFDESERVICE'])},
-                    {label: 'Liste des Services', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/servicesPoste'], roles: this.findRole(['ROLE_SUPERVISEUR'],)},
-                    {label: 'Liste Employés', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/agent'], roles: this.findRole(['ROLE_SUPERVISEUR'])},
+                    {routerLink: ['gestion/role'],roles: this.findRole(['ROLE_DRH']),visible: false},
+                    {label: 'Liste Agents', icon: 'pi  pi-fw pi-user-plus',routerLink: ['gestion/utilisateur'],roles: this.findRole(['ROLE_DRH','ROLE_CHEFDESERVICE'])},
+                    {label: 'Liste des Services', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/servicesPoste'], roles: this.findRole(['ROLE_DRH','ROLE_SUPERVISEUR'],)},
+                    {label: 'Liste Employés', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/agent'], roles: this.findRole(['ROLE_DRH','ROLE_SUPERVISEUR'])},
                     {label: 'Rattrapage', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/rattrapage'], roles: this.findRole(['ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE'])},
 
                 ]
@@ -120,14 +120,14 @@ export class AppMenuComponent implements OnInit {
             },
             {
                 label: 'Gestion Absences',
-                rootroles: this.findRole(['ROLE_CHEFDESERVICE','ROLE_SUPERVISEUR']),
+                rootroles: this.findRole(['ROLE_CHEFDESERVICE','ROLE_SUPERVISEUR','ROLE_DRH']),
                 items: [
                  //   {label: 'Liste Retard Par Service', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/absencejournaliere'], roles: this.findRole(['ROLE_SUPERVISEUR'],)},
-                    {label: 'Absence par Agent', icon: 'pi pi-fw pi-id-card', routerLink: ['gestion/ListAgentAbsByMatricule'], roles: this.findRole(['ROLE_CHEFDESERVICE','ROLE_SUPERVISEUR'],)},
+                    {label: 'Absence par Agent', icon: 'pi pi-fw pi-id-card', routerLink: ['gestion/ListAgentAbsByMatricule'], roles: this.findRole(['ROLE_DRH','ROLE_CHEFDESERVICE','ROLE_SUPERVISEUR'],)},
                //     {label: 'Périodiques Par Agent', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/absenceperiodique'], roles: this.findRole(['ROLE_CHEFDESERVICE','ROLE_SUPERVISEUR'],)},
-                    {label: 'Périodiques Par Service', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/absenceperiodiqueparservice'], roles: this.findRole(['ROLE_SUPERVISEUR'])},
-                    {label: "Rapport d'Absence", icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/ListAgentAbsByService'], roles: this.findRole(['ROLE_CHEFDESERVICE','ROLE_SUPERVISEUR'])},
-                    {label: "List Absence Globale ", icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/AllLiseAbs'], roles: this.findRole(['ROLE_CHEFDESERVICE','ROLE_SUPERVISEUR'])},
+                    {label: 'Périodiques Par Service', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/absenceperiodiqueparservice'], roles: this.findRole(['ROLE_DRH','ROLE_SUPERVISEUR'])},
+                    {label: "Rapport d'Absence", icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/ListAgentAbsByService'], roles: this.findRole(['ROLE_CHEFDESERVICE','ROLE_DRH','ROLE_SUPERVISEUR'])},
+                    {label: "List Absence Globale ", icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/AllLiseAbs'], roles: this.findRole(['ROLE_CHEFDESERVICE','ROLE_DRH','ROLE_SUPERVISEUR'])},
 
                 ]
             }

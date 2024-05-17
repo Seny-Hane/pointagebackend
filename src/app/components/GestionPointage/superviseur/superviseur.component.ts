@@ -46,17 +46,8 @@ export class SuperviseurComponent implements OnInit {
                 private router : Router,
                 private agentService : AgentService,
                 public keycloak: KeycloakService,
-                public userService: UserService) {
-        this.keycloak.loadUserProfile().then( res =>
-        {
-            // console.log(res);
-            this.users = res;
-            this.username= res.email;
-            console.log(res.username);
-            this.getUser(this.username);
-        });
+                public userService: UserService) {}
 
-    }
     public getUser(username){
         // console.log(username);
         return this.userService.getUserByUsername(username).subscribe(data =>
@@ -68,21 +59,36 @@ export class SuperviseurComponent implements OnInit {
     }
 
     ngOnInit(): void {
+            this.keycloak.loadUserProfile().then( res =>
+            {
+                // console.log(res);
+                this.users = res;
+                this.username= res.email;
+                console.log(res.username);
+                this.userService.getUserByUsername(res.email).subscribe(data =>
+                {
+                    // console.log(data);
+                    this.users = data;
+                    console.log(this.users);
+                    this.getAllPointage();
+                })
+            });
+
 
         this.triTime = this.currentTime.getHours() > 5 && this.currentTime.getHours() < 13;
 
-        this.getAllPointage();
+
 
         this.pointageSubject.subscribe(data => {
             this.getAllPointage()
         })
         //console.log(this.keycloak.getKeycloakInstance().profile.username)
-        this.agentService.getAgentByMatricule(this.users.matricule).subscribe(
-            (data)=>{
-                this.agent=data;
-                console.log(this.agent)
-            }
-        );
+        // this.agentService.getAgentByMatricule(this.users?.matricule).subscribe(
+        //     (data)=>{
+        //         this.agent=data;
+        //         console.log(this.agent)
+        //     }
+        // );
 
         this.today=this.todayWithPipe = this.pipe.transform(this.currentTime, 'dd-MM-yyyy');
         this.getList_PointageByDate();
@@ -90,7 +96,9 @@ export class SuperviseurComponent implements OnInit {
 
     getAllPointage() {
         this.tourner=true;
-        this.pointageService.getAllPointage().subscribe(data => {
+        this.today=this.todayWithPipe = this.pipe.transform(this.currentTime, 'yyyy-MM-dd');
+        console.log(this.users)
+        this.pointageService.findByPresenceDatepointage(this.today,this.users.service?.codeservice).subscribe(data => {
                 this.pointages = data;
                 this.tourner=false;
                 this.erreur=false;
