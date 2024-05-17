@@ -38,7 +38,7 @@ export class ListPointageComponent implements OnInit {
     erreur:boolean;
     result:any;
     tab = [];
-    json= {matricule : null, prenom: null, nom : null, service: null, datepointage: null, heureArrivee: null, heureDescente: null,cumulHeure: null, status:null};
+    json= {matricule : null, prenom: null, nom : null, service: null, datepointage: null, heureArrivee: null, heureDescente: null,cumulHeure: null, statut:null};
   constructor(private pointageService : PointageService,
               private messageService: MessageService,
               private router : Router,
@@ -62,7 +62,7 @@ export class ListPointageComponent implements OnInit {
         {field: 'arrivee', header: 'arrivee'.trim()},
         {field: 'descente', header: 'descente'.trim()},
         {field: 'cumul', header: 'cumul'.trim()},
-        {field: 'status', header: 'status'.trim()},
+        {field: 'statut', header: 'statut'.trim()},
         // {field: 'motif', header: 'motif'.trim()},
         
        ];
@@ -129,7 +129,7 @@ export class ListPointageComponent implements OnInit {
                 arrivee: this.result[i]?.heurearrivee,
                 descente: this.result[i]?.heuredescente,
                 cumul: this.result[i]?.cumulheure,
-                // status:this.result[i]?.motif.motif,
+                // statut:this.result[i]?.motif.motif,
             };
             this.tab.push(tb);
         }

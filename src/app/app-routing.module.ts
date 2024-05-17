@@ -25,6 +25,7 @@ import {
 } from "./components/GestionAgent/list-absence-par-agent/list-absence-par-agent.component";
 import {ListGlobalAbsenceComponent} from "./components/GestionAgent/list-global-absence/list-global-absence.component";
 import {ModifierMotifComponent} from "./components/GestionAgent/modifier-motif/modifier-motif.component";
+import { RattrapageComponent } from './components/GestionPointage/rattrapage/rattrapage.component';
 @NgModule({
     imports: [
         RouterModule.forRoot([
@@ -60,7 +61,7 @@ import {ModifierMotifComponent} from "./components/GestionAgent/modifier-motif/m
                     {path: 'gestion/ListAgentAbsByMatricule', component: ListAbsenceParAgentComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']},'ROLE_CHEFDESERVICE']},
                     {path: 'gestion/AllLiseAbs', component: ListGlobalAbsenceComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']},'ROLE_CHEFDESERVICE']},
                     {path: 'gestion/role', component: ModifierMotifComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_DRH']}},
-
+                    {path: 'gestion/rattrapage', component: RattrapageComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']}, 'ROLE_CHEFDESERVICE']},
                 ],
             },
 

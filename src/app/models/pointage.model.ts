@@ -7,6 +7,12 @@ export class Pointage {
     heurearrivee? : Date;
     heuredescente? : Date;
     cumulheure? : string;
-    agent : Agent;
-    motif : Motif;
+    agent ?: Agent;
+    // motif : Motif;
+    Statut_Presence?: Statut_Presence;
+}
+
+// Définition de l'enum Statut_Presence
+export enum Statut_Presence {
+    PRESENT = "PRESENT"
 }

@@ -66,4 +66,13 @@ export class PointageService {
     public getListPointageByService(date1: string, date2: string, codeservice: number) : Observable<Agent[]> {
         return this.http.get<Agent[]>(environment.apiUrl+'/pointage/listPointageDateInvterByService/'+date1+'/'+date2+'/'+codeservice);
     }
+
+    public addPointage(matricule: string, codeservice: number): Observable<Pointage> {
+        return this.http.post<Pointage>(environment.apiUrl + '/pointage/' + matricule + '/' + codeservice, {});
+    }
+
+    // public addPointage(pointage: Pointage): Observable<Pointage>{
+    //     return this.http.post<Pointage>(environment.apiUrl + '/pointage/savepointage',pointage)
+    // }
+    
 }

@@ -36,7 +36,7 @@ export class AbsenceJournalierComponent implements OnInit {
     submitted: boolean;
     selectedPointages: Pointage[];
     tabAbsence = [];
-    absence= {matricule : null, prenom: null, nom : null, date: null,service: null, status:null};
+    absence= {matricule : null, prenom: null, nom : null, date: null,service: null, statut:null};
     dt: any;
     cols: any;
     currentMotif= Motif;
@@ -163,7 +163,7 @@ export class AbsenceJournalierComponent implements OnInit {
                 this.absence.nom = this.result[i].nomagent,
                 this.absence.service = this.result[i].service.nomservice,
                 this.absence.date = this.datepipe.transform(this.date1, 'dd-MM-yyyy'),
-                this.absence.status = "ABSENT(E)",
+                this.absence.statut = "ABSENT(E)",
                 // this.absence.exception= this.result[i].motif.motif,
 
                 this.tabAbsence.push({...this.absence});

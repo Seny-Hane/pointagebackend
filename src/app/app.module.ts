@@ -134,6 +134,8 @@ import { ListAbsenceComponent } from './components/GestionAgent/list-absence/lis
 import { ListAbsenceParAgentComponent } from './components/GestionAgent/list-absence-par-agent/list-absence-par-agent.component';
 import { ListGlobalAbsenceComponent } from './components/GestionAgent/list-global-absence/list-global-absence.component';
 import { ModifierMotifComponent } from './components/GestionAgent/modifier-motif/modifier-motif.component';
+import { RattrapageComponent } from './components/GestionPointage/rattrapage/rattrapage.component';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -235,9 +237,10 @@ import { ModifierMotifComponent } from './components/GestionAgent/modifier-motif
         // MatButtonModule,
         MatStepperModule,
         // FormsModule,
-        // ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
+        ButtonModule,
+        MatSelectModule,
     ],
     declarations: [
         AppComponent,
@@ -267,6 +270,7 @@ import { ModifierMotifComponent } from './components/GestionAgent/modifier-motif
         ListAbsenceParAgentComponent,
         ListGlobalAbsenceComponent,
         ModifierMotifComponent,
+        RattrapageComponent,
 
 
     ],

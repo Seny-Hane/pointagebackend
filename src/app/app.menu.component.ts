@@ -101,6 +101,7 @@ export class AppMenuComponent implements OnInit {
                 /*    {label: 'Absences Journalières', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/absencjournaliere'], roles: this.findRole(['ROLE_CHEFDESERVICE'],)},
                     {label: 'Absences Périodiques', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/absenceperiodique'], roles: this.findRole(['ROLE_CHEFDESERVICE'],)},
                     {label: 'Absences Périodiques Par Service', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/absenceperiodiqueparservice'], roles: this.findRole(['ROLE_CHEFDESERVICE','ROLE_DRH'],)},*/
+                    
                 ]
             },
             {
@@ -110,7 +111,7 @@ export class AppMenuComponent implements OnInit {
                     {label: 'Liste Agents', icon: 'pi  pi-fw pi-user-plus',routerLink: ['gestion/utilisateur'],roles: this.findRole(['ROLE_CHEFDESERVICE'])},
                     {label: 'Liste des Services', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/servicesPoste'], roles: this.findRole(['ROLE_SUPERVISEUR'],)},
                     {label: 'Liste Employés', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/agent'], roles: this.findRole(['ROLE_SUPERVISEUR'])},
-
+                    {label: 'Rattrapage', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/rattrapage'], roles: this.findRole(['ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE'])},
 
                 ]
 
