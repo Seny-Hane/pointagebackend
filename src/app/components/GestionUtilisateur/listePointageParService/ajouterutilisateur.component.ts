@@ -30,9 +30,10 @@ export class AjouterutilisateurComponent implements OnInit {
     result : any;
     selectedPointages: Pointage[];
     tab = [];
-    json= {matricule : null, prenom: null, nom : null, service: null, datepointage: null, heureArrivee: null, heureDescente: null,cumulHeure: null, status:null};
+    json= {matricule : null, prenom: null, nom : null,  datepointage: null, heureArrivee: null, heureDescente: null,cumulHeure: null, statut:null};
     cols: any;
     currentService: Service;
+     loading: any;
 
   constructor(private pointageService: PointageService,public keycloak: KeycloakService,
               private http: HttpClient, private datepipe: DatePipe,
@@ -65,12 +66,12 @@ ngOnInit(): void {
     {field: 'matricule', header: 'matricule'.trim()},
     {field: 'prenom', header: 'prenom'.trim()},
     {field: 'nom', header: 'nom'.trim()},
-    // {field: 'service', header: 'service'},
+   // {field: 'service', header: 'service'},
     {field: 'date', header: 'date'.trim()},
     {field: 'arrivee', header: 'arrivee'.trim()},
     {field: 'descente', header: 'descente'.trim()},
     {field: 'cumul', header: 'cumul'.trim()},
-    {field: 'status', header: 'status'.trim()},
+    {field: 'statut', header: 'statut'.trim()},
    ];
   }
 
@@ -78,6 +79,7 @@ ngOnInit(): void {
 
     rechercheByService(date1: Date, date2: Date) {
       this.submitted=true
+        this.tourner=true;
         this.d1 = this.datepipe.transform(this.date1, 'yyyy-MM-dd');
         this.d2 = this.datepipe.transform(this.date2, 'yyyy-MM-dd');
         console.log(this.d1,this.d2)
@@ -88,6 +90,9 @@ ngOnInit(): void {
           console.log( this.user.service.codeservice );
           this.pointageService.getListPointageByService(this.d1,this.d2,this.user.service.codeservice).subscribe((data)=>{
               this.result=data
+             // console.log(this.user)
+              this.result = this.result.filter(use => use.agent.service?.codeservice == this.user.service?.codeservice);
+            //  this.result = this.result.filter(user=>user.agent.service.codeservice == this.user.service.codeservice)
               this.tourner=false;
               console.log(this.result)
               return data;
@@ -105,12 +110,12 @@ ngOnInit(): void {
           this.json.matricule = this.result[i].agent.matricule,
           this.json.prenom = this.result[i].agent.prenomagent,
           this.json.nom = this.result[i].agent.nomagent,
-          this.json.service = this.result[i].agent.service.nomservice,
+      //    this.json.service = this.result[i].agent.service.nomservice,
           this.json.datepointage = this.result[i].datepointage,
           this.json.heureArrivee = this.result[i].heurearrivee,
           this.json.heureDescente = this.result[i].heuredescente,
           this.json.cumulHeure= this.result[i].cumulheure,
-          this.json.status = this.result[i].motif.motif,
+          this.json.statut = this.result[i].agent.statut_presence,
 
           this.tab.push({...this.json});
                           // console.log(this.json)
@@ -119,22 +124,44 @@ ngOnInit(): void {
       // console.log(this.tab)
     }
 
+    // exportPDF(result: any) {
+    //   this.tab=[];
+    //   for (let i = 0; i < this.result.length; i++) {
+    //       const tb={
+    //           matricule : this.result[i].agent.matricule,
+    //           prenom: this.result[i].agent.prenomagent,
+    //           nom: this.result[i].agent.nomagent,
+    //           service :this.result[i].agent.service.nomservice,
+    //           date: this.result[i].datepointage,
+    //           arrivee: this.result[i].heurearrivee,
+    //           descente: this.result[i].heuredescente,
+    //           cumul: this.result[i].cumulheure,
+    //           status: this.result[i].motif.motif,
+    //       };
+    //           this.tab.push({tb});
+    //   }
+
+    load(index) {
+        this.loading[index] = true;
+        setTimeout(() => this.loading[index] = false, 1000);
+    }
     exportPDF(result: any) {
-      this.tab=[];
-      for (let i = 0; i < this.result.length; i++) {
-          const tb={
-              matricule : this.result[i].agent.matricule,
-              prenom: this.result[i].agent.prenomagent,
-              nom: this.result[i].agent.nomagent,
-              // this.json.service = this.result[i].agent.service.nomservice,
-              date: this.result[i].datepointage,
-              arrivee: this.result[i].heurearrivee,
-              descente: this.result[i].heuredescente,
-              cumul: this.result[i].cumulheure,
-              status: this.result[i].motif.motif,
-          };
-              this.tab.push({tb});
-      }
+        this.tab=[];
+        for (let i = 0; i < this.result.length; i++) {
+            const tb={
+                matricule : this.result[i].agent.matricule,
+                prenom: this.result[i].agent.prenomagent,
+                nom: this.result[i].agent.nomagent,
+              //  service :this.result[i].agent.service.nomservice,
+                date: this.result[i].datepointage,
+                arrivee: this.result[i].heurearrivee,
+                descente: this.result[i].heuredescente,
+                cumul: this.result[i].cumulheure,
+                statut: this.result[i].agent.statut_presence,
+            };
+            this.tab.push(tb);
+        }
+
          console.log(this.tab)
 
 
@@ -144,7 +171,7 @@ ngOnInit(): void {
 
       const doc = new jsPDF();
 
-      const texte = "Rapport de présence du Service:  " + this.currentService?.nomservice;
+      const texte = "Rapport de présence du Service:  " + this.user.service?.nomservice;
       doc.text(texte, 40, 20);
 
       const logoImg = new Image();

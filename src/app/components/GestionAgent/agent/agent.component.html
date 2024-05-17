@@ -9,16 +9,19 @@
 <!--                        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="handleDeleteAgents()" [disabled]=" !selectedAgents || !selectedAgents.length"></button>-->
                     </div>
                 </ng-template>
-
                 <ng-template pTemplate="right">
-
+                    <button pButton pRipple label="Export excel" icon="pi pi-upload" class="p-button-success mr-2" (click)="exportAsXLSX(agents)"></button>
+                    <button pButton pRipple label="Export PDF" icon="pi pi-upload" class="mr-2 inline-block"  (click)="exportTableToPDF(agents)"></button>
+                </ng-template>
+                <!-- <ng-template pTemplate="right"> -->
+                   
 <!--                    <button pButton pRipple label="Import" icon="pi pi-upload" class="p-button-help" (click)="handleImport()"></button>-->
 <!--                    <input (change)="onUpload($event)" class="form-control form-control-lg" id="formFileLg" type="file">-->
 <!--                    <span class="p-error" *ngIf="charger==false" style="">Ce fichier a dejà été chargé</span>-->
 
 <!--                    <p-fileUpload mode="basic" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>-->
 <!--                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>-->
-                </ng-template>
+                <!-- </ng-template> -->
             </p-toolbar>
 
             <p-table #dt [value]="agents" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['prenomagent','nomagent','matricule','service.nomservice']" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30,40]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedAgents" selectionMode="multiple" [rowHover]="true" dataKey="idadent">

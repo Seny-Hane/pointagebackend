@@ -14,17 +14,23 @@
 
 </div>
 
+<div class="grid" *ngIf="tourner==true">
+    <h5 class="spinner">Veuillez Patienter...</h5>
+    <p-progressSpinner class="spinner"></p-progressSpinner>
+</div>
+
 <div class="grid" *ngIf="erreur==false && tourner==false">
     <div class="col-12">
         <div class="card">
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="right">
                     <!--                    <button pButton pRipple label="Export excel" icon="pi pi-upload" class="mr-2 inline-block"></button>-->
-                    <p-badge   class="user"  value=" Rapport  D'Absence  " size="large" severity="warning"></p-badge>
+                    <b class="left"><u>Total Absence</u>: {{result?.length}} Jour(s)</b>
                 </ng-template>
+                
                 <ng-template pTemplate="left">
-                    <button pButton pRipple label="Export excel" icon="pi pi-upload" class="mr-2 inline-block" (click)="exportAsXLSX(result)"></button>
-                    <button pButton pRipple label="Export PDF" icon="pi pi-upload" class="p-button-success mr-2"  (click)="exportTableToPDF()"></button>
+                    <button pButton pRipple label="Export excel" icon="pi pi-upload" class="p-button-success mr-2" (click)="exportAsXLSX(result)"></button>
+                    <button pButton pRipple label="Export PDF" icon="pi pi-upload" class="mr-2 inline-block"  (click)="exportTableToPDF(result)"></button>
                 </ng-template>
             </p-toolbar>
             <!-- <div *ngIf="result.length==0">
@@ -43,7 +49,13 @@
                 Aucune Absence
             </div>
             <div *ngIf="result.length!=0">
+
+                <div class="text-center">
+                    <p-badge   class="user"  value=" Rapport  D'Absence  " size="large" severity="warning"></p-badge>
+                </div>
                 <p-table [value]="result" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['datepointage']" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedPointages" selectionMode="multiple" [rowHover]="true" dataKey="idpointage">
+                        <!--                    <button pButton pRipple label="Export excel" icon="pi pi-upload" class="mr-2 inline-block"></button>-->
+
                     <ng-template pTemplate="header">
                         <tr>
                             <th>Matricule </th>

@@ -21,6 +21,9 @@ export class PointageService {
     public getPointageByDate() : Observable<Pointage[]> {
         return this.http.get<Pointage[]>(environment.apiUrl+'/pointage/bydate');
     }
+    public getPointageByDateChoi( date1: string) : Observable<Pointage[]> {
+        return this.http.get<Pointage[]>(environment.apiUrl+'/pointage/bydate/'+date1);
+    }
 
     public getRapport(date1: string, date2: string, service: any) : Observable<Pointage[]> {
         return this.http.get<Pointage[]>(environment.apiUrl+'/pointage/listeperriodique/'+date1+'/'+date2+'/'+service);

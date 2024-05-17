@@ -21,22 +21,20 @@
         <p-button label="Rechercher" icon="pi pi-search" styleClass="mr-2 mb-2" [disabled]="disabled" (click)="rechercheByMatricule(date1, date2,matricule)"></p-button>
     </div>
 </div>
-
-<!--<div class="grid" *ngIf="tourner==true">
+<div class="grid" *ngIf="tourner==true">
     <h5 class="spinner">Veuillez Patienter...</h5>
     <p-progressSpinner class="spinner"></p-progressSpinner>
-</div>-->
-
-<!--<div *ngIf="date1!=null && date2!=null && matricule!=null && !result && erreur==true && tourner==false" class="alert alert-danger" >
+</div>
+<div *ngIf="date1!=null && date2!=null && matricule!=null && !result && erreur==true && tourner==false" class="alert alert-danger" >
     Serveur Indisponible
-</div>-->
+</div>
 <div class="grid" *ngIf="erreur==false && tourner==false">
     <div class="col-12">
         <div class="card">
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="right">
 <!--                    <button pButton pRipple label="Export excel" icon="pi pi-upload" class="mr-2 inline-block"></button>-->
-                    <b class="left"><u>Total Absence</u>: {{result.length}} Jour(s)</b>
+                    <b class="left"><u>Total Absence</u>: {{result?.length}} Jour(s)</b>
                 </ng-template>
                 <ng-template pTemplate="left">
                     <button pButton pRipple label="Export excel" icon="pi pi-upload" class="mr-2 inline-block" (click)="exportAsXLSX(result)"></button>
@@ -55,19 +53,35 @@
                 </div>
              </div>    -->
 
-             <div *ngIf="result.length==0">
+             <div *ngIf="result?.length==0">
                 Aucune Absence durant la période du {{date1 | date: 'dd/MM/yyyy' }}
                 au {{date2 | date: 'dd/MM/yyyy' }}
             </div>
-            <div *ngIf="result.length!=0">
+            <div *ngIf="result?.length!=0">
                 <p-table [value]="result" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['datepointage']" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedPointages" selectionMode="multiple" [rowHover]="true" dataKey="idpointage">
                     <ng-template pTemplate="header">
+
                         <tr>
+                            <th>Prenom </th>
+                            <th>Nom </th>
+                            <th>Matricule </th>
                             <th>Dates d'absence</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-resul>
                         <tr>
+                            <td style="width:14%; min-width:10rem;"><span class="p-column-title">Prenom</span>
+                                {{resul.agent?.prenomagent}}
+                            </td>
+                            <td style="width:14%; min-width:10rem;">
+                                <span class="p-column-title">Nom</span>
+                                {{resul.agent?.nomagent}}
+                            </td>
+                            <td style="width:14%; min-width:10rem;">
+                                <span class="p-column-title">Matricule</span>
+                                {{resul.agent?.matricule}}
+                            </td>
+
                             <td>{{ resul | date: 'dd/MM/yyyy' }}</td>
                         </tr>
                     </ng-template>

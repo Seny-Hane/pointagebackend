@@ -50,6 +50,8 @@ export class ListAbsenceComponent implements OnInit {
 
     @Input() maVariable: string;
     private listeAbs: Absence[];
+     loading: any;
+     resultAbs: any[];
 
     constructor(public agentService: AgentService,
                 private pointageService: PointageService,
@@ -94,6 +96,11 @@ export class ListAbsenceComponent implements OnInit {
             console.log(this.listeAbs)
         })
   }
+    load(index) {
+        this.loading[index] = true;
+        setTimeout(() => this.loading[index] = false, 1000);
+    }
+
 
 
     // getAllAgentAbs() {
@@ -108,21 +115,21 @@ export class ListAbsenceComponent implements OnInit {
     // }
     rechercheByService(date1: Date, date2: Date) {
         this.submitted=true
+        this.tourner=true
         this.d1 = this.datepipe.transform(this.date1, 'yyyy-MM-dd');
         this.d2 = this.datepipe.transform(this.date2, 'yyyy-MM-dd');
         console.log(this.d1,this.d2)
         console.log(this.user)
 
         if (this.d1 && this.d2){
-            //console.log( this.user );
+            console.log( this.user );
             this.absenceService.getAbsencesPeriodiqueParInterDate(this.d1,this.d2,this.user.service.codeservice).subscribe((data)=>{
                 this.result=data
-                this.motifModif=false
-              //  this.messageService.add({  severity: 'success', summary: 'Success', detail: 'Motif modifié avec success', life: 8000 });
-
+                console.log(this.user.service?.codeservice)
+                this.resultAbs = this.result.filter(use => use.service?.codeservice === this.user.service?.codeservice);
                 this.tourner=false;
-                console.log(this.result)
-                return this.result;
+               console.log(this.resultAbs)
+                return this.resultAbs;
 
             })
 
