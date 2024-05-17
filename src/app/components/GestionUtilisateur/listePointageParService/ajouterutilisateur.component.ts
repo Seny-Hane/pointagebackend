@@ -30,7 +30,7 @@ export class AjouterutilisateurComponent implements OnInit {
     result : any;
     selectedPointages: Pointage[];
     tab = [];
-    json= {matricule : null, prenom: null, nom : null,  datepointage: null, heureArrivee: null, heureDescente: null,cumulHeure: null, status:null};
+    json= {matricule : null, prenom: null, nom : null,  datepointage: null, heureArrivee: null, heureDescente: null,cumulHeure: null, statut:null};
     cols: any;
     currentService: Service;
      loading: any;
@@ -115,7 +115,7 @@ ngOnInit(): void {
           this.json.heureArrivee = this.result[i].heurearrivee,
           this.json.heureDescente = this.result[i].heuredescente,
           this.json.cumulHeure= this.result[i].cumulheure,
-          this.json.status = this.result[i].agent.statut_presence,
+          this.json.statut = this.result[i].agent.statut_presence,
 
           this.tab.push({...this.json});
                           // console.log(this.json)

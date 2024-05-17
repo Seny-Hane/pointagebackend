@@ -40,7 +40,7 @@ export class RapportPointageComponent implements OnInit {
     dateabsence : any;
     selectedPointages: Pointage[];
     tab = [];
-    json= {matricule : null, prenom: null, nom : null, service: null, datepointage: null, heureArrivee: null, heureDescente: null,cumulHeure: null, status:null};
+    json= {matricule : null, prenom: null, nom : null, service: null, datepointage: null, heureArrivee: null, heureDescente: null,cumulHeure: null, statut:null};
     // tb={matricule : null,prenom: null,nom : null,date: null,arrivee: null,descente: null,cumul: null,status:null};
     tempAbsence: any;
     tabAbsence : any;
@@ -84,7 +84,7 @@ export class RapportPointageComponent implements OnInit {
         {field: 'arrivee', header: 'arrivee'.trim()},
         {field: 'descente', header: 'descente'.trim()},
         {field: 'cumul', header: 'cumul'.trim()},
-        {field: 'status', header: 'status'.trim()},
+        {field: 'statut', header: 'statut'.trim()},
        ];
   }
  
@@ -190,7 +190,7 @@ export class RapportPointageComponent implements OnInit {
                         this.json.heureArrivee = this.result[i].heurearrivee,
                         this.json.heureDescente = this.result[i].heuredescente,
                         this.json.cumulHeure= this.result[i].cumulheure,
-                        this.json.status = this.result[i].motif.motif,
+                        this.json.statut = this.result[i].motif.motif,
 
                         this.tab.push({...this.json});
                             // console.log(this.json)
@@ -213,7 +213,7 @@ export class RapportPointageComponent implements OnInit {
                 arrivee: this.result[i]?.heurearrivee,
                 descente: this.result[i]?.heuredescente,
                 cumul: this.result[i]?.cumulheure,
-                status: this.result[i]?.motif.motif,
+                statut: this.result[i]?.motif.motif,
             };
                 this.tab.push({tb});
         }
