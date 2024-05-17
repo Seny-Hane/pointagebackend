@@ -16,7 +16,7 @@ public interface PointageService {
     List<Pointage> findByInvervalleDatesAgentPresent(Date datepointage1, Date datepointage2, int idagent, int codeservice);
 
     //Liste precence en fonction d'une date par service
-    List<Pointage> findByPresenceDatepointage(Date datepointage, int codeservice);
+    List<Pointage> findByPresenceDatepointage(LocalDate datepointage, int codeservice);
 
     //Liste de retard perriodique par agent
     List<Pointage> findByInvervalleDatesAgentRetard(Date datepointage1, Date datepointage2, int idagent, int codeservice);

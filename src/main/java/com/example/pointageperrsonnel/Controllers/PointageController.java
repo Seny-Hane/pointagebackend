@@ -1,5 +1,6 @@
 package com.example.pointageperrsonnel.Controllers;
 
+import com.example.pointageperrsonnel.DTO.PointageDTO;
 import com.example.pointageperrsonnel.Entity.Agent;
 import com.example.pointageperrsonnel.Entity.Pointage;
 import com.example.pointageperrsonnel.Entity.Service;
@@ -66,14 +67,38 @@ public class PointageController {
 //        return pointageRepository.save(pointage);
 //    }
     @PostMapping(value = "/{matricule}/{codeservice}")
-    public Pointage save(@PathVariable String matricule, @PathVariable int codeservice, @RequestBody Pointage pointage) throws Exception {
+    public Pointage save(@PathVariable String matricule, @PathVariable int codeservice, @RequestBody PointageDTO pointageDTO) throws Exception {
         Agent agent = agentRepository.findAgentByMatricule(matricule);
         Service service = serviceRepository.findServiceByCodeservice(codeservice);
         agent.setService(service);
         agent.setStatut_presence(Statut_Presence.PRESENT);
-        pointage.setDatepointage(LocalDate.now());
-        pointage.setAgent(agent);
-        return pointageRepository.save(pointage);
+        pointageDTO.setAgent(agent);
+        Date heurearrive= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX").parse(pointageDTO.getHeurearrivee());
+        LocalDate datepointage =LocalDate.parse(pointageDTO.getDatepointage());
+
+        Date heurdescent= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX").parse(pointageDTO.getHeuredescente());
+
+        System.out.println( heurearrive);
+        Pointage pointageArrive = new Pointage();
+        pointageArrive.setDatepointage(datepointage);
+        pointageArrive.setHeurearrivee(heurearrive);
+        pointageArrive.setAgent(pointageDTO.getAgent());
+        pointageArrive.setHeuredescente(heurdescent);
+
+        Calendar calArrive=Calendar.getInstance();
+        Calendar caldescente=Calendar.getInstance();
+
+        calArrive.setTime(pointageArrive.getHeurearrivee());
+        caldescente.setTime(pointageArrive.getHeuredescente());
+
+        caldescente.add(Calendar.HOUR_OF_DAY,-calArrive.get(Calendar.HOUR_OF_DAY));
+        caldescente.add(Calendar.MINUTE,-calArrive.get(Calendar.MINUTE));
+        //caldescente.add(Calendar.HOUR,-i);
+        //System.out.println(caldescente.get(Calendar.HOUR)+caldescente.get(Calendar.MINUTE));
+        pointageArrive.setCumulheure(caldescente.get(Calendar.HOUR_OF_DAY)+":"+caldescente.get(Calendar.MINUTE));
+
+
+        return pointageRepository.save(pointageArrive);
     }
 
     //Affichage en fonction de son id
@@ -120,7 +145,8 @@ public class PointageController {
    @GetMapping(value = "/listepresence/{datepointage}/service/{codeservice}")
    public List<Pointage> findByPresenceDatepointage(@PathVariable String datepointage, @PathVariable int codeservice) throws ParseException{
 
-       Date datep= new SimpleDateFormat("dd-MM-yyyy").parse(datepointage);
+      // Date datep= new SimpleDateFormat("dd-MM-yyyy").parse(datepointage);
+       LocalDate datep =LocalDate.parse(datepointage);
 
        return  pointageService.findByPresenceDatepointage(datep, codeservice);
    }

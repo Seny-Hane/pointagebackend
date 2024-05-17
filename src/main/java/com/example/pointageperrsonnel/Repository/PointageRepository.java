@@ -49,7 +49,7 @@ public interface PointageRepository extends JpaRepository<Pointage, Integer> {
 
     //Liste presence en fonction d'une date par service
     @Query("SELECT p FROM Pointage p WHERE p.datepointage=:datepointage AND p.agent.service.codeservice=:codeservice ")
-    List<Pointage> findByPresenceDatepointage(@Param("datepointage") Date datepointage, @Param("codeservice") int codeservice);
+    List<Pointage> findByPresenceDatepointage(@Param("datepointage") LocalDate datepointage, @Param("codeservice") int codeservice);
 
     //Liste de retard perriodique par agent d'un service service
     @Query("SELECT p FROM Pointage p WHERE (p.datepointage BETWEEN :datepointage1 AND :datepointage2) AND p.agent.idagent=:idagent AND p.agent.service.codeservice=:codeservice ")

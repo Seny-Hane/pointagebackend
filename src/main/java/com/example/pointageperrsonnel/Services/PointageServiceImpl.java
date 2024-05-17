@@ -32,7 +32,7 @@ public class PointageServiceImpl implements PointageService{
     }
 
     @Override
-    public List<Pointage> findByPresenceDatepointage(Date datepointage, int codeservice){
+    public List<Pointage> findByPresenceDatepointage(LocalDate datepointage, int codeservice){
         return pointageRepository.findByPresenceDatepointage(datepointage, codeservice);
     }
 
