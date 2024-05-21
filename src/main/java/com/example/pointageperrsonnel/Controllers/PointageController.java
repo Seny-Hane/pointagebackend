@@ -66,6 +66,41 @@ public class PointageController {
 //
 //        return pointageRepository.save(pointage);
 //    }
+//    @PostMapping(value = "/{matricule}/{codeservice}")
+//    public Pointage save(@PathVariable String matricule, @PathVariable int codeservice, @RequestBody PointageDTO pointageDTO) throws Exception {
+//        Agent agent = agentRepository.findAgentByMatricule(matricule);
+//        Service service = serviceRepository.findServiceByCodeservice(codeservice);
+//        agent.setService(service);
+//        agent.setStatut_presence(Statut_Presence.PRESENT);
+//        pointageDTO.setAgent(agent);
+//        Date heurearrive= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX").parse(pointageDTO.getHeurearrivee());
+//        LocalDate datepointage =LocalDate.parse(pointageDTO.getDatepointage());
+//
+//        Date heurdescent= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX").parse(pointageDTO.getHeuredescente());
+//
+//        System.out.println( heurearrive);
+//        Pointage pointageArrive = new Pointage();
+//        pointageArrive.setDatepointage(datepointage);
+//        pointageArrive.setHeurearrivee(heurearrive);
+//        pointageArrive.setAgent(pointageDTO.getAgent());
+//        pointageArrive.setHeuredescente(heurdescent);
+//
+//        Calendar calArrive=Calendar.getInstance();
+//        Calendar caldescente=Calendar.getInstance();
+//
+//        calArrive.setTime(pointageArrive.getHeurearrivee());
+//        caldescente.setTime(pointageArrive.getHeuredescente());
+//
+//        caldescente.add(Calendar.HOUR_OF_DAY,-calArrive.get(Calendar.HOUR_OF_DAY));
+//        caldescente.add(Calendar.MINUTE,-calArrive.get(Calendar.MINUTE));
+//        //caldescente.add(Calendar.HOUR,-i);
+//        //System.out.println(caldescente.get(Calendar.HOUR)+caldescente.get(Calendar.MINUTE));
+//        pointageArrive.setCumulheure(caldescente.get(Calendar.HOUR_OF_DAY)+":"+caldescente.get(Calendar.MINUTE));
+//
+//
+//        return pointageRepository.save(pointageArrive);
+//    }
+
     @PostMapping(value = "/{matricule}/{codeservice}")
     public Pointage save(@PathVariable String matricule, @PathVariable int codeservice, @RequestBody PointageDTO pointageDTO) throws Exception {
         Agent agent = agentRepository.findAgentByMatricule(matricule);
@@ -73,33 +108,35 @@ public class PointageController {
         agent.setService(service);
         agent.setStatut_presence(Statut_Presence.PRESENT);
         pointageDTO.setAgent(agent);
-        Date heurearrive= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX").parse(pointageDTO.getHeurearrivee());
-        LocalDate datepointage =LocalDate.parse(pointageDTO.getDatepointage());
+        Date heurearrive = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX").parse(pointageDTO.getHeurearrivee());
+        LocalDate datepointage = LocalDate.parse(pointageDTO.getDatepointage());
 
-        Date heurdescent= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX").parse(pointageDTO.getHeuredescente());
+        Date heurdescent = null;
+        if (pointageDTO.getHeuredescente() != null && !pointageDTO.getHeuredescente().isEmpty()) {
+            heurdescent = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX").parse(pointageDTO.getHeuredescente());
+        }
 
-        System.out.println( heurearrive);
+        System.out.println(heurearrive);
         Pointage pointageArrive = new Pointage();
         pointageArrive.setDatepointage(datepointage);
         pointageArrive.setHeurearrivee(heurearrive);
         pointageArrive.setAgent(pointageDTO.getAgent());
         pointageArrive.setHeuredescente(heurdescent);
 
-        Calendar calArrive=Calendar.getInstance();
-        Calendar caldescente=Calendar.getInstance();
+        Calendar calArrive = Calendar.getInstance();
+        Calendar caldescente = Calendar.getInstance();
 
         calArrive.setTime(pointageArrive.getHeurearrivee());
-        caldescente.setTime(pointageArrive.getHeuredescente());
-
-        caldescente.add(Calendar.HOUR_OF_DAY,-calArrive.get(Calendar.HOUR_OF_DAY));
-        caldescente.add(Calendar.MINUTE,-calArrive.get(Calendar.MINUTE));
-        //caldescente.add(Calendar.HOUR,-i);
-        //System.out.println(caldescente.get(Calendar.HOUR)+caldescente.get(Calendar.MINUTE));
-        pointageArrive.setCumulheure(caldescente.get(Calendar.HOUR_OF_DAY)+":"+caldescente.get(Calendar.MINUTE));
-
+        if (heurdescent != null) {
+            caldescente.setTime(pointageArrive.getHeuredescente());
+            caldescente.add(Calendar.HOUR_OF_DAY, -calArrive.get(Calendar.HOUR_OF_DAY));
+            caldescente.add(Calendar.MINUTE, -calArrive.get(Calendar.MINUTE));
+            pointageArrive.setCumulheure(caldescente.get(Calendar.HOUR_OF_DAY) + ":" + caldescente.get(Calendar.MINUTE));
+        }
 
         return pointageRepository.save(pointageArrive);
     }
+
 
     //Affichage en fonction de son id
     @GetMapping(value = "/{idpointage}")
