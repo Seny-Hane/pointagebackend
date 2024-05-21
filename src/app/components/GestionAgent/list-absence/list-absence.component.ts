@@ -201,6 +201,18 @@ export class ListAbsenceComponent implements OnInit {
                 this.abs.motif.motif =this.listAbModi.motif.motif;
                 this.listMtofi;
                 this.messageService.add({  severity: 'success', summary: 'Success', detail: 'Motif modifié avec success', life: 8000 });
+                if (this.d1 && this.d2){
+                   // console.log( this.user );
+                    this.absenceService.getAbsencesPeriodiqueParInterDate(this.d1,this.d2,this.user.service.codeservice).subscribe((data)=>{
+                        this.result=data
+                        this.resultAbs = this.result.filter(use => use.service?.codeservice === this.user.service?.codeservice);
+                        this.tourner=false;
+                       // console.log(this.resultAbs)
+                        return this.resultAbs;
+
+                    })
+
+                }
                 this.absenceSubject.next();
                 this.abs
             })

@@ -59,7 +59,7 @@ cols:any[];
        {field:'nom',header:'nom'.trim()},
        {field:'dateAbs',header:'dateAbs'.trim()},
        {field:'motif',Header:'motif'.trim()},
-       
+
       ]
   }
 
@@ -73,6 +73,7 @@ cols:any[];
         this.submitted = true;
         this.result=null;
         this.tourner=true;
+        this.matricule =matricule
         console.log(this.erreur);
         this.absenceService.getAbsencesPeriodiqueParAgent(this.datepipe.transform(this.date1, 'yyyy-MM-dd'),
             this.datepipe.transform(this.date2, 'yyyy-MM-dd'), matricule).subscribe(data => {
@@ -100,16 +101,16 @@ cols:any[];
 this.tab=[];
 for(let i = 0; i < result.length; i++){
 
-   
+
       this.json.matricule=this.result[i].agent.matricule,
      this.json.prenom=this.result[i].agent.prenomagent,
       this.json.nom = this.result[i].agent.nomagent,
      this.json.dateAbs=this.result[i].dateAbs,
       this.json.motif=this.result[i].motif.motif
-      
+
      this.tab.push({...this.json})
-   
-    
+
+
 }
 this.excelService.exportAsExcelFile(this.tab);
     }
@@ -129,11 +130,11 @@ this.excelService.exportAsExcelFile(this.tab);
        nom:this.result[i].agent.nomagent,
        dateAbs:this.result[i].dateAbs,
        motif:this.result[i].motif.motif
-      
 
-      
+
+
      } ;
-     this.tab.push(tb);  
+     this.tab.push(tb);
     }
     console.log(this.tab);
     const columns = this.cols?.map(col => col.field);
@@ -156,7 +157,7 @@ this.excelService.exportAsExcelFile(this.tab);
         doc.save((this.currentService ? this.currentService.nomservice : "") + 'Absence par Agent.pdf');
 
     }
-   
+
     getAllMotif(){
       this.absenceService.getAllMotif().subscribe((data)=>{
           this.listMtofi= data;
@@ -184,16 +185,32 @@ this.excelService.exportAsExcelFile(this.tab);
 
     updateAbsence() {
         this.submitted = true;
-        this.abs.motif = this.justiSelected;
-        this.abs.commentaire = this.commentaire;
+        //this.abs.motif = this.justiSelected;
+       // this.abs.commentaire = this.commentaire;
        console.log(this.abs)
             this.absenceService.putAbs(this.abs.id, this.abs).subscribe(
-                (data)=>{
-                   this.listAbModi=data;
-                    this.messageService.add({  severity: 'success', summary: 'Success', detail: 'Motif modifié avec success', life: 8000 });
-            })
+                (data)=> {
+                    this.listAbModi = data;
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Success',
+                        detail: 'Motif modifié avec success',
+                        life: 8000
+                    });
+                    this.absenceService.getAbsencesPeriodiqueParAgent(this.datepipe.transform(this.date1, 'yyyy-MM-dd'),
+                        this.datepipe.transform(this.date2, 'yyyy-MM-dd'), this.matricule).subscribe(data => {
+                        this.result = data
+                        this.result = this.result.filter(use => use?.agent?.matricule === this.matricule);
 
-            this.absenceDialog = false;
+                        console.log(this.result);
+                        this.tourner = false;
+                        this.erreur = false;
+
+                    })
+                    this.absenceDialog = false;
+
+                });
+
         }
 
 

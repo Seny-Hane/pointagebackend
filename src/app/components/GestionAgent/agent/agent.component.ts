@@ -122,7 +122,7 @@ export class AgentComponent implements OnInit {
       )
       this.getAllAgent();
 
-      this.getAllService()
+    //  this.getAllService()
 
       this.StatutAgent.subscribe(
           (data)=>{
@@ -132,13 +132,13 @@ export class AgentComponent implements OnInit {
       )
       this.getAllStatutAgent()
       this.cols = [
-        {field:'reference',Header:'reference'},
-        {field:'matricule',Header:'matricule'},
-          {field: 'prenom', header: 'prenom'},
-          {field: 'nom', header: 'nom'},
-          {field:'sexe',Header:'sexe'},
-          {field: 'service', header: 'service'},
-          {field:'daterecrutement',Header:'daterecrutement'}
+        {field:'Reference',Header:'Reference'},
+        {field:'Matricule',Header:'Matricule'},
+          {field: 'Prenom', header: 'Prenom'},
+          {field: 'Nom', header: 'Nom'},
+          {field:'Sexe',Header:'Sexe'},
+          {field: 'Service', header: 'Service'},
+          {field:'Daterecrutement',Header:'Daterecrutement'}
       ];
 
   }
@@ -153,7 +153,7 @@ export class AgentComponent implements OnInit {
     exportAsXLSX(agents){
         this.tab=[];
         for(let i = 0; i < agents.length; i++){
-        
+
            this.json.reference=this.agents[i].reference
               this.json.matricule=this.agents[i].matricule,
              this.json.prenom=this.agents[i].prenomagent,
@@ -161,60 +161,56 @@ export class AgentComponent implements OnInit {
              this.json.genre=this.agents[i].genre,
               this.json.service=this.agents[i].service.nomservice,
               this.json.daterecrutement=this.agents[i].daterecrutement
-              
+
              this.tab.push({...this.json})
-           
-            
+
+
         }
         this.excelService.exportAsExcelFile(this.tab);
     }
     exportTableToPDF(agents){
         this.tab=[];
         console.log(this.agents)
-        // if (!result || !result.length) {
-        //     console.error('Le tableau de résultats est vide ou indéfini.');
-        //     return;
-        // }
-        for (let i = 0; i < agents.length; i++) {
-            // const agents = this.agents[i].agents;
-         const tb={
-            reference:this.agents[i].reference,
-            matricule:this.agents[i].matricule,
-           prenom:this.agents[i].prenomagent,
-           nom:this.agents[i].nomagent,
-           genre:this.agents[i].genre,
-           service:this.agents[i].service.nomservice,
-           daterecrutement:this.agents[i].daterecrutement
 
-         
-          
-          
-    
-          
+        for (let i = 0; i < agents.length; i++) {
+         const tb={
+            Reference:this.agents[i].reference,
+            Matricule:this.agents[i].matricule,
+           Prenom:this.agents[i].prenomagent,
+           Nom:this.agents[i].nomagent,
+             Sexe:this.agents[i].genre,
+           Service:this.agents[i].service.nomservice,
+           Daterecrutement:this.agents[i].daterecrutement
+
+
+
+
+
+
          } ;
-         this.tab.push(tb);  
+         this.tab.push(tb);
         }
         console.log(this.tab);
         const columns = this.cols?.map(col => col.field);
             const data = this.tab?.map(row => columns?.map(col => row[col]));
             console.log(data);
-    
+
             const doc = new jsPDF();
 
             const texte="Liste employés"+(this.currentService? this.currentService.nomservice:"");
-            doc.text(texte, 40, 20);
-    
+            doc.text(texte, 90, 20);
+
             const logoImg = new Image();
             logoImg.src = 'assets/layout/images/logoPoste.png';
             doc.addImage(logoImg, 'PNG', 15, 15, 14, 14);
-    
+
             autoTable(doc, {
                 head: [columns],
                 body: data,
                 startY: 30,
             });
             doc.save((this.currentService ? this.currentService.nomservice : "") + 'Liste employés.pdf');
-    
+
     }
     handleEditAgent(agent: Agent) {
         this.agent = {...agent};

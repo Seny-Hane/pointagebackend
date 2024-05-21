@@ -56,12 +56,12 @@ import { RattrapageComponent } from './components/GestionPointage/rattrapage/rat
 
                     {path: 'gestion/servicesPoste', component: ServicesPosteComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_DRH']},'ROLE_CHEFDESERVICE']},
                     {path: 'gestion/utilisateur', component: UtilisateursComponent, canActivate:[AuthGuard], data: [{roles:  [ 'ROLE_DRH']},'ROLE_CHEFDESERVICE']},
-                    {path: 'gestion/ListPointageByService', component: AjouterutilisateurComponent, canActivate:[AuthGuard], data: [{roles:  [ 'ROLE_DRH']},'ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE']},
-                    {path: 'gestion/ListAgentAbsByService', component: ListAbsenceComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']},'ROLE_DRH','ROLE_CHEFDESERVICE']},
+                    {path: 'gestion/ListPointageByService', component: AjouterutilisateurComponent, canActivate:[AuthGuard], data: [{roles:  [ 'ROLE_DRH']},'ROLE_CHEFDESERVICE']},
+                    {path: 'gestion/ListAgentAbsByService', component: ListAbsenceComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_DRH']},'ROLE_CHEFDESERVICE']},
                     {path: 'gestion/ListAgentAbsByMatricule', component: ListAbsenceParAgentComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']},'ROLE_DRH','ROLE_CHEFDESERVICE']},
                     {path: 'gestion/AllLiseAbs', component: ListGlobalAbsenceComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']},'ROLE_DRH','ROLE_CHEFDESERVICE']},
                     {path: 'gestion/role', component: ModifierMotifComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_DRH']}},
-                    {path: 'gestion/rattrapage', component: RattrapageComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']}, 'ROLE_CHEFDESERVICE']},
+                    {path: 'gestion/rattrapage', component: RattrapageComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']},'ROLE_DRH', 'ROLE_CHEFDESERVICE']},
                 ],
             },
 
