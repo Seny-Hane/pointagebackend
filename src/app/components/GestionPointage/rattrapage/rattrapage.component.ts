@@ -283,26 +283,41 @@ export class RattrapageComponent implements OnInit {
 //     });
 // }
     PointageNow(pointage) {
-        console.log(pointage)
-        const matricule = this.FormControlPointage.get('matricule').value;
-        const heureArriveeValue = this.FormControlPointage.get('heurearrivee').value;
-        const heureDescentValue = this.FormControlPointage.get('heuredescente').value;
-        const datePointage = this.FormControlPointage.get('datepointage').value;
-        console.log(heureArriveeValue)
-        // Récupérer l'agent par son matricule
+
+        console.log(pointage);
+
+        const matricule = this.FormControlPointage.get('matricule')?.value;
+        const heureArriveeValue = this.FormControlPointage.get('heurearrivee')?.value;
+        const heureDescentValue = this.FormControlPointage.get('heuredescente')?.value;
+        const datePointage = this.FormControlPointage.get('datepointage')?.value;
+        console.log(heureArriveeValue);
+        if (!matricule || !heureArriveeValue || !datePointage) {
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Erreur',
+                detail: 'Tous les champs sont requis.',
+                life: 3000
+            });
+            return;
+        }
+
         this.agentService.getAgentByMatricule(matricule).subscribe(agentData => {
             const [hours, minutes] = heureArriveeValue.split(':').map(Number);
             const selectedDate = new Date();
             selectedDate.setHours(hours);
             selectedDate.setMinutes(minutes);
-            console.log(selectedDate)
-            const [heuredescent, minutesdescent] = heureDescentValue.split(':').map(Number);
-            const selectedDateDescente = new Date();
-            selectedDateDescente.setHours(heuredescent);
-            selectedDateDescente.setMinutes(minutesdescent);
-            console.log(selectedDateDescente)
+            console.log(selectedDate);
 
-            // Assurer que l'agent a été récupéré avec succès
+            let selectedDateDescente: Date | undefined = undefined;
+            if (heureDescentValue) {
+                const [heureDescent, minutesDescent] = heureDescentValue.split(':').map(Number);
+                selectedDateDescente = new Date();
+                selectedDateDescente.setHours(heureDescent);
+                selectedDateDescente.setMinutes(minutesDescent);
+                console.log(selectedDateDescente);
+            }
+            const codeService = this.user?.service?.codeservice; // Récupérer le code de service de l'utilisateur
+
             if (!agentData) {
                 this.messageService.add({
                     severity: 'error',
@@ -313,40 +328,25 @@ export class RattrapageComponent implements OnInit {
                 return;
             }
 
-            // Assigner les données d'agent et d'heure d'arrivée
-           let pointageTest = new  Pointage()
+            let pointageTest = new Pointage();
             pointageTest.agent = agentData;
             pointageTest.heurearrivee = selectedDate;
-           //pointageTest.cumulheure=
-            pointageTest.heuredescente=selectedDateDescente
-            pointageTest.datepointage=datePointage
-            console.log(pointageTest)
-           // console.log(selectedDate)
-
-
-            const codeService = this.user?.service?.codeservice; // Récupérer le code de service de l'utilisateur
-            if (!codeService) {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Erreur',
-                    detail: 'Le code de service est introuvable.',
-                    life: 3000
-                });
-                return;
+            pointageTest.datepointage = datePointage;
+            if (selectedDateDescente) {
+                pointageTest.heuredescente = selectedDateDescente;
             }
 
-            // Contrôler le pointage de l'agent
-            console.log(matricule)
+            console.log(pointageTest);
+            console.log(matricule);
             this.pointageService.controlePointage(matricule).subscribe(pointageExists => {
-                if (!pointageExists) {
+                if (pointageExists==false) {
                     this.messageService.add({
                         severity: 'error',
                         summary: 'Erreur',
                         detail: `${agentData.prenomagent} ${agentData.nomagent} a déjà pointé ce matin.`,
                         life: 8000
                     });
-                } else {
-                    // Ajouter le pointage
+                } else if(pointageExists==true){
                     this.pointageservice.addPointage(matricule, codeService,pointageTest).subscribe(
                         () => {
                             this.messageService.add({
@@ -373,6 +373,9 @@ export class RattrapageComponent implements OnInit {
                     );
                 }
             });
+
+
+            // Suite du code...
         }, error => {
             console.log(error);
             this.messageService.add({
@@ -386,10 +389,7 @@ export class RattrapageComponent implements OnInit {
 
 
 
-
-
-
-keyPressAlphaNumericWithCharacters(event: KeyboardEvent) {
+    keyPressAlphaNumericWithCharacters(event: KeyboardEvent) {
     var inp = String.fromCharCode(event.keyCode);
     // Allow numbers, alphabets, space, underscore
     if (/[a-z0-9]/.test(inp)) {

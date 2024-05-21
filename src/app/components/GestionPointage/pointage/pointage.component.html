@@ -1,12 +1,21 @@
 <div class="card">
     <p-toast></p-toast>
     <h5>Saisir le matricule de l'employé</h5>
-        <div class="form-group" >
+        <div class="" >
             <div class="field">
+
                 <label for="matriculeA"  class="p-sr-only">Matricule</label>
                 <p-inputMask id="matriculeA" mask="999999a" [(ngModel)]="mat" required autoFocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !mat}"></p-inputMask>
+                <button pButton pRipple icon="pi pi-user" label="Rattrapage"
+                        class="p-button-danger m-lg-auto mb-2" style="float:right"
+                        (click)="confirmPointage()"></button>
                 <br>
                 <small *ngIf="submitted && !mat" class="p-error" style="font-size: 15px;">Veuillez saisir un matricule, il doit être du format 111111A.</small>
+
+
+
+
+
             </div>
             <div>
                 <button pButton label="Rechercher"  (click)="handleAddPointage()"></button>
@@ -73,6 +82,81 @@
 
                 <!--                <button pButton pRipple label="Arrivée" icon="pi pi-check" class="p-button-text"  (click)="savePointageMatin()" ></button>-->
 <!--                <button pButton pRipple label="Descente" icon="pi pi-check" class="p-button-text"  (click)="savePointageSoir()" ></button>-->
+            </ng-template>
+        </p-dialog>
+
+
+    </div>
+    <div>
+        <body>
+        <p-dialog [(visible)]="PointageDialog" [style]="{width: '700px', height: '50rem'}"
+                  header="Rattrapage" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="form-container">
+                    <h2 style="color:#0b5ed7">Enregistrement d'un Agent</h2>
+                    <form class="form-horizontal" [formGroup]="FormControlPointage">
+                        <div class="form-group">
+                            <label for="matricule">MATRICULE:</label>
+                            <mat-form-field class="example-full-width">
+                                <input matInput type="text" id="matricule" [(ngModel)]="matricule" placeholder="Matricule" formControlName="matricule"
+                                       (keypress)="keyPressAlphaNumericWithCharacters($event)">
+                                <mat-error *ngIf="FormControlPointage.controls['matricule'].hasError('minlength')">
+                                    Le matricule doit comporter au moins <strong>7 caractères</strong>
+                                </mat-error>
+                                <mat-error *ngIf="FormControlPointage.controls['matricule'].hasError('maxlength')">
+                                    Le matricule ne doit pas dépasser <strong>7 caractères</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="datepointage">DATE POINTAGE:</label>
+                            <mat-form-field>
+                                <input matInput type="date" id="datepointage" placeholder="Date Pointage" [(ngModel)]="pointage.datepointage" formControlName="datepointage">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="heurearrivee">HEURE ARRIVEE:</label>
+                            <mat-form-field>
+                                <input matInput type="time" id="heurearrivee" placeholder="Heure Arrivée" [(ngModel)]="pointage.heurearrivee" formControlName="heurearrivee">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="heuredescente">HEURE DESCENTE:</label>
+                            <mat-form-field>
+                                <input matInput type="time" id="heuredescente" placeholder="Heure Descente" [(ngModel)]="pointage.heuredescente" formControlName="heuredescente">
+                            </mat-form-field>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success" (click)="PointageNow(pointage)">
+          <span class="btn-label">
+            <i class="material-icons"></i>
+          </span>Enregistrer
+                    </button>
+
+                        <button type="submit" class="btn btn-danger float-end" (click)="hideDialog1()">
+          <span class="btn-label">
+            <i class="material-icons"></i>
+          </span>Annuler
+                        </button>
+
+                </div>
+            </ng-template>
+        </p-dialog>
+        </body>
+        <p-dialog [(visible)]="ajoutProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span><span style="color:red;"> Voulez-vous Pointer Un Agent  </span> :<br> <b></b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="ajoutProductDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="openForm()"></button>
             </ng-template>
         </p-dialog>
     </div>

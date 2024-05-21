@@ -77,7 +77,7 @@ export class AgentComponent implements OnInit {
     agentstatutDialog: boolean;
     tab = [];
     json= {reference:null,matricule : null, prenom: null,
-         nom : null,genre:null, service: null,daterecrutement:null};
+         nom : null,sexe:null, service: null,daterecrutement:null};
 
   constructor(public agentService : AgentService,
               public fb : FormBuilder,
@@ -122,7 +122,7 @@ export class AgentComponent implements OnInit {
       )
       this.getAllAgent();
 
-      this.getAllService()
+    //  this.getAllService()
 
       this.StatutAgent.subscribe(
           (data)=>{
@@ -152,16 +152,17 @@ export class AgentComponent implements OnInit {
     }
     exportAsXLSX(agents){
         this.tab=[];
+        console.log(this.agents)
         for(let i = 0; i < agents.length; i++){
-        
+
            this.json.reference=this.agents[i].reference
               this.json.matricule=this.agents[i].matricule,
              this.json.prenom=this.agents[i].prenomagent,
               this.json.nom = this.agents[i].nomagent,
-             this.json.genre=this.agents[i].genre,
+             this.json.sexe=this.agents[i].genre,
               this.json.service=this.agents[i].service.nomservice,
               this.json.daterecrutement=this.agents[i].daterecrutement
-              
+
              this.tab.push({...this.json})
            
             
@@ -171,12 +172,8 @@ export class AgentComponent implements OnInit {
     exportTableToPDF(agents){
         this.tab=[];
         console.log(this.agents)
-        // if (!result || !result.length) {
-        //     console.error('Le tableau de résultats est vide ou indéfini.');
-        //     return;
-        // }
+
         for (let i = 0; i < agents.length; i++) {
-            // const agents = this.agents[i].agents;
          const tb={
             reference:this.agents[i].reference,
             matricule:this.agents[i].matricule,
@@ -192,29 +189,29 @@ export class AgentComponent implements OnInit {
     
           
          } ;
-         this.tab.push(tb);  
+         this.tab.push(tb);
         }
         console.log(this.tab);
         const columns = this.cols?.map(col => col.field);
             const data = this.tab?.map(row => columns?.map(col => row[col]));
             console.log(data);
-    
+
             const doc = new jsPDF();
 
             const texte="Liste employés"+(this.currentService? this.currentService.nomservice:"");
-            doc.text(texte, 40, 20);
-    
+            doc.text(texte, 90, 20);
+
             const logoImg = new Image();
             logoImg.src = 'assets/layout/images/logoPoste.png';
             doc.addImage(logoImg, 'PNG', 15, 15, 14, 14);
-    
+
             autoTable(doc, {
                 head: [columns],
                 body: data,
                 startY: 30,
             });
             doc.save((this.currentService ? this.currentService.nomservice : "") + 'Liste employés.pdf');
-    
+
     }
     handleEditAgent(agent: Agent) {
         this.agent = {...agent};

@@ -65,7 +65,7 @@
                         <th>Matricule </th>
                         <!-- <th>Date  Naissance </th> -->
                         <th>Date Absence </th>
-                        <!-- <th>Genre </th> -->
+                         <th>Motif d'Absence</th>
                    <!--     <th pSortableColumn="heuredescente">Heure de Descente <p-sortIcon field="heuresortie"></p-sortIcon></th>
                         <th pSortableColumn="cumulheure">Cumul Heure <p-sortIcon field="cumulheure"></p-sortIcon></th>
                         <th pSortableColumn="motif.motif">Status <p-sortIcon field="motif.motif"></p-sortIcon></th>-->
@@ -98,10 +98,10 @@
                             <span class="p-column-title">Date Absence</span>
                             {{pointage.dateAbs | date: 'dd/MM/yyyy'  }}
                         </td>
-                        <!-- <td style="width:14%; min-width:8rem;">
+                         <td style="width:14%; min-width:8rem;">
                             <span class="p-column-title">Genre</span>
-                            {{pointage.genre}}
-                        </td> -->
+                            {{pointage.motif.motif}}
+                        </td>
                         <!-- <td style="width:14%; min-width:12rem;">
                             <p-autoComplete  appendTo="body"  [(ngModel)]="currentMotif" [virtualScroll]="true" [suggestions]="filteredmotifs" (completeMethod)="filterMotif($event)" field="motif" [dropdown]="true" ></p-autoComplete>
                         </td> -->
