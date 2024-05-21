@@ -8,8 +8,8 @@ export const environment = {
     //apiUrl: "http://digipost.sn.post:8085/pointageperrsonnel-backend"
 
 
-   //apiUrl: "http://digipost.sn.post:8085/pointageTest"  // pour deployer
-    apiUrl: "http://localhost:8083"   // en local
+   apiUrl: "http://digipost.sn.post:8085/pointageTest1"  // pour deployer
+    // apiUrl: "http://localhost:8083"   // en local
 
 
 
