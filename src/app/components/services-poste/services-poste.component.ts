@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, Header, MessageService } from 'primeng/api';
 import { TypeService } from '../../models/typeService.model';
 import {ServicesService} from "../../service/services.service";
 import {Drp} from "../../models/drp";
@@ -22,6 +22,7 @@ export class ServicesPosteComponent implements OnInit {
   erreur:boolean;
   submitted: boolean;
   services: any[];
+  cols:any[];
   service:Service;
   agentDialog: boolean;
   agentDialogEdit: boolean;
@@ -30,7 +31,9 @@ export class ServicesPosteComponent implements OnInit {
   typeService:TypeService;
   typeServices:TypeService[];
   //service:Service[];
-
+tab=[];
+json={nomservice:null,numeroservice:null,codepostal:null,
+  codeips:null,adresse:null,drp:null,typeService:null}
 
     serviceZone :string='ZONE';
 
@@ -54,9 +57,33 @@ export class ServicesPosteComponent implements OnInit {
   //  this.servicesSubjet.subscribe(data=>{
     //  this.getAllService()
     //})
-
+this.cols=[
+  {field:'nomservice',Header:'nomservice'},
+  {field:'numeroservice',header:'numeroservice'},
+  {field:'codepostal',Header:'codeposte'},
+  {field:'codeips',Header:'codeips'},
+  {field:'adresse',Header:'adresse'},
+  {field:'drp',Header:'drp'},
+  {field:'typeService',header:'typeService'}
+]
   }
+  exportAsXLSX(services){
+    this.tab=[]
+  
+for (let i = 0; i < services.length; i++) {
+  console.log(services)
+  this.json.nomservice=this.services[i].service.nomservice,
+  this.json.numeroservice=this.services[i].service.numeroservice,
+  this.json.codepostal=this.services[i].service.codepostal,
+  this.json.codeips=this.services[i].service.codeips,
+  this.json.adresse=this.services[i].service.adresse,
+  this.json.drp=this.services[i].service.drp,
+  this.json.typeService=this.services[i].service.typeService,
 
+  console.log(services)
+  this.tab.push({...this.json})
+}
+  }
 
   getAllService() {
     this.serviceService.getAllService().subscribe( data => {

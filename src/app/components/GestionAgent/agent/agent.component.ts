@@ -77,7 +77,7 @@ export class AgentComponent implements OnInit {
     agentstatutDialog: boolean;
     tab = [];
     json= {reference:null,matricule : null, prenom: null,
-         nom : null,genre:null, service: null,daterecrutement:null};
+         nom : null,sexe:null, service: null,daterecrutement:null};
 
   constructor(public agentService : AgentService,
               public fb : FormBuilder,
@@ -132,13 +132,13 @@ export class AgentComponent implements OnInit {
       )
       this.getAllStatutAgent()
       this.cols = [
-        {field:'Reference',Header:'Reference'},
-        {field:'Matricule',Header:'Matricule'},
-          {field: 'Prenom', header: 'Prenom'},
-          {field: 'Nom', header: 'Nom'},
-          {field:'Sexe',Header:'Sexe'},
-          {field: 'Service', header: 'Service'},
-          {field:'Daterecrutement',Header:'Daterecrutement'}
+        {field:'reference',Header:'reference'},
+        {field:'matricule',Header:'matricule'},
+          {field: 'prenom', header: 'prenom'},
+          {field: 'nom', header: 'nom'},
+          {field:'sexe',Header:'sexe'},
+          {field: 'service', header: 'service'},
+          {field:'daterecrutement',Header:'daterecrutement'}
       ];
 
   }
@@ -152,19 +152,20 @@ export class AgentComponent implements OnInit {
     }
     exportAsXLSX(agents){
         this.tab=[];
+        console.log(this.agents)
         for(let i = 0; i < agents.length; i++){
 
            this.json.reference=this.agents[i].reference
               this.json.matricule=this.agents[i].matricule,
              this.json.prenom=this.agents[i].prenomagent,
               this.json.nom = this.agents[i].nomagent,
-             this.json.genre=this.agents[i].genre,
+             this.json.sexe=this.agents[i].genre,
               this.json.service=this.agents[i].service.nomservice,
               this.json.daterecrutement=this.agents[i].daterecrutement
 
              this.tab.push({...this.json})
-
-
+           
+            
         }
         this.excelService.exportAsExcelFile(this.tab);
     }
@@ -174,19 +175,19 @@ export class AgentComponent implements OnInit {
 
         for (let i = 0; i < agents.length; i++) {
          const tb={
-            Reference:this.agents[i].reference,
-            Matricule:this.agents[i].matricule,
-           Prenom:this.agents[i].prenomagent,
-           Nom:this.agents[i].nomagent,
-             Sexe:this.agents[i].genre,
-           Service:this.agents[i].service.nomservice,
-           Daterecrutement:this.agents[i].daterecrutement
+            reference:this.agents[i].reference,
+            matricule:this.agents[i].matricule,
+           prenom:this.agents[i].prenomagent,
+           nom:this.agents[i].nomagent,
+           genre:this.agents[i].genre,
+           service:this.agents[i].service.nomservice,
+           daterecrutement:this.agents[i].daterecrutement
 
-
-
-
-
-
+         
+          
+          
+    
+          
          } ;
          this.tab.push(tb);
         }
