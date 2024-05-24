@@ -19,7 +19,7 @@
                 </ng-template>
             </p-toolbar>
 
-            <p-table #dt [value]=" listAgent" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['nom','prenom','email']" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Affichage des {first} aux {last}èmes des  {totalRecords} entrées" [(selection)]="selectedProducts" selectionMode="multiple" [rowHover]="true" dataKey="id">
+            <p-table #dt [value]=" listAgent" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['reference', 'matricule', 'prenomagent', 'nomagent', 'genre', 'daterecrutement']" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Affichage des {first} aux {last}èmes des  {totalRecords} entrées" [(selection)]="selectedProducts" selectionMode="multiple" [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
                         <h5 class="m-0">
