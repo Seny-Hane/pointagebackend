@@ -8,6 +8,7 @@ import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
@@ -31,6 +32,10 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
         super.configure(http);
         http.csrf().disable();
         http.cors();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Utiliser la session côté serveur si nécessaire
+                .maximumSessions(1) // Limiter à une seule session par utilisateur
+                .expiredUrl("/login?expired") // Rediriger vers la page de connexion lorsque la session expire
+                .and();
         //http.authorizeRequests().antMatchers("**").permitAll();
         http.authorizeRequests().antMatchers("**").authenticated(); // necessite une authentification
         http.authorizeRequests().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security",

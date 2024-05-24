@@ -126,7 +126,7 @@ public class KeyCloakService {
         newUser.setFirstName(user.getPrenom());
         newUser.setLastName(user.getNom());
         newUser.setEmail(user.getEmail());
-        newUser.setEnabled(true);
+        newUser.setEnabled(user.isEnable());
 
         List<String>requiredActions = new ArrayList<>();
         requiredActions.add("UPDATE_PASSWORD");
