@@ -110,7 +110,7 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     {label: 'Gestion Utilisateur', icon: 'pi  pi-fw pi-user-plus',routerLink: ['gestion/attributionroles'],roles: this.findRole(['ROLE_DRH'])},
                     {routerLink: ['gestion/role'],roles: this.findRole(['ROLE_DRH']),visible: false},
-                    {label: 'Liste Agents', icon: 'pi  pi-fw pi pi-list',routerLink: ['gestion/utilisateur'],roles: this.findRole(['ROLE_DRH','ROLE_CHEFDESERVICE'])},
+                    {label: 'Liste Agents  du Service', icon: 'pi  pi-fw pi pi-list',routerLink: ['gestion/utilisateur'],roles: this.findRole(['ROLE_DRH','ROLE_CHEFDESERVICE'])},
                     {label: 'Liste des Services', icon: 'pi pi-fw pi pi-list', routerLink: ['/gestion/servicesPoste'], roles: this.findRole(['ROLE_DRH','ROLE_SUPERVISEUR'],)},
                     {label: 'Liste Employés', icon: 'pi pi-fw pi pi-list', routerLink: ['/gestion/agent'], roles: this.findRole(['ROLE_DRH','ROLE_SUPERVISEUR'])},
                   //  {label: 'Rattrapage', icon: 'pi pi-fw pi-id-card', routerLink: ['/gestion/rattrapage'], roles: this.findRole(['ROLE_SUPERVISEUR','ROLE_DRH','ROLE_CHEFDESERVICE'])},
