@@ -5,20 +5,17 @@
             <div class="field">
 
                 <label for="matriculeA"  class="p-sr-only">Matricule</label>
-                <p-inputMask id="matriculeA" mask="999999a" [(ngModel)]="mat" required autoFocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !mat}"></p-inputMask>
-                <button pButton pRipple icon="pi pi-user" label="Rattrapage"
-                        class="p-button-danger m-lg-auto mb-2" style="float:right"
-                        (click)="confirmPointage()"></button>
+                <p-inputMask id="matriculeA" mask="999999a" [(ngModel)]="mat" required="true"   [ngClass]="{'ng-invalid ng-dirty' : submitted && !mat}" ></p-inputMask>
+
                 <br>
                 <small *ngIf="submitted && !mat" class="p-error" style="font-size: 15px;">Veuillez saisir un matricule, il doit être du format 111111A.</small>
-
-
-
-
 
             </div>
             <div>
                 <button pButton label="Rechercher"  (click)="handleAddPointage()"></button>
+                <button pButton pRipple icon="pi pi-user" label="Rattrapage" *ngIf="isAdmin() || isChefService()"
+                        class="p-button-danger m-lg-auto mb-1 border-info" style="float:right;border-radius: 10px;"
+                        (click)="confirmPointage()"></button>
             </div>
         </div>
 </div>
@@ -87,7 +84,7 @@
 
 
     </div>
-    <div>
+    <div >
         <body>
         <p-dialog [(visible)]="PointageDialog" [style]="{width: '700px', height: '50rem'}"
                   header="Rattrapage" [modal]="true" class="p-fluid">
@@ -133,7 +130,7 @@
                 </div>
 
                 <div class="text-center">
-                    <button type="submit" class="btn btn-success" (click)="PointageNow(pointage)">
+                    <button type="submit" class="btn btn-success" [disabled]="FormControlPointage.invalid" (click)="PointageNow(pointage)">
           <span class="btn-label">
             <i class="material-icons"></i>
           </span>Enregistrer
@@ -152,7 +149,7 @@
         <p-dialog [(visible)]="ajoutProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span><span style="color:red;"> Voulez-vous Pointer Un Agent  </span> :<br> <b></b>?</span>
+                <span><span style="color:red;font-size: 20px"> Voulez-vous Pointer Un Agent ? </span> </span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="ajoutProductDialog = false"></button>

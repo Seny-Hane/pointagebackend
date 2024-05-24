@@ -222,7 +222,7 @@
                         <div class="field col ms-2">
                             <label for="directions">Service</label>
                             <br>
-                            <p-autoComplete placeholder="Choisir un service" appendTo="body"  [(ngModel)]="utilisateurService" [virtualScroll]="true"
+                            <p-autoComplete placeholder="Choisir un service" appendTo="body"  [(ngModel)]="utilisateur.service" [virtualScroll]="true"
                                             [suggestions]="filtereddirections" (completeMethod)="filterDirections($event)" field="nomservice" [dropdown]="true" ></p-autoComplete>
                         </div>
 
@@ -233,7 +233,7 @@
 
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <button pButton pRipple label="Save" [disabled]="!utilisateur.nom || !utilisateur.prenom || !utilisateur.email || !utilisateur.telephone || !utilisateur.matricule || !utilisateur.reference"  icon="pi pi-check" class="p-button-text" (click)="saveUser(utilisateur)"></button>
+                <button pButton pRipple label="Save" [disabled]="!utilisateur.nom || !utilisateur.prenom || !utilisateur.email || !utilisateur.matricule || !utilisateur.reference"  icon="pi pi-check" class="p-button-text" (click)="saveUser(utilisateur)"></button>
             </ng-template>
         </p-dialog>
 

@@ -13,7 +13,7 @@
         </div>
         <div >
             <h5>&nbsp;</h5>
-            <p-button label="Rechercher" icon="pi pi-search" styleClass="mr-2 mb-2" (click)="rechercheByService(currentService)"></p-button>
+            <p-button label="Rechercher" icon="pi pi-search" styleClass="mr-2 mb-2" [disabled]="!currentService" (click)="rechercheByService(currentService)"></p-button>
         </div>
     </div>
 <!--    <div class="mid">-->

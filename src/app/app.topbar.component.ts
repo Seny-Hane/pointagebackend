@@ -19,6 +19,7 @@ export class AppTopBarComponent {
     users:any;
     username:any;
     items: MenuItem[];
+    hasAccess: boolean;
 
     constructor(public appMain: AppMainComponent,
                 private userService: UserService,
@@ -58,6 +59,7 @@ export class AppTopBarComponent {
     public deconnexion()
     {
         //console.log("fggh");
-        return this.keycloak.logout();
+         this.keycloak.logout();
     }
+
 }

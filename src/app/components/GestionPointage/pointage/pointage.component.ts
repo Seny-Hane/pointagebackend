@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PointageService} from "../../../service/pointage.service";
@@ -46,6 +46,7 @@ export class PointageComponent implements OnInit {
     username:any;
     PointageDialog:boolean=false;
     ajoutProductDialog: boolean=false;
+     hasAccess: boolean;
 
 
 
@@ -61,7 +62,8 @@ export class PointageComponent implements OnInit {
               public keycloak: KeycloakService,
               private pointageservice: PointageService,
               private motifservice: MotifService,
-              // private route : ActivatedRoute,
+              // private route : ActivatedRoute
+                private elementRef: ElementRef,
 
               public datepipe: DatePipe) {
       this.keycloak.loadUserProfile().then( res =>
@@ -72,6 +74,7 @@ export class PointageComponent implements OnInit {
            console.log(this.username);
           this.getUser(this.username);
       });
+
   }
     public getUser(email){
         // console.log(username);
@@ -81,6 +84,7 @@ export class PointageComponent implements OnInit {
             console.log( this.user );
         })
     }
+
 
   ngOnInit(): void {
 
@@ -135,6 +139,7 @@ export class PointageComponent implements OnInit {
     // }
 
 
+
     handleAddPointage() {
         this.submitted = true;
         if(this.mat.trim()){
@@ -174,16 +179,27 @@ export class PointageComponent implements OnInit {
     // }
 
 
-    keyPressAlphaNumericWithCharacters(event: KeyboardEvent) {
-        var inp = String.fromCharCode(event.keyCode);
-        // Allow numbers, alphabets, space, underscore
-        if (/[a-z0-9]/.test(inp)) {
-            return true;
+    keyPressAlphaNumericWithCharacters(event) {
+        var inputField = event.target; // Obtient l'élément HTML (le champ de saisie) qui a déclenché l'événement
+        var inputValue = inputField.value; // Récupère la valeur actuelle du champ de saisie
+        var inp = event.key; // Obtient la touche pressée sous forme de caractère
+
+        // Autorise les chiffres et les lettres (minuscules et majuscules)
+        if (/^[a-zA-Z0-9]$/.test(inp)) {
+            if (inputValue.length < 7) { // Vérifie si la longueur actuelle de la saisie est inférieure à 7
+                return true; // Autorise la saisie
+            } else {
+                event.preventDefault(); // Empêche la saisie si la longueur est déjà de 7 caractères ou plus
+                this.messageService.add({severity: 'error', summary: 'Erreur', detail:'Vous ne pouvez pas dépasser 7 Caractères !!', life: 3000});
+                return false; // Retourne false pour indiquer que la saisie n'est pas autorisée
+
+            }
         } else {
-            event.preventDefault();
-            return false;
+            event.preventDefault(); // Empêche la saisie si le caractère pressé n'est pas alphanumérique
+            return false; // Retourne false pour indiquer que la saisie n'est pas autorisée
         }
     }
+
 
 
     hideDialog() {
@@ -197,6 +213,13 @@ export class PointageComponent implements OnInit {
 
 
     savePointageMatin(agent) {
+        if (agent.statutAgent.idstatut===2) {
+            // Afficher un message d'erreur et arrêter l'exécution
+            this.messageService.add({severity: 'error', summary: 'Erreur', detail: `L'agent ${agent.prenomagent} ${agent.nomagent} est inactif et ne peut pas pointer.`, life: 8000});
+            this.ngOnInit()
+            this.agentDialog=false
+            return;
+        }
         console.log(agent)
         agent.service.drp=null;
         console.log( agent.service.drp)
@@ -239,6 +262,16 @@ export class PointageComponent implements OnInit {
         console.log(this.user.service.codeservice)
         agent.service.codeservice = this.user.service.codeservice
         console.log(agent)
+        if (agent.statutAgent.idstatut===2) {
+            // Afficher un message d'erreur et arrêter l'exécution
+            this.messageService.add({severity: 'error',
+                summary: 'Erreur', detail: `L'agent ${agent.prenomagent} ${agent.nomagent} est inactif et ne peut pas pointer.`,
+                life: 8000
+            });
+            this.ngOnInit()
+            this.agentDialog=false
+            return;
+        }
 
         this.pointageService.controlePointage(this.mat).subscribe(data =>{
             if(data == true){
@@ -508,6 +541,28 @@ export class PointageComponent implements OnInit {
 
     openForm() {
         this.PointageDialog=true
+
+    }
+    isAdmin() {
+        this.hasAccess = false
+        if (this.keycloak.getUserRoles().includes("ROLE_DRH")) {
+            this.hasAccess = true
+
+        }
+        console.log(this.hasAccess)
+        return this.hasAccess
+
+
+    }
+    isChefService() {
+        this.hasAccess = false
+        if (this.keycloak.getUserRoles().includes("ROLE_CHEFDESERVICE")) {
+            this.hasAccess = true
+
+        }
+
+        return this.hasAccess
+
 
     }
 }

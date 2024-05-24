@@ -39,7 +39,7 @@ export class AbsencePeriodiqueParServiceComponent implements OnInit {
     truc: string;
     truc2: string;
     tab = [];
-    json= {matricule : null, prenom: null, nom : null,dateabsence: null};
+    json= {matricule : null, prenom: null, nom : null,dateabsence: null,MotifAbsence:null};
     cols: any;
     currentMotif= Motif;
     motifs: any[];
@@ -76,7 +76,7 @@ export class AbsencePeriodiqueParServiceComponent implements OnInit {
         {field: 'nom', header: 'nom'},
         // {field: 'datenaissance', header: 'datenaissance'},
         {field: 'dateabsence', header: 'dateabsence'},
-        // {field: 'genre', header: 'genre'},
+        {field: 'MotifAbsence', header: 'MotifAbsence'},
       ];
 
   }
@@ -199,7 +199,7 @@ export class AbsencePeriodiqueParServiceComponent implements OnInit {
                 // this.json.datenaissance = this.results[i].datenaissance,
                 this.json.dateabsence = this.results[i].dateAbs,
                 // this.json.genre = this.results[i].genre,
-           //     this.json.motif= this.results[i].motif,
+              this.json.MotifAbsence= this.results[i].motif.motif,
                 this.tab.push({...this.json});
             // console.log(this.json)
         }
@@ -215,7 +215,7 @@ export class AbsencePeriodiqueParServiceComponent implements OnInit {
             this.json.nom = this.results[i].agent.nomagent,
             // this.json.datenaissance = this.results[i].datenaissance,
             this.json.dateabsence = this.results[i].dateAbs,
-            // this.json.genre = this.results[i].genre,
+            this.json.MotifAbsence = this.results[i].motif.motif,
             this.tab.push({...this.json});
          console.log(this.json)
         }

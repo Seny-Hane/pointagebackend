@@ -244,15 +244,15 @@ export class AttributionRoleComponent implements OnInit {
         this.utilisatreur=utilisateur
         this.utilisatreur.service.drp=null
         this.utilisatreur.service.typeService=null
-        this.utilisatreur.service.email=null
-        //this.utilisatreur.service.nomservice=null
-        this.utilisatreur.service.numeroservice=null
-        this.utilisatreur.service.telephone=null
-        this.utilisatreur.service.adresse=null
-        this.utilisatreur.service.codepostal=null
-        this.utilisatreur.service.codeips=null
-        this.utilisatreur.service.datecreation=null
-        this.utilisatreur.service.numeroservice=null
+        // this.utilisatreur.service.email=null
+        // //this.utilisatreur.service.nomservice=null
+        // this.utilisatreur.service.numeroservice=null
+        // this.utilisatreur.service.telephone=null
+        // this.utilisatreur.service.adresse=null
+        // this.utilisatreur.service.codepostal=null
+        // this.utilisatreur.service.codeips=null
+        // this.utilisatreur.service.datecreation=null
+        // this.utilisatreur.service.numeroservice=null
 
 
         this.utilisateurService= this.utilisateur.service

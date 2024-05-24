@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Pointage} from "../models/pointage.model";
 import {Agent} from "../models/agent.model";
@@ -11,8 +11,15 @@ import {environment} from "../../environments/environment";
 })
 export class PointageService {
 
-
   constructor(public http : HttpClient) { }
+    httpOptions =
+        {
+            headers: new HttpHeaders({
+                'Access-Control-Allow-Origin':'*',
+                'Content-Type': 'application/JSON',
+                'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT'
+            })
+        };
 
     public getAllPointage() : Observable<Pointage[]>{
         return this.http.get<Pointage[]>(environment.apiUrl+'/pointage/allpointage');

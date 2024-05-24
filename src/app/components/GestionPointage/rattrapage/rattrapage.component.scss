@@ -62,3 +62,67 @@ button.btn-success {
     padding: 5px 10px; /* Réduction du padding des boutons */
     font-size: 12px; /* Réduction de la taille de la police des boutons */
 }
+/* Réduction des marges et paddings pour les groupes de formulaires */
+.form-group {
+    margin-bottom: 5px; /* Réduction des marges entre les groupes */
+    padding: 5px; /* Ajout de padding interne pour l'espacement */
+}
+
+/* Ajustement de la largeur des champs de saisie */
+.mat-form-field {
+    width: 100%; /* S'assurer que les champs prennent toute la largeur disponible */
+    margin: 0; /* Réduction des marges autour des champs */
+}
+
+/* Réduction de la hauteur des champs de saisie */
+input.mat-input-element {
+    height: 30px; /* Réduction de la hauteur des champs de saisie */
+    font-size: 12px; /* Réduction de la taille de la police */
+    padding: 5px; /* Réduction du padding interne */
+}
+
+/* Ajustement des en-têtes de carte */
+.card-header {
+    padding: 5px; /* Réduction du padding interne de l'en-tête */
+    margin-bottom: 5px; /* Réduction de la marge inférieure */
+}
+
+/* Alignement et ajustement des boutons */
+.text-center {
+    margin-top: 5px; /* Réduction de la marge supérieure */
+}
+
+/* Ajustement des boutons pour qu'ils soient plus compacts */
+button.btn-success {
+    padding: 5px 10px; /* Réduction du padding interne des boutons */
+    font-size: 12px; /* Réduction de la taille de la police */
+}
+
+/* Ajustement des labels */
+label {
+    font-size: 12px; /* Réduction de la taille de la police des labels */
+    margin-bottom: 2px; /* Réduction de la marge inférieure des labels */
+}
+
+/* Réduction de la taille globale du formulaire */
+.grid, .card, .form-horizontal {
+    max-width: 600px; /* Limitation de la largeur maximale du formulaire */
+    margin: auto; /* Centrage du formulaire */
+}
+
+h2 {
+    font-size: 18px; /* Réduction de la taille de la police de l'en-tête */
+}
+
+.mat-form-field-infix {
+    padding: 0 8px; /* Réduction du padding interne des champs */
+}
+
+.mat-input-element {
+    line-height: 1.5; /* Réduction de la hauteur de ligne pour les champs de saisie */
+}
+
+button.btn-success {
+    padding: 5px 10px; /* Réduction du padding des boutons */
+    font-size: 12px; /* Réduction de la taille de la police des boutons */
+}

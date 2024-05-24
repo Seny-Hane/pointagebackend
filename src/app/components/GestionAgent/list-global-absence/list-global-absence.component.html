@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="mid">
-        <p-button label="Rechercher" icon="pi pi-search" styleClass="mr-2 mb-2" [disabled]="disabled" (click)="rechercheByMatricule(matricule)"></p-button>
+        <p-button label="Rechercher" icon="pi pi-search" styleClass="mr-2 mb-2" [disabled]="!matricule" (click)="rechercheByMatricule(matricule)"></p-button>
     </div>
 
 </div>
@@ -27,7 +27,7 @@
                     <!--                    <button pButton pRipple label="Export excel" icon="pi pi-upload" class="mr-2 inline-block"></button>-->
                     <b class="left"><u>Total Absence</u>: {{result?.length}} Jour(s)</b>
                 </ng-template>
-                
+
                 <ng-template pTemplate="left">
                     <button pButton pRipple label="Export excel" icon="pi pi-upload" class="p-button-success mr-2" (click)="exportAsXLSX(result)"></button>
                     <button pButton pRipple label="Export PDF" icon="pi pi-upload" class="mr-2 inline-block"  (click)="exportTableToPDF(result)"></button>
@@ -62,9 +62,7 @@
                             <th>Prénom </th>
                             <th>Nom </th>
                             <th>Date D'Absence </th>
-                            <th>Justificatif </th>
-                            <th>Commentaire </th>
-                            <th>Action </th>
+                            <th>Motif d'Absence</th>
                         </tr>
                     </ng-template>
                     <ng-template  pTemplate="body" let-abs>
@@ -89,23 +87,23 @@
                                 <span class="p-column-title">Justificatif</span>
                                 {{abs.motif.motif}}
                             </td>
-                            <td style="width:14%; min-width:8rem;">
-                                <span class="p-column-title">Commentaire</span>
-                                {{abs.commentaire}}
-                            </td>
-                            <td style="width:14%; min-width:8rem;">
-                                   <span>
-                                            <button pButton pRipple icon="pi pi-pencil" label="Justifier"
-                                                    class="p-button-secondary mr-2 mb-2"
-                                                    (click)="editAbs(abs)"></button>
+<!--                            <td style="width:14%; min-width:8rem;">-->
+<!--                                <span class="p-column-title">Commentaire</span>-->
+<!--                                {{abs.commentaire}}-->
+<!--                            </td>-->
+<!--                            <td style="width:14%; min-width:8rem;">-->
+<!--                                   <span>-->
+<!--                                            <button pButton pRipple icon="pi pi-pencil" label="Justifier"-->
+<!--                                                    class="p-button-secondary mr-2 mb-2"-->
+<!--                                                    (click)="editAbs(abs)"></button>-->
 <!--                                        <button mat-raised-button style="margin:2px;"type="button" class="btn btn-warning ">-->
 <!--                        <i class="material-icons"-->
 <!--                           [routerLink]="['GestionAgent/modifier-motif/modifiMotif/'+abs.id]">edit</i>-->
 <!--                      </button>-->
 
 
-                                   </span>
-                            </td>
+<!--                                   </span>-->
+<!--                            </td>-->
 
                     </ng-template>
                 </p-table>

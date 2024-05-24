@@ -273,6 +273,7 @@ import { MatSelectModule } from '@angular/material/select';
         RattrapageComponent,
 
 
+
     ],
     providers: [ DatePipe,
         {

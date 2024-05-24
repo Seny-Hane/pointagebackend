@@ -118,10 +118,6 @@ this.excelService.exportAsExcelFile(this.tab);
     exportTableToPDF(result) {
     this.tab=[];
     console.log(this.result)
-    // if (!result || !result.length) {
-    //     console.error('Le tableau de résultats est vide ou indéfini.');
-    //     return;
-    // }
     for (let i = 0; i < result.length; i++) {
         const agent = this.result[i].agent;
      const tb={
@@ -130,7 +126,6 @@ this.excelService.exportAsExcelFile(this.tab);
        nom:this.result[i].agent.nomagent,
        dateAbs:this.result[i].dateAbs,
        motif:this.result[i].motif.motif
-
 
 
      } ;
@@ -157,6 +152,7 @@ this.excelService.exportAsExcelFile(this.tab);
         doc.save((this.currentService ? this.currentService.nomservice : "") + 'Absence par Agent.pdf');
 
     }
+
 
     getAllMotif(){
       this.absenceService.getAllMotif().subscribe((data)=>{

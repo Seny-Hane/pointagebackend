@@ -5,10 +5,10 @@
             <p-toast></p-toast>
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
-<!--                    <div class="my-2">-->
+                    <div class="my-2">
 <!--                        <button pButton pRipple label="Nouveau" icon="pi pi-plus" class="p-button-primary mr-2" (click)="openNew()"></button>-->
-<!--                        &lt;!&ndash;                        <button pButton pRipple label="Management Fonction" icon="pi pi-plus" class="p-button-primary mr-2" (click)="openNewF()"></button>&ndash;&gt;-->
-<!--                    </div>-->
+                        <!--                        <button pButton pRipple label="Management Fonction" icon="pi pi-plus" class="p-button-primary mr-2" (click)="openNewF()"></button>-->
+                    </div>
                 </ng-template>
 
                 <ng-template pTemplate="right">
@@ -40,7 +40,7 @@
                         <th>Matricule </th>
                         <th>Prénom </th>
                         <th>Nom </th>
-                    
+
                         <th pSortableColumn="genre">Sexe <p-sortIcon field="genre"></p-sortIcon></th>
                         <!-- <th pSortableColumn="datenaissance">Date de Naissance <p-sortIcon field="datenaissance"></p-sortIcon></th> -->
                         <th pSortableColumn="daterecrutement">Date Emb<p-sortIcon field="daterecrutement"></p-sortIcon></th>
@@ -51,7 +51,7 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-agent>
                     <tr>
-                   
+
                         <td style="width:14%; min-width:10rem;"><span class="p-column-title">Référence</span>
 
                             <p-badge *ngIf="agent.statutAgent?.idstatut==1"  class="user"  value=" {{agent.reference}}" size="large" severity="success"></p-badge>
@@ -73,7 +73,7 @@
                             {{agent.genre}}
                         </td>
 
-                        
+
                         <td style="width:14%; min-width:8rem;">
                             <span class="p-column-title">Date de Recrutement</span>
                             {{agent.daterecrutement | date: 'dd-MM-YYYY' }}

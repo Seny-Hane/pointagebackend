@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="mid">
-        <p-button label="Rechercher" icon="pi pi-search" styleClass="mr-2 mb-2" [disabled]="disabled" (click)="rechercheByMatricule(date1, date2,matricule)"></p-button>
+        <p-button label="Rechercher" icon="pi pi-search" styleClass="mr-2 mb-2" [disabled]="!date1 || !date2 || !matricule" (click)="rechercheByMatricule(date1, date2,matricule)"></p-button>
     </div>
 </div>
 <div class="grid" *ngIf="tourner==true">

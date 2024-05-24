@@ -12,6 +12,9 @@ import {ConfirmationService, MessageService} from "primeng/api";
 import {Subject} from "rxjs";
 import {Service} from "../../../models/service";
 import {Agent} from "../../../models/agent.model";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import {ExcelService} from "../../../service/excel.service";
 
 @Component({
   selector: 'app-list-absence',
@@ -47,6 +50,7 @@ export class ListAbsenceComponent implements OnInit {
     private listMtofi: Motif[];
     private listMotifff: any[];
     private commentaire: any;
+    tab = [];
 
     @Input() maVariable: string;
     private listeAbs: Absence[];
@@ -59,7 +63,7 @@ export class ListAbsenceComponent implements OnInit {
                 private http: HttpClient,
                 private datepipe: DatePipe,
                 private absenceService: AbsenceService,
-                private messageService: MessageService) {
+                private messageService: MessageService,public excelService: ExcelService) {
       this.keycloak.loadUserProfile().then( res =>
       {
            console.log(res);
@@ -164,13 +168,89 @@ export class ListAbsenceComponent implements OnInit {
     }
 
 
-    exportAsXLSX(result: any) {
+    exportAsXLSX(services) {
+        this.tab = [];
+        for (let i = 0; i < services.length; i++) {
+            // Crée un nouvel objet json à chaque itération pour éviter les références partagées
+            let json = {
+                Matricule: services[i].agent.matricule,
+                Prenom: services[i].agent.prenomagent,
+                Nom: services[i].agent.nomagent,
+                DateAbsence: services[i].dateAbs,
+                Motif: services[i].motif.motif,
 
+            };
+
+            // Ajoute le nouvel objet json au tableau
+            this.tab.push(json);
+        }
+        // Appelle la méthode d'exportation une fois le tableau rempli
+        this.excelService.exportAsExcelFile(this.tab);
     }
 
-    exportPDF(result: any) {
+    exportPDF(result: any[]) {
+        this.tab = [];
 
+        // Construire le tableau des données
+        for (let i = 0; i < result.length; i++) {
+            const tb = {
+                Matricule: result[i].agent.matricule,
+                Prenom: result[i].agent.prenomagent,
+                Nom: result[i].agent.nomagent,
+                DateAbsence: result[i].dateAbs,
+                Motif: result[i].motif.motif,
+
+            };
+            this.tab.push(tb);
+        }
+
+        // Définir les colonnes avec les titres corrects
+        const columns = [
+            { title: "Matricule", dataKey: "Matricule" },
+            { title: "Prenom", dataKey: "Prenom" },
+            { title: "Nom", dataKey: "Nom" },
+            { title: "DateAbsence", dataKey: "DateAbsence" },
+            { title: "Motif", dataKey: "Motif" },
+
+        ];
+
+        const doc = new jsPDF();
+
+        const texte = "Liste des services " + (this.user ? this.user.service.nomservice : "");
+        doc.text(texte, 90, 20);
+
+        const logoImg = new Image();
+        logoImg.src = 'assets/layout/images/logoPoste.png';
+        doc.addImage(logoImg, 'PNG', 15, 15, 14, 14);
+
+        autoTable(doc, {
+            head: [columns.map(col => col.title)],
+            body: this.tab.map(row => columns.map(col => row[col.dataKey])),
+            startY: 30,
+            margin: { top: 30, right: 10, bottom: 10, left: 10 },
+            styles: {
+                fontSize: 8,  // Taille de police pour le contenu
+                cellPadding: 3,  // Marges internes des cellules
+            },
+            headStyles: {
+                fontSize: 10,  // Taille de police pour l'en-tête
+                fillColor:[0, 0, 255],  // Couleur de fond de l'en-tête
+                textColor: 255 // Couleur du texte de l'en-tête
+            },
+            columnStyles: {
+                Matricule: { cellWidth: 'auto' },
+                Prenom: { cellWidth: 'auto' },
+                Nom: { cellWidth: 'auto' },
+                DateAbsence: { cellWidth: 'auto' },
+                Motif: { cellWidth: 'auto' },
+
+            }
+        });
+
+        doc.save((this.user ? this.user.service?.nomservice : "") + 'Liste Services.pdf');
     }
+
+
 
     editAbs(abs) {
         this.abs= {...abs}

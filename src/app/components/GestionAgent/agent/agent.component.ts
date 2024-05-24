@@ -164,55 +164,122 @@ export class AgentComponent implements OnInit {
               this.json.daterecrutement=this.agents[i].daterecrutement
 
              this.tab.push({...this.json})
-           
-            
+
+
         }
         this.excelService.exportAsExcelFile(this.tab);
     }
-    exportTableToPDF(agents){
-        this.tab=[];
-        console.log(this.agents)
+    // exportTableToPDF(agents){
+    //     this.tab=[];
+    //     console.log(this.agents)
+    //
+    //     for (let i = 0; i < agents.length; i++) {
+    //      const tb={
+    //         reference:this.agents[i].reference,
+    //         matricule:this.agents[i].matricule,
+    //        prenom:this.agents[i].prenomagent,
+    //        nom:this.agents[i].nomagent,
+    //        genre:this.agents[i].genre,
+    //        service:this.agents[i].service.nomservice,
+    //        daterecrutement:this.agents[i].daterecrutement
+    //
+    //
+    //
+    //
+    //
+    //
+    //      } ;
+    //      this.tab.push(tb);
+    //     }
+    //     console.log(this.tab);
+    //     const columns = this.cols?.map(col => col.field);
+    //         const data = this.tab?.map(row => columns?.map(col => row[col]));
+    //         console.log(data);
+    //
+    //         const doc = new jsPDF();
+    //
+    //         const texte="Liste employés"+(this.currentService? this.currentService.nomservice:"");
+    //         doc.text(texte, 90, 20);
+    //
+    //         const logoImg = new Image();
+    //         logoImg.src = 'assets/layout/images/logoPoste.png';
+    //         doc.addImage(logoImg, 'PNG', 15, 15, 14, 14);
+    //
+    //         autoTable(doc, {
+    //             head: [columns],
+    //             body: data,
+    //             startY: 30,
+    //         });
+    //         doc.save((this.currentService ? this.currentService.nomservice : "") + 'Liste employés.pdf');
+    //
+    // }
+    exportTableToPDF(agents: any[]) {
+        this.tab = [];
 
+        // Construire le tableau des données
         for (let i = 0; i < agents.length; i++) {
-         const tb={
-            reference:this.agents[i].reference,
-            matricule:this.agents[i].matricule,
-           prenom:this.agents[i].prenomagent,
-           nom:this.agents[i].nomagent,
-           genre:this.agents[i].genre,
-           service:this.agents[i].service.nomservice,
-           daterecrutement:this.agents[i].daterecrutement
-
-         
-          
-          
-    
-          
-         } ;
-         this.tab.push(tb);
+            const tb = {
+                Reference: agents[i].reference,
+                Matricule: agents[i].matricule,
+                Prenom: agents[i].prenomagent,
+                Nom: agents[i].nomagent,
+                Sexe: agents[i].genre,
+                Service: agents[i].service.nomservice,
+                D_Recrutement: agents[i].daterecrutement
+            };
+            this.tab.push(tb);
         }
-        console.log(this.tab);
-        const columns = this.cols?.map(col => col.field);
-            const data = this.tab?.map(row => columns?.map(col => row[col]));
-            console.log(data);
 
-            const doc = new jsPDF();
+        // Définir les colonnes avec les titres corrects
+        const columns = [
+            { title: "Reference", dataKey: "Reference" },
+            { title: "Matricule", dataKey: "Matricule" },
+            { title: "Prenom", dataKey: "Prenom" },
+            { title: "Nom", dataKey: "Nom" },
+            { title: "Sexe", dataKey: "Sexe" },
+            { title: "Service", dataKey: "Service" },
+            { title: "D_Recrutement", dataKey: "D_Recrutement" }
+        ];
 
-            const texte="Liste employés"+(this.currentService? this.currentService.nomservice:"");
-            doc.text(texte, 90, 20);
+        const doc = new jsPDF();
 
-            const logoImg = new Image();
-            logoImg.src = 'assets/layout/images/logoPoste.png';
-            doc.addImage(logoImg, 'PNG', 15, 15, 14, 14);
+        const texte = "Liste des services " + (this.currentService ? this.currentService.nomservice : "");
+        doc.text(texte, 90, 20);
 
-            autoTable(doc, {
-                head: [columns],
-                body: data,
-                startY: 30,
-            });
-            doc.save((this.currentService ? this.currentService.nomservice : "") + 'Liste employés.pdf');
+        const logoImg = new Image();
+        logoImg.src = 'assets/layout/images/logoPoste.png';
+        doc.addImage(logoImg, 'PNG', 15, 15, 14, 14);
 
+        autoTable(doc, {
+            head: [columns.map(col => col.title)],
+            body: this.tab.map(row => columns.map(col => row[col.dataKey])),
+            startY: 30,
+            margin: { top: 30, right: 10, bottom: 10, left: 10 },
+            styles: {
+                fontSize: 8,  // Taille de police pour le contenu
+                cellPadding: 2,  // Marges internes des cellules
+                overflow: 'linebreak'  // Permet de gérer les débordements de texte
+            },
+            headStyles: {
+                fontSize: 10,  // Taille de police pour l'en-tête
+                fillColor: [0, 0, 255],  // Couleur de fond de l'en-tête
+                textColor: 255 // Couleur du texte de l'en-tête
+            },
+            columnStyles: {
+                Reference: { cellWidth: 'auto' },
+                Matricule: { cellWidth: 'auto' },
+                Prenom: { cellWidth: 'auto' },
+                Nom: { cellWidth: 'auto' },
+                Sexe: { cellWidth: 'auto' },
+                Service: { cellWidth: 'auto' },
+                D_Recrutement: { cellWidth: 'auto' }
+            }
+        });
+
+        doc.save((this.currentService ? this.currentService.nomservice : "") + 'Liste Services.pdf');
     }
+
+
     handleEditAgent(agent: Agent) {
         this.agent = {...agent};
          console.log(this.agent)

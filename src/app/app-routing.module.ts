@@ -53,6 +53,7 @@ import { RattrapageComponent } from './components/GestionPointage/rattrapage/rat
                     {path: 'gestion/absenceperiodiqueparservice', component: AbsencePeriodiqueParServiceComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_CHEFDESERVICE']},'ROLE_DRH']},
                 //     {path: 'gestion/attributionroles', loadChildren: () => import('./components/GestionUtilisateur/attribution-role/service.module').then(t => t.serviceModule)},
                      {path: 'gestion/attributionroles', component: AttributionRoleComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_DRH']},]},
+                  //  {path: 'gestion/test', component: TestFormComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_DRH']},]},
 
                     {path: 'gestion/servicesPoste', component: ServicesPosteComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_DRH']},'ROLE_CHEFDESERVICE']},
                     {path: 'gestion/utilisateur', component: UtilisateursComponent, canActivate:[AuthGuard], data: [{roles:  [ 'ROLE_DRH']},'ROLE_CHEFDESERVICE']},
@@ -61,7 +62,7 @@ import { RattrapageComponent } from './components/GestionPointage/rattrapage/rat
                     {path: 'gestion/ListAgentAbsByMatricule', component: ListAbsenceParAgentComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']},'ROLE_DRH','ROLE_CHEFDESERVICE']},
                     {path: 'gestion/AllLiseAbs', component: ListGlobalAbsenceComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']},'ROLE_DRH','ROLE_CHEFDESERVICE']},
                     {path: 'gestion/role', component: ModifierMotifComponent, canActivate:[AuthGuard], data: {roles:  ['ROLE_DRH']}},
-                    {path: 'gestion/rattrapage', component: RattrapageComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']},'ROLE_DRH', 'ROLE_CHEFDESERVICE']},
+                 //  {path: 'gestion/rattrapage', component: RattrapageComponent, canActivate:[AuthGuard], data: [{roles:  ['ROLE_SUPERVISEUR']},'ROLE_DRH', 'ROLE_CHEFDESERVICE']},
                 ],
             },
 

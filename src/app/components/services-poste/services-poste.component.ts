@@ -6,6 +6,9 @@ import { TypeService } from '../../models/typeService.model';
 import {ServicesService} from "../../service/services.service";
 import {Drp} from "../../models/drp";
 import {Service} from "../../models/service.model";
+import {ExcelService} from "../../service/excel.service";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 
 @Component({
@@ -41,7 +44,7 @@ json={nomservice:null,numeroservice:null,codepostal:null,
   constructor(
     public serviceService : ServicesService,
     public router:Router,private confirmationService: ConfirmationService,
-    private messageService:MessageService,
+    private messageService:MessageService, public excelService: ExcelService
     )
     {
 
@@ -56,34 +59,46 @@ json={nomservice:null,numeroservice:null,codepostal:null,
     this.getAllTypeService();
   //  this.servicesSubjet.subscribe(data=>{
     //  this.getAllService()
-    //})
-this.cols=[
-  {field:'nomservice',Header:'nomservice'},
-  {field:'numeroservice',header:'numeroservice'},
-  {field:'codepostal',Header:'codeposte'},
-  {field:'codeips',Header:'codeips'},
-  {field:'adresse',Header:'adresse'},
-  {field:'drp',Header:'drp'},
-  {field:'typeService',header:'typeService'}
-]
-  }
-  exportAsXLSX(services){
-    this.tab=[]
-  
-for (let i = 0; i < services.length; i++) {
-  console.log(services)
-  this.json.nomservice=this.services[i].service.nomservice,
-  this.json.numeroservice=this.services[i].service.numeroservice,
-  this.json.codepostal=this.services[i].service.codepostal,
-  this.json.codeips=this.services[i].service.codeips,
-  this.json.adresse=this.services[i].service.adresse,
-  this.json.drp=this.services[i].service.drp,
-  this.json.typeService=this.services[i].service.typeService,
 
-  console.log(services)
-  this.tab.push({...this.json})
-}
   }
+//   exportAsXLSX(services){
+//     this.tab=[]
+// for (let i = 0; i < services.length; i++) {
+//   console.log(services)
+//   this.json.nomservice=this.services[i].nomservice,
+//   this.json.numeroservice=this.services[i].numeroservice,
+//   this.json.codepostal=this.services[i].codepostal,
+//   this.json.codeips=this.services[i].codeips,
+//   this.json.adresse=this.services[i].adresse,
+//   this.json.drp=this.services[i].drp?.libelle,
+//   this.json.typeService=this.services[i].typeService?.libelle,
+//
+//   console.log(services)
+//   this.tab.push({...this.json})
+//     console.log(this.tab)
+// }
+// this.excelService.exportAsExcelFile(this.tab);
+//   }
+    exportAsXLSX(services) {
+        this.tab = [];
+        for (let i = 0; i < services.length; i++) {
+            // Crée un nouvel objet json à chaque itération pour éviter les références partagées
+            let json = {
+                nomservice: services[i].nomservice,
+                numeroservice: services[i].numeroservice,
+                codepostal: services[i].codepostal,
+                codeips: services[i].codeips,
+                adresse: services[i].adresse,
+                drp: services[i].drp?.libelle,
+                typeService: services[i].typeService?.libelle,
+            };
+
+            // Ajoute le nouvel objet json au tableau
+            this.tab.push(json);
+        }
+        // Appelle la méthode d'exportation une fois le tableau rempli
+        this.excelService.exportAsExcelFile(this.tab);
+    }
 
   getAllService() {
     this.serviceService.getAllService().subscribe( data => {
@@ -240,4 +255,109 @@ handleNewService(){
       }
       this.typeServices = filtered;
     }
+
+    // exportTableToPDF(services: any[]) {
+    //     this.tab=[];
+    //     //console.log(this.services)
+    //     for (let i = 0; i < services.length; i++) {
+    //         const tb={
+    //             Nomservice:this.services[i].nomservice,
+    //             Numeroservice:this.services[i].numeroservice,
+    //             Codepostal:this.services[i].codepostal,
+    //             Codeips:this.services[i].codeips,
+    //             Adresse:this.services[i].adresse,
+    //             Drp:this.services[i].drp?.libelle,
+    //             TypeService:this.services[i].typeService?.libelle
+    //         } ;
+    //         this.tab.push(tb);
+    //     }
+    //     console.log(this.tab);
+    //     const columns = this.cols?.map(col => col.field);
+    //     const data = this.tab?.map(row => columns?.map(col => row[col]));
+    //     console.log(data);
+    //
+    //     const doc = new jsPDF();
+    //
+    //     const texte="Liste services"+(this.currentService? this.currentService.nomservice:"");
+    //     doc.text(texte, 90, 20);
+    //
+    //     const logoImg = new Image();
+    //     logoImg.src = 'assets/layout/images/logoPoste.png';
+    //     doc.addImage(logoImg, 'PNG', 15, 15, 14, 14);
+    //
+    //     autoTable(doc, {
+    //         head: [columns],
+    //         body: data,
+    //         startY: 30,
+    //     });
+    //     doc.save((this.currentService ? this.currentService.nomservice : "") + 'Liste Services.pdf');
+    //
+    // }
+    exportTableToPDF(services: any[]) {
+        this.tab = [];
+
+        // Construire le tableau des données
+        for (let i = 0; i < services.length; i++) {
+            const tb = {
+                Nomservice: services[i].nomservice,
+                Numeroservice: services[i].numeroservice,
+                Codepostal: services[i].codepostal,
+                Codeips: services[i].codeips,
+                Adresse: services[i].adresse,
+                Drp: services[i].drp?.libelle,
+                TypeService: services[i].typeService?.libelle
+            };
+            this.tab.push(tb);
+        }
+
+        // Définir les colonnes avec les titres corrects
+        const columns = [
+            { title: "Nom du service", dataKey: "Nomservice" },
+            { title: "Numéro du service", dataKey: "Numeroservice" },
+            { title: "Code postal", dataKey: "Codepostal" },
+            { title: "Code IPS", dataKey: "Codeips" },
+            { title: "Adresse", dataKey: "Adresse" },
+            { title: "DRP", dataKey: "Drp" },
+            { title: "Type de service", dataKey: "TypeService" }
+        ];
+
+        const doc = new jsPDF();
+
+        const texte = "Liste des services " + (this.currentService ? this.currentService.nomservice : "");
+        doc.text(texte, 90, 20);
+
+        const logoImg = new Image();
+        logoImg.src = 'assets/layout/images/logoPoste.png';
+        doc.addImage(logoImg, 'PNG', 15, 15, 14, 14);
+
+        autoTable(doc, {
+            head: [columns.map(col => col.title)],
+            body: this.tab.map(row => columns.map(col => row[col.dataKey])),
+            startY: 30,
+            margin: { top: 30, right: 10, bottom: 10, left: 10 },
+            styles: {
+                fontSize: 8,  // Taille de police pour le contenu
+                cellPadding: 3,  // Marges internes des cellules
+            },
+            headStyles: {
+                fontSize: 10,  // Taille de police pour l'en-tête
+                fillColor:[0, 0, 255],  // Couleur de fond de l'en-tête
+                textColor: 255 // Couleur du texte de l'en-tête
+            },
+            columnStyles: {
+                Nomservice: { cellWidth: 'auto' },
+                Numeroservice: { cellWidth: 'auto' },
+                Codepostal: { cellWidth: 'auto' },
+                Codeips: { cellWidth: 'auto' },
+                Adresse: { cellWidth: 'auto' },
+                Drp: { cellWidth: 'auto' },
+                TypeService: { cellWidth: 'auto' },
+            }
+        });
+
+        doc.save((this.currentService ? this.currentService.nomservice : "") + 'Liste Services.pdf');
+    }
+
+
 }
+
