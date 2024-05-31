@@ -136,6 +136,32 @@ public class PointageController {
 
         return pointageRepository.save(pointageArrive);
     }
+    //Update form pointage soir
+    @PutMapping(value = "/soir/{matricule}")
+    public Pointage fairePointageSoir(@PathVariable String matricule, @RequestBody PointageDTO pointageDTO) throws Exception{
+        Agent agent = agentRepository.findAgentByMatricule(matricule);
+        Pointage pointage = pointageRepository.findBydatepointageAndAgent(agent.getIdagent());
+        pointageDTO.setAgent(agent);
+
+
+        if (matricule != null) {
+            Date heurdescent= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX").parse(pointageDTO.getHeuredescente());
+            pointage.setHeuredescente(heurdescent);
+
+            Calendar calArrive = Calendar.getInstance();
+            Calendar caldescente = Calendar.getInstance();
+
+            calArrive.setTime(pointage.getHeurearrivee());
+            caldescente.add(Calendar.HOUR_OF_DAY, -calArrive.get(Calendar.HOUR_OF_DAY));
+            caldescente.add(Calendar.MINUTE, -calArrive.get(Calendar.MINUTE));
+            pointage.setCumulheure(caldescente.get(Calendar.HOUR_OF_DAY) + ":" + caldescente.get(Calendar.MINUTE));
+
+        }
+
+        return pointageRepository.save(pointage);
+    }
+
+
 
 
     //Affichage en fonction de son id
