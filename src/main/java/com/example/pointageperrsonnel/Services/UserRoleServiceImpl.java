@@ -3,6 +3,7 @@ package com.example.pointageperrsonnel.Services;
 import com.example.pointageperrsonnel.Entity.Role;
 import com.example.pointageperrsonnel.Entity.User;
 import com.example.pointageperrsonnel.Entity.UserRole;
+import com.example.pointageperrsonnel.Entity.UserRoleId;
 import com.example.pointageperrsonnel.KeycloakSecurity.KeyCloakService;
 import com.example.pointageperrsonnel.Repository.RoleRepository;
 import com.example.pointageperrsonnel.Repository.UserRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserRoleServiceImpl implements UserRoleService{
@@ -28,9 +30,13 @@ public class UserRoleServiceImpl implements UserRoleService{
 
     @Autowired
     KeyCloakService keyCloakService;
+
+    @Autowired
+    UserRoleService userRoleService;
     @Override
     public void affectRoleToUser(UserRole userRole) {
     }
+
 
     @Override
     public List<UserRole> getAllUserRole() {
@@ -41,6 +47,7 @@ public class UserRoleServiceImpl implements UserRoleService{
     public void saveUserRole(UserRole userRole) {
         userRoleRepository.save(userRole);
     }
+
 
     @Override
     public boolean saveUserRoleBool(UserRole userRole) {
@@ -91,14 +98,15 @@ public class UserRoleServiceImpl implements UserRoleService{
         for (Role role : roles) {
             UserRole userRole = new UserRole(user1,role);
             userRoleList.add(userRole);
-
             if (counter == size) {
-                for (UserRole user_role : userRoleList) {
-                    String username = user_role.getUser().getEmail();
-                    String roleName = user_role.getRole().getAuthority();
+                for (UserRole role1 : userRoleList) {
+                    String username = role1.getUser().getEmail();
+                    String roleName = role1.getRole().getAuthority();
                     keyCloakService.removeRealmRoleToUser(username, roleName);
+                  //  keyCloakService.addRealmRoleToUser(username, roleName);
                 }
                 userRoleRepository.deleteAll(userRoleList);
+                userRoleRepository.saveAll(userRoleList);
                 userRoleList.clear();
             }
             counter++;
@@ -118,8 +126,8 @@ public class UserRoleServiceImpl implements UserRoleService{
            // if (this.findUserRoleByRoleReceveur(userRole)){
                 userRoleList.add(userRole);
                 if (counter == size) {
-                    if (userRoleRepository.saveAll(userRoleList)!=null){
-                        for (UserRole user_role : userRoleList) {
+                    if(userRoleRepository.saveAll(userRoleList)!=null){
+                        for (UserRole user_role : userRoleList){
                             String username = user_role.getUser().getEmail();
                             String roleName = user_role.getRole().getAuthority();
                             keyCloakService.addRealmRoleToUser(username, roleName);
@@ -135,6 +143,26 @@ public class UserRoleServiceImpl implements UserRoleService{
 
     @Override
     public void affectGroupRoleToUser(List<UserRole> userRoles) {
+        int size = userRoles.size();
+        int counter = 0;
+        List<UserRole> temp = new ArrayList<>();
+        for (UserRole emp : userRoles) {
+        //   if (this.findUserRoleByRoleReceveur(emp)){
+                temp.add(emp);
+                if ((counter + 1) == size) {
+                    if (userRoleRepository.saveAll(temp)!=null){
+                        for (UserRole tempEmp : temp) {
+                            String username = tempEmp.getUser().getEmail();
+                            String roleName = tempEmp.getRole().getAuthority();
+                            keyCloakService.addRealmRoleToUser(username, roleName);
+                        }
+                    }
+                    temp.clear();
+                }
+                counter++;
+          //  }
+        }
+
 
     }
 

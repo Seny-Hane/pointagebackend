@@ -221,24 +221,22 @@ public class KeyCloakService {
                 .realm(realm)
                 .users()
                 .search(userName);
-
         if (!users.isEmpty()) {
             String userId = users.get(0).getId();
             UserResource user = KeycloakConfig.getInstance()
                     .realm(realm)
                     .users()
                     .get(userId);
-
             RoleRepresentation roleToAdd = KeycloakConfig.getInstance()
                     .realm(realm)
                     .roles()
                     .get(role_name)
                     .toRepresentation();
-
             user.roles().realmLevel().add(Collections.singletonList(roleToAdd));
         } else {
             // Gérer le cas où aucun utilisateur correspondant n'a été trouvé
             System.out.println("Aucun utilisateur trouvé avec le nom : " + userName);
+            System.out.println("Aucun role trouvé avec le nom : " +role_name);
         }
     }
 

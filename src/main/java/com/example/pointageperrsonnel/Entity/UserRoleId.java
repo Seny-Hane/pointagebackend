@@ -1,19 +1,25 @@
 package com.example.pointageperrsonnel.Entity;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.JoinColumn;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRoleId implements Serializable {
 
-    //@JoinColumn(name = "id_user",nullable = false)
+    @JoinColumn(name = "id_user",nullable = false)
     private int user;
 
-    //@JoinColumn(name = "id_role",nullable = false)
+    @JoinColumn(name = "id_role",nullable = false)
     private int role;
 
     @Override
@@ -29,15 +35,9 @@ public class UserRoleId implements Serializable {
         return Objects.hash(user, role);
     }
 
-    public int getUser() {
-        return user;
-    }
-
     public void setUser(int user) {
         this.user = user;
     }
-
-    public int getRole() { return role; }
 
     public void setRole(int role) {
         this.role = role;

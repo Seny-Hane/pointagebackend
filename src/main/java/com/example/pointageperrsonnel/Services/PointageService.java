@@ -41,6 +41,7 @@ public interface PointageService {
 
     //Verification pointage
     boolean findBypointages(int agent);
+    boolean findBypointageByDate(Agent agent, LocalDate datePointage);
 
     //Verification mise a jour du update de la descente
     boolean findByHeuredescente(int agent);

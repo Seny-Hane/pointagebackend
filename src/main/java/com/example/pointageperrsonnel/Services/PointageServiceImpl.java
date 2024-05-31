@@ -84,6 +84,18 @@ public class PointageServiceImpl implements PointageService{
     }
 
     @Override
+    public boolean findBypointageByDate(Agent agent, LocalDate datePointage) {
+        boolean poursuivre;
+        if (pointageRepository.findByAgentAndDate(agent, datePointage) != null) {
+            poursuivre = false; // L'enregistrement ne pourra pas être effectué parce que l'agent a déjà pointé à cette date
+        } else {
+            poursuivre = true; // L'enregistrement est possible, l'agent n'a pas encore pointé à cette date
+        }
+        return poursuivre;
+    }
+
+
+    @Override
     public boolean findByHeuredescente(int agent) {
         boolean poursuivre;
         if(pointageRepository.findByHeuredescente(agent)!=null){
