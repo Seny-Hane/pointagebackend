@@ -1,3 +1,104 @@
 .maPetiteCard {
     width: 50%; // Ajustez la largeur selon vos besoins
 }
+
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espacement entre les boutons */
+}
+
+.custom-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s;
+}
+
+.custom-btn .btn-label i {
+    font-size: 18px;
+}
+
+.custom-btn.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: #fff;
+}
+
+.custom-btn.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.custom-btn.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+}
+
+.custom-btn.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+
+.custom-form {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.custom-card-header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 8px 8px 0 0;
+}
+
+.form-label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+.mat-form-field-wrapper {
+    padding-bottom: 0 !important;
+}
+
+.mat-input-element {
+    padding: 10px 15px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    font-size: 14px;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-wrapper .mat-form-field-flex {
+    background: #fff;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-flex {
+    padding: 10px;
+}
+
+.mat-form-field-label-wrapper {
+    top: -1.5em;
+}
+
+.mat-form-field-subscript-wrapper {
+    margin-top: 5px;
+}

@@ -98,8 +98,64 @@
 <!--                            <span class="p-column-title">Status</span>-->
 <!--                            {{pointage.motif.motif}}-->
 <!--                        </td>-->
+                        <td>
+                            <div class="flex">
+                                <button *ngIf="!pointage.heuredescente" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="UpdateDescente(pointage)"></button>
+                            </div>
+                        </td>
                 </ng-template>
             </p-table>
         </div>
+
+        <p-dialog  [(visible)]="pointDialog" [style]="{width: '500px', height: 'auto'}"  header="Rattrapage Descente" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <form class="form-horizontal">
+                    <div class="form-group row card-header">
+                        <!-- <div class="p-formgrip grid">
+                            <div class="col-md-6 form-group" [formGroup]="FormControlPointage">
+                                <label for="matricule">MATRICULE:</label>
+                                <br>
+                                <mat-form-field class="example-full-width">
+                                  <input matInput type="text" class="form-control"  id="matricule"  [(ngModel)]="matricule" placeholder="Matricule *" formControlName="matricule"
+                                      (keypress)="keyPressAlphaNumericWithCharacters($event)">
+                                      <mat-error *ngIf="FormControlPointage.controls['matricule'].hasError('minlength')">
+                                        le matricule doit composer au moins  <strong>7 caractères</strong>
+                                      </mat-error>
+                                      <mat-error *ngIf="FormControlPointage.controls['matricule'].hasError('maxlength')">
+                                        le matricule ne doit pas dépasser <strong>7 caractères</strong>
+                                      </mat-error>
+                                </mat-form-field>
+        
+                            </div>
+                        </div> -->
+                        <div class="p-formgrid grid">
+                            <div class="col-md-6 form-group" [formGroup]="FormControlPointage">
+                                <label for="heuredescente">HEURE DESCENTE:</label>
+                                <br>
+                                <mat-form-field>
+                                    <input matInput type="time"  placeholder="heuredescente" [(ngModel)]="pointage.heuredescente" formControlName="heuredescente">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="text-center button-group">
+                    <button type="submit" class="btn btn-success custom-btn" (click)="PointageNow()">
+                        <span class="btn-label">
+                            <i class="material-icons"></i>
+                        </span>
+                        Enregistrer
+                    </button>
+                    
+                    <button type="button" class="btn btn-danger custom-btn" (click)="Cancel()">
+                        <span class="btn-label">
+                            <i class="material-icons"></i>
+                        </span>
+                        Annuler
+                    </button>
+                </div>
+                
+            </ng-template>
+        </p-dialog>
     </div>
 </div>

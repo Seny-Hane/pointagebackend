@@ -9,6 +9,11 @@ import { ExcelService } from 'src/app/service/excel.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import {Service} from "../../../models/service.model";
+import { Agent } from 'src/app/models/agent.model';
+import { FormBuilder, Validators } from '@angular/forms';
+import { AgentService } from 'src/app/service/agent.service';
+import { UserService } from 'src/app/service/user.service';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -34,10 +39,25 @@ export class AjouterutilisateurComponent implements OnInit {
     cols: any;
     currentService: Service;
      loading: any;
+    pointDialog: boolean;
+    pointage: Pointage = new Pointage();
+    addagent: Agent;
+    formattedDate: string;
+    selectedDate: Date
+    matricule: string;
+    selectedPointage: any;
+    
 
   constructor(private pointageService: PointageService,public keycloak: KeycloakService,
               private http: HttpClient, private datepipe: DatePipe,
-              public excelService: ExcelService,) {
+              public excelService: ExcelService,
+              private fb: FormBuilder,
+              private pointageservice: PointageService,
+              private agentService: AgentService,
+              private userService: UserService,
+              private messageService: MessageService,) {
+
+      this.addagent= new Agent();          
       this.keycloak.loadUserProfile().then( res =>
       {
           // console.log(res);
@@ -50,6 +70,14 @@ export class AjouterutilisateurComponent implements OnInit {
       console.log(this.user)
 
   }
+
+  public getUser(email){
+    return  this.userService.getUserByUsername(email).subscribe(data =>
+    {
+        this.user=data;
+        console.log( this.user );
+    })
+}
 
 public getUserss(email){
     return  this.http.get(environment.apiUrl +'/user/emails/'+email).subscribe(data =>
@@ -73,9 +101,139 @@ ngOnInit(): void {
     {field: 'cumul', header: 'cumul'.trim()},
     {field: 'statut', header: 'statut'.trim()},
    ];
+
+    this.matricule="";
   }
 
+  FormControlPointage = this.fb.group({
+    matricule: [null, [
+      Validators.required,
+      Validators.minLength(7),
+      Validators.maxLength(7)
+    ]],
+    heuredescente: [null, Validators.required],
+  });
 
+//  PointageNow(pointage) {
+    //  const heureDescentValue = this.FormControlPointage.get('heuredescente')?.value;
+    //  this.agentService.getAgentByMatricule(this.pointage.agent.matricule).subscribe(agentData => {
+    //   let selectedDateDescente: Date | undefined = undefined;
+    //   if (heureDescentValue) {
+    //      const [heureDescent, minutesDescent] = heureDescentValue.split(':').map(Number);
+    //      selectedDateDescente = new Date();
+    //      selectedDateDescente.setHours(heureDescent);
+    //      selectedDateDescente.setMinutes(minutesDescent);
+    //      console.log(selectedDateDescente);
+    //    }
+    //    let pointageTest = new Pointage();
+    //    pointageTest.agent = agentData;
+    //   if (selectedDateDescente) {
+    //       pointageTest.heuredescente = selectedDateDescente;
+    //    }
+
+    //   this.pointageService.controlePointageSoir(this.pointage.agent.matricule).subscribe(data => {
+    //      if (data == false){
+    //        // this.hideDialog();
+    //        this.messageService.add({severity: 'error', summary: 'Erreur', detail: this.pointage.agent.prenomagent+' '+this.pointage.agent.nomagent+" a déjà pointé ce soir. ", life: 8000});
+    //      }
+    //      else if(data == true){
+    //        this.agentService.addPointageSortie(this.pointage.agent.matricule,pointageTest).subscribe(data => {
+ 
+    //          // this.hideDialog();
+             
+    //          this.messageService.add({severity: 'success', summary: 'Succes', detail: this.pointage.agent.prenomagent+' '+this.pointage.agent.nomagent+' a pointé avec succés. ', life: 8000});
+    //          // this.pointageSubject.next();
+    //          this.pointage.agent.matricule=undefined;
+    //        },
+    //          error => {
+    //          console.log(error)
+    //        })
+    //      } error => {
+    //      console.log(error)
+    //      }
+    //    })
+    //  }) 
+//  }    
+    PointageNow() {
+      console.log(this.selectedPointage)
+      const heureArriveeValue = this.FormControlPointage.get('heurearrivee')?.value;
+      const heureDescentValue = this.FormControlPointage.get('heuredescente')?.value;
+      console.log('heureDescentValue:', heureDescentValue);
+
+      let selectedDateDescente: Date | undefined = undefined;
+            
+                const [heureDescent, minutesDescent] = heureDescentValue.split(':').map(Number);
+                selectedDateDescente = new Date();
+                selectedDateDescente.setHours(heureDescent);
+                selectedDateDescente.setMinutes(minutesDescent);
+                console.log(selectedDateDescente);
+
+                let heurARRIVEE=this.selectedPointage.heurearrivee
+      
+                const [hours, minutes] =  heurARRIVEE.split(':').map(Number);
+                const selectedDate = new Date();
+                selectedDate.setHours(hours);
+                selectedDate.setMinutes(minutes);
+                console.log(selectedDate);          
+      
+                this.selectedPointage.heurearrivee = selectedDate;
+               console.log(this.selectedPointage)
+
+      // Mettre à jour l'objet pointage avec l'heure de descente sélectionnée
+        this.selectedPointage.heuredescente = selectedDateDescente;
+        console.log(this.selectedPointage)
+  
+      // Vérifier si l'agent a déjà pointé le soir
+      // this.pointageService.controlePointageSoir(this.selectedPointage.agent.matricule).subscribe(data => {
+      //   if (!data) {
+      //     this.messageService.add({ severity: 'error', summary: 'Erreur', detail: `${this.selectedPointage.agent.prenomagent} ${this.selectedPointage.agent.nomagent} a déjà pointé ce soir.`, life: 8000 });
+      //   } else {
+          // Ajouter le pointage de sortie
+          console.log(this.selectedPointage)
+          this.pointageService.addPointageSortie(this.selectedPointage.idpointage, this.selectedPointage).subscribe(
+            () => {
+              this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Pointage modifié avec successé', life: 8000 });
+              this.pointDialog = false;
+              this.selectedPointage = null;
+
+              if (this.d1 && this.d2){
+                this.pointageService.getListPointageByService(this.d1,this.d2,this.user.service.codeservice).subscribe((data)=>{
+                  this.result=data
+                  this.result = this.result.filter(use => use.agent.service?.codeservice == this.user.service?.codeservice);
+                  this.tourner=false;
+                  return data;
+    
+                })
+              }
+              this.ngOnInit();
+              this.FormControlPointage.reset();
+              
+            },
+            error => {
+              console.error(error);
+              this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Une erreur s\'est produite lors de l\'enregistrement du pointage.', life: 8000 });
+            }
+          );
+        }
+    //   }, error => {
+    //     console.error(error);
+    //     this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Une erreur s\'est produite lors de la vérification du pointage.', life: 8000 });
+    //   });
+    // }
+  
+
+
+
+  keyPressAlphaNumericWithCharacters(event: KeyboardEvent) {
+    var inp = String.fromCharCode(event.keyCode);
+    // Allow numbers, alphabets, space, underscore
+    if (/[a-z0-9]/.test(inp)) {
+      return true;
+    } else {
+      event.preventDefault();
+      return false;
+    }
+  }
 
     rechercheByService(date1: Date, date2: Date) {
       this.submitted=true
@@ -185,4 +343,17 @@ ngOnInit(): void {
       })
       doc.save(this.currentService?.nomservice+'_RapportPeriodiqueService.pdf');
     }
-}
+
+
+    UpdateDescente(pointage){
+      this.pointDialog= true;
+      this.submitted= true;
+      this.selectedPointage = pointage;
+      console.log(this.selectedPointage)
+   }
+
+   Cancel(){
+    this.pointDialog= false;
+    this.submitted= false;
+   }
+  }

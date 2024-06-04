@@ -39,7 +39,7 @@ export class SuperviseurComponent implements OnInit {
     username: any;
     todayWithPipe = null;
     pipe = new DatePipe('en-US');
-
+   
 
     constructor(private pointageService : PointageService,
                 private messageService: MessageService,
@@ -162,4 +162,7 @@ export class SuperviseurComponent implements OnInit {
             console.log(error)
         })
     }
+
+
+
 }

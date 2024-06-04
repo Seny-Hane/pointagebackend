@@ -89,4 +89,7 @@ export class PointageService {
     //     return this.http.post<Pointage>(environment.apiUrl + '/pointage/savepointage',pointage)
     // }
 
+    public addPointageSortie( idpointage : number, pointage:Pointage) : Observable<Pointage> {
+        return this.http.put<Pointage>(environment.apiUrl+'/pointage/soir/'+idpointage, pointage);
+    }
 }
