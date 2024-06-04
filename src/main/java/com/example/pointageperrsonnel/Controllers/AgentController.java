@@ -10,6 +10,7 @@ import com.example.pointageperrsonnel.Services.PointageServiceImpl;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -163,6 +164,13 @@ public class AgentController {
     public boolean controle(@PathVariable String matricule){
         Agent agent = agentRepository.findAgentByMatricule(matricule);
         return pointageService.findBypointages(agent.getIdagent());
+    }
+
+    @GetMapping(value = "/controleexistanceByDate/{matricule}/{datepointage}")
+    public boolean controleByDate(@PathVariable String matricule,@PathVariable String datepointage){
+        LocalDate datepointageAgent = LocalDate.parse(datepointage);
+        Agent agent = agentRepository.findAgentByMatricule(matricule);
+        return pointageService.findBypointageByDate(agent,datepointageAgent);
     }
 
    //Mise a jour pointage soir
