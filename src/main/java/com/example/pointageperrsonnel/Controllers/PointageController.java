@@ -155,9 +155,13 @@ public class PointageController {
       Calendar caldescente = Calendar.getInstance();
 
       calArrive.setTime(pointage.getHeurearrivee());
-      caldescente.add(Calendar.HOUR_OF_DAY, -calArrive.get(Calendar.HOUR_OF_DAY));
-      caldescente.add(Calendar.MINUTE, -calArrive.get(Calendar.MINUTE));
-      pointage.setCumulheure(caldescente.get(Calendar.HOUR_OF_DAY) + ":" + caldescente.get(Calendar.MINUTE));
+
+        if (heurdescent != null) {
+            caldescente.setTime(pointage.getHeuredescente());
+            caldescente.add(Calendar.HOUR_OF_DAY, -calArrive.get(Calendar.HOUR_OF_DAY));
+            caldescente.add(Calendar.MINUTE, -calArrive.get(Calendar.MINUTE));
+            pointage.setCumulheure(caldescente.get(Calendar.HOUR_OF_DAY) + ":" + caldescente.get(Calendar.MINUTE));
+        }
 
       return pointageRepository.save(pointage);
     }
