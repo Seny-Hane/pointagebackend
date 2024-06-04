@@ -116,5 +116,6 @@ public interface PointageRepository extends JpaRepository<Pointage, Integer> {
     @Query("SELECT p FROM Pointage p WHERE p.idpointage =:idpointage")
     Pointage findByIdpointage(@Param("idpointage") int idpointage);
 
-    Pointage findByAgentAndDate(Agent agent, LocalDate datePointage);
+    @Query("SELECT p FROM Pointage p WHERE p.agent = :agent AND p.datepointage = :datePointage")
+    Pointage findByAgentAndDate(@Param("agent") Agent  agent, @Param("datePointage") LocalDate datePointage);
 }
