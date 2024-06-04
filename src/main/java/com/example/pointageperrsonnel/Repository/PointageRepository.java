@@ -23,6 +23,11 @@ public interface PointageRepository extends JpaRepository<Pointage, Integer> {
     @Query(value = "SELECT * FROM pointage WHERE  DATE_FORMAT(datepointage,'%d-%m-%Y')=DATE_FORMAT(NOW(),'%d-%m-%Y') AND idagent=:agent",nativeQuery = true)
     Pointage findBydatepointageAndAgent(int agent);
 
+    // Update form descente
+    @Query(value = "SELECT * FROM pointage WHERE  idagent=:agent",nativeQuery = true)
+    Pointage findPointageByAgent(int agent);
+
+
     //Pointage findByDatepointageAndAgent(Date datepointage, Agent agent);
 
     //Liste poinatage en fonction de la date
@@ -111,4 +116,9 @@ public interface PointageRepository extends JpaRepository<Pointage, Integer> {
     //Liste pointage en fonction du matricule
     @Query("SELECT p FROM Pointage p WHERE p.datepointage BETWEEN :datepointage1 AND :datepointage2 OR  p.datepointage = :datepointage1  AND p.agent.matricule=:matricule")
     List<Pointage> listPointageAgent(@Param("datepointage1") LocalDate datepointage1, @Param("datepointage2") LocalDate datepointage2, @Param("matricule") String matricule );
+
+    //Rechercher en fonction identififiant
+    @Query("SELECT p FROM Pointage p WHERE p.idpointage = :idpointage")
+    Pointage findByIdpointage(@Param("idpointage") int idpointage);
+
 }
