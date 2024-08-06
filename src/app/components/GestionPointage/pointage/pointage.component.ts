@@ -47,6 +47,8 @@ export class PointageComponent implements OnInit {
     PointageDialog:boolean=false;
     ajoutProductDialog: boolean=false;
      hasAccess: boolean;
+    notPoint:boolean;
+    pointageSoir:boolean=false;
 
 
 
@@ -64,6 +66,8 @@ export class PointageComponent implements OnInit {
               private motifservice: MotifService,
               // private route : ActivatedRoute
                 private elementRef: ElementRef,
+
+
 
               public datepipe: DatePipe) {
       this.keycloak.loadUserProfile().then( res =>
@@ -142,21 +146,38 @@ export class PointageComponent implements OnInit {
 
     handleAddPointage() {
         this.submitted = true;
+        this.pointageService.controlePointage(this.mat).subscribe(data =>{
+           // if(data == false){
+              this.notPoint=data;
+
+                console.log(this.notPoint)
+           // }
+        })
+        this.pointageservice.controlePointageSoir(this.mat).subscribe((data)=>{
+            console.log(data)
+            this.pointageSoir=data;
+        })
         if(this.mat.trim()){
             this.agentService.getAgentByMatricule(this.mat).subscribe(data => {
-                    this.agent = data;
-                    // console.log(this.agent)
-                    if (this.agent == null){
-                        // console.log("Damn")
-                        this.agentDialog = false;
-                        this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Matricule Introuvable', life: 8000});
-                    }
-                    else {
-                        this.submitted = false;
-                        this.agentDialog = true;
-                    }
-                })
+                this.agent = data;
+                 console.log(this.agent)
+                if (this.agent == null) {
+                    // console.log("Damn")
+                    this.agentDialog = false;
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Erreur',
+                        detail: 'Matricule Introuvable',
+                        life: 8000
+                    });
+                } else {
+                    this.submitted = false;
+                    this.agentDialog = true;
+                }
+
+            })
         }
+
   }
 
 
@@ -237,7 +258,9 @@ export class PointageComponent implements OnInit {
                 this.agentService.addPointageEntree(this.mat,codeServic).subscribe(data => {
                         this.hideDialog();
                         this.mot = this.currentDate.transform(this.heureDate, 'HH:mm');
-                        this.messageService.add({severity: 'success', summary: 'Succes', detail: this.agent.prenomagent+' '+this.agent.nomagent+' a pointé avec succés. ', life: 8000});
+                      //  this.messageService.add({severity: 'success', summary: 'Succes', detail: +this.agent.prenomagent+' '+this.agent.nomagent+' a pointé avec succés :Bonnee Journée', life: 8000});
+                        this.messageService.add({ severity: 'success', summary: 'Success', detail:this.agent.prenomagent+' '+this.agent.nomagent+' a pointé avec succés :Bonnee Journée' });
+
                         this.pointageSubject.next();
                         this.mat=undefined;
                         //location.reload()
@@ -283,8 +306,9 @@ export class PointageComponent implements OnInit {
                         this.hideDialog();
                         this.messageService.add({severity: 'error', summary: 'Erreur', detail: this.agent.prenomagent+' '+this.agent.nomagent+" a déjà pointé ce soir. ", life: 8000});
                     }
-                    else if(data == true){
+                    else if(data ==true){
                         this.agentService.addPointageSortie(this.mat).subscribe(data => {
+                                console.log(data)
 
                                 this.hideDialog();
                                 // this.mot = this.currentDate.transform(this.heureDate, 'HH:mm');
@@ -422,6 +446,7 @@ export class PointageComponent implements OnInit {
     //
     PointageNow(pointage) {
 
+
         console.log(pointage);
 
         const matricule = this.FormControlPointage.get('matricule')?.value;
@@ -478,12 +503,24 @@ export class PointageComponent implements OnInit {
 
             console.log(pointageTest);
             console.log(matricule);
-            this.pointageService.controlePointage(matricule).subscribe(pointageExists => {
+            if (pointageTest.agent?.statutAgent?.idstatut===2) {
+                // Afficher un message d'erreur et arrêter l'exécution
+                this.messageService.add({severity: 'error',
+                    summary: 'Erreur', detail: `L'agent ${pointageTest.agent?.prenomagent} ${pointageTest.agent?.nomagent} est inactif et ne peut pas pointer.`,
+                    life: 8000
+                });
+                this.ngOnInit()
+                this.agentDialog=false
+                return;
+            }
+            this.pointageService.checkPointage(matricule,datePointage ).subscribe(pointageExists => {
                 if (!pointageExists) {
-                    this.messageService.add({
+                   const formedate= this.datepipe.transform(datePointage, 'dd-MM-yyyy');
+
+                        this.messageService.add({
                         severity: 'error',
                         summary: 'Erreur',
-                        detail: `${agentData.prenomagent} ${agentData.nomagent} a déjà pointé ce matin.`,
+                        detail: `${agentData.prenomagent} ${agentData.nomagent} avait  déjà  pointé le   ${formedate}`,
                         life: 8000
                     });
                 } else {
@@ -549,7 +586,7 @@ export class PointageComponent implements OnInit {
             this.hasAccess = true
 
         }
-        console.log(this.hasAccess)
+      //  console.log(this.hasAccess)
         return this.hasAccess
 
 

@@ -1,5 +1,9 @@
 <div class="card">
-    <p-toast></p-toast>
+    <p-toast
+        [showTransformOptions]="'translateY(100%)'"
+        [showTransitionOptions]="'2000ms'"
+        [hideTransitionOptions]="'2000ms'"
+        [showTransformOptions]="'translateX(200%)'"> </p-toast>
     <h5>Saisir le matricule de l'employé</h5>
         <div class="" >
             <div class="field">
@@ -22,7 +26,12 @@
 
 <div class="grid">
     <div class="col-12">
-        <p-dialog [(visible)]="agentDialog" [style]="{width: '500px', height: '28rem'}" header="Pointage" [modal]="true" class="p-fluid">
+        <p-dialog [(visible)]="agentDialog" [style]="{width: '600px', height: '33rem'}" header="Pointage" [modal]="true" class="p-fluid">
+           <h5 style="text-align: center;color: red"  *ngIf="!notPoint && pointageSoir">Bonjour</h5>
+            <h6 style="text-align:center;color:red" *ngIf="!notPoint && pointageSoir ">Vous aviez bien pointé à l'arrivée:&nbsp;<b>Merci&nbsp;</b><i class="pi pi-thumbs-up"></i> </h6>
+            <h5 style="text-align: center;color: red"  *ngIf="!notPoint && !pointageSoir">Bonjour</h5>
+            <h6 style="text-align:center;color:red" *ngIf="!notPoint && !pointageSoir">Vous avez bien pointé aujourd'hui:&nbsp;<b>Merci&nbsp;</b><i class="pi pi-thumbs-up"></i> </h6>
+            <hr>
             <ng-template pTemplate="content">
                 <tr>
                     <th>
@@ -73,12 +82,13 @@
 <!--               -->
             <ng-template pTemplate="footer">
                 <button pButton pRipple type="button" label="Annuler" icon="pi pi-times"  class="p-button-danger" (click)="hideDialog()"></button>
-                <button pButton pRipple type="button" label="Arrivée" icon="pi pi-sign-in"  class="p-button-info"  [disabled]="!buttonDisabled" (click)="savePointageMatin(agent)" ></button>
-                <button pButton pRipple type="button" label="Descente" icon="pi pi-sign-out"  class="p-button-success" [disabled]="buttonDisabled" (click)="savePointageSoir(agent)" ></button>
+                <button pButton pRipple type="button" [disabled]="!notPoint" label="Arrivée" icon="pi pi-sign-in"  class="p-button-info"   (click)="savePointageMatin(agent)" ></button>
+                <button pButton pRipple type="button" label="Descente" icon="pi pi-sign-out"  class="p-button-success" [disabled]="!pointageSoir" (click)="savePointageSoir(agent)" ></button>
 
 
                 <!--                <button pButton pRipple label="Arrivée" icon="pi pi-check" class="p-button-text"  (click)="savePointageMatin()" ></button>-->
-<!--                <button pButton pRipple label="Descente" icon="pi pi-check" class="p-button-text"  (click)="savePointageSoir()" ></button>-->
+<!--                <button pButton pRipple label="Descente" icon="pi pi-check" class="p-button-text"  (click)="savePointageSoir()" >[disabled]="!buttonDisabled  POUR arrivee" et
+[disabled]="buttonDisabled  POUR descent"</button>-->
             </ng-template>
         </p-dialog>
 

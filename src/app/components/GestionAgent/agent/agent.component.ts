@@ -69,9 +69,9 @@ export class AgentComponent implements OnInit {
     ImportTabDialog: boolean;
     contenutab: any[];
     pipe = new DatePipe('en-US');
-    date1 : Date;
-    date2 : Date;
-    date3 : Date;
+    date1: Date;
+    date2: Date;
+    date3: Date;
 
     mat: string;
     agentstatutDialog: boolean;
@@ -122,7 +122,7 @@ export class AgentComponent implements OnInit {
       )
       this.getAllAgent();
 
-    //  this.getAllService()
+     this.getAllService()
 
       this.StatutAgent.subscribe(
           (data)=>{
@@ -280,21 +280,16 @@ export class AgentComponent implements OnInit {
     }
 
 
-    handleEditAgent(agent: Agent) {
-        this.agent = {...agent};
-         console.log(this.agent)
+    handleEditAgent(agent: any) {
+        this.agent = { ...agent };
         this.date1 = new Date(this.agent.daterecrutement);
-        this.agent.daterecrutement= this.date1;
         this.date2 = new Date(this.agent.datenaissance);
-        this.agent.datenaissance= this.date2;
         this.date3 = new Date(this.agent.premierjourtravail);
-        this.agent.premierjourtravail= this.date3;
-        this.currentService=this.agent.service
-        this.currentSatut = this.agent.statutAgent
-        this.agentDialog = true;
-
+        this.currentService = this.agent.service;
+        this.currentSatut = this.agent.statutAgent;
+        console.log(this.agent);
+        this.modifagentDialog = true;
     }
-
     handleDeleteAgent(agent: Agent) {
         this.deleteAgentDialog = true;
         this.agent = {...agent};
@@ -305,67 +300,70 @@ export class AgentComponent implements OnInit {
     // }
 
     hideDialog() {
-        this.agentDialog = false;
-    //    this.modifagentDialog= false;
+        this.modifagentDialog = false;
+
+        this.submitted = false;
+    }
+
+    hideDialog1() {
+        this.agentDialog= false;
         this.submitted = false;
     }
 
 
-    saveAgent(agent : Agent) {
+    saveAgent(agent: Agent) {
         this.submitted = true;
-         console.log(this.agent)
-        // this.agent.genre=this.genree.value;
-        this.agent.ccPpal=this.currentService.numeroservice;
+        console.log(this.agent);
 
-        if(this.agent.datenaissance && this.agent.daterecrutement && this.agent.reference){
-            this.truc=""+this.agent.datenaissance;
-            this.truc2=""+this.agent.daterecrutement;
-            this.truc1=""+this.agent.reference;
+        this.agent.ccPpal = this.currentService.numeroservice;
 
+        if (this.agent.datenaissance && this.agent.daterecrutement && this.agent.reference) {
+            this.truc = "" + this.agent.datenaissance;
+            this.truc2 = "" + this.agent.daterecrutement;
+            this.truc1 = "" + this.agent.reference;
         }
-        if (this.agent.matricule.trim() && this.truc1.trim() && this.agent.prenomagent.trim() && this.agent.nomagent.trim() && this.truc.trim() && this.truc2.trim() && this.currentService.nomservice.trim() && this.agent.genre.trim()) {
+
+        if (this.agent.matricule.trim() && this.truc1.trim() && this.agent.prenomagent.trim() && this.agent.nomagent.trim() &&
+            this.truc.trim() && this.truc2.trim() && this.currentService.nomservice.trim() && this.agent.genre.trim()) {
+
+            agent.service = this.currentService;
+            agent.service.codeservice = this.currentService.codeservice;
+
             if (this.agent.idagent) {
-                agent.service = this.currentService;
-                agent.statutAgent.idstatut = this.currentSatut.idstatut;
-                agent.service.codeservice = this.currentService.codeservice;
-                this.agentService.updateAgent(agent, this.agent.idagent).subscribe( data => {
+                if (!agent.statutAgent) {
+                    agent.statutAgent = {};
+                }
+                agent.statutAgent.idstatut = this.currentSatut?.idstatut || null;
+
+                this.agentService.updateAgent(agent, this.agent.idagent).subscribe(data => {
                         this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Agent mis à jour', life: 3000});
                         this.AgentSubject.next();
-                        //location.reload()
-                        console.log(data)
+                        console.log(data);
                     },
-                    error =>{
-                        console.log(error)
+                    error => {
+                        console.log(error);
                     }
-
-                )
-
+                );
+                this.modifagentDialog = false;
             } else {
-                agent.service = this.currentService;
-                agent.service.codeservice = this.currentService.codeservice;
-                // console.log(this.agent)
+                if (!agent.statutAgent) {
+                    agent.statutAgent = {};
+                }
+                agent.statutAgent.idstatut = this.currentSatut?.idstatut || null;
+
                 this.agentService.addAgent(agent).subscribe(data => {
                     this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Agent Ajouté', life: 3000});
-                    // console.log(this.agent)
                     this.AgentSubject.next();
-                })
-
+                });
+                this.agentDialog = false;
             }
-            this.agents = [...this.agents];
-            this.agentDialog = false;
-            this.agent = {service : null};
-        }
 
-      //   agent.service = this.currentService;
-      //   agent.service.codeservice = this.currentService.codeservice;
-      // this.agentService.addAgent(agent).subscribe(data => {
-      //     alert('Agent enregistré avec succés !')
-      //     this.hideDialog()
-      //     location.reload()
-      // }, error => {
-      //     console.log(error)
-      // })
+            this.agents = [...this.agents];
+            this.agent = { service: null };
+        }
     }
+
+
 
     confirmDelete() {
         this.deleteAgentDialog = false;

@@ -26,9 +26,10 @@ export class AuthGuard extends KeycloakAuthGuard {
         // Force the user to log in if currently unauthenticated.
         if (!this.authenticated) {
             await this.keycloak.login({
-                // redirectUri: window.location.origin
+               // redirectUri: window.location.origin
+               // redirectUri: window.location.origin + state.url,
               // redirectUri: window.location.origin + "/pointageFront"
-              redirectUri: window.location.origin + "pointageTest"
+                 redirectUri: window.location.origin + "/pointageFrontv2/"+state.url
 
             });
         }

@@ -52,7 +52,7 @@
                         <th>Matricule </th>
                         <th>Prénom </th>
                         <th>Nom </th>
-                        <th>Service </th>
+<!--                        <th>Service </th>-->
                         <th pSortableColumn="datepointage">Date Pointage <p-sortIcon field="datepointage"></p-sortIcon></th>
                         <th pSortableColumn="heurearrivee">Heure d'arrivée <p-sortIcon field="heurearrivee"></p-sortIcon></th>
                         <th pSortableColumn="heuredescente">Heure de Descente <p-sortIcon field="heuresortie"></p-sortIcon></th>
@@ -74,10 +74,10 @@
                             <span class="p-column-title">Nom</span>
                             {{pointage.agent.nomagent}}
                         </td>
-                        <td  style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">Service</span>
-                            {{pointage.agent.service.nomservice}}
-                        </td>
+<!--                        <td  style="width:14%; min-width:10rem;">-->
+<!--                            <span class="p-column-title">Service</span>-->
+<!--                            {{pointage.agent.service.nomservice}}-->
+<!--                        </td>-->
                         <td style="width:14%; min-width:8rem;">
                             <span class="p-column-title">Date Pointage</span>
                             {{pointage.datepointage}}
@@ -98,7 +98,7 @@
 <!--                            <span class="p-column-title">Status</span>-->
 <!--                            {{pointage.motif.motif}}-->
 <!--                        </td>-->
-                        <td>
+                        <td *ngIf="isAdmin() || isChefService()">
                             <div class="flex">
                                 <button *ngIf="!pointage.heuredescente" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="UpdateDescente(pointage)"></button>
                             </div>
@@ -125,7 +125,7 @@
                                         le matricule ne doit pas dépasser <strong>7 caractères</strong>
                                       </mat-error>
                                 </mat-form-field>
-        
+
                             </div>
                         </div> -->
                         <div class="p-formgrid grid">
@@ -146,7 +146,7 @@
                         </span>
                         Enregistrer
                     </button>
-                    
+
                     <button type="button" class="btn btn-danger custom-btn" (click)="Cancel()">
                         <span class="btn-label">
                             <i class="material-icons"></i>
@@ -154,7 +154,7 @@
                         Annuler
                     </button>
                 </div>
-                
+
             </ng-template>
         </p-dialog>
     </div>

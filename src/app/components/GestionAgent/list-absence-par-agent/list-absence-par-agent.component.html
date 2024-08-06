@@ -68,9 +68,9 @@
                             <th>Prénom </th>
                             <th>Nom </th>
                             <th>Date D'Absence </th>
-                            <th>Justificatif </th>
-                            <th>Commentaire </th>
-                            <th>Action </th>
+                            <th>Motif d'Absence </th>
+<!--                            <th>Commentaire </th>-->
+<!--                            <th>Action </th>-->
                         </tr>
                     </ng-template>
                     <ng-template  pTemplate="body" let-abs>
@@ -92,20 +92,20 @@
                             </td>
 
                             <td class="text-danger" style="width:14%; min-width:8rem;">
-                                <span class="p-column-title">Justificatif</span>
+                                <span class="p-column-title">motif d'absence</span>
                                 {{abs.motif.motif}}
                             </td>
-                            <td style="width:14%; min-width:8rem;">
-                                <span class="p-column-title">Commentaire</span>
-                               {{abs.commentaire}}
-                            </td>
-                            <td style="width:14%; min-width:8rem;">
-                                   <span>
-                                            <button pButton pRipple icon="pi pi-pencil" label="Justifier"
-                                                    class="p-button-secondary mr-2 mb-2"
-                                                    (click)="editAbs(abs)"></button>
-                                   </span>
-                            </td>
+<!--                            <td style="width:14%; min-width:8rem;">-->
+<!--                                <span class="p-column-title">Commentaire</span>-->
+<!--                               {{abs.commentaire}}-->
+<!--                            </td>-->
+<!--                            <td style="width:14%; min-width:8rem;">-->
+<!--                                   <span>-->
+<!--                                            <button pButton pRipple icon="pi pi-pencil" label="Justifier"-->
+<!--                                                    class="p-button-secondary mr-2 mb-2"-->
+<!--                                                    (click)="editAbs(abs)"></button>-->
+<!--                                   </span>-->
+<!--                            </td>-->
 
                     </ng-template>
                 </p-table>

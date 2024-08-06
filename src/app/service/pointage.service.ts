@@ -44,6 +44,10 @@ export class PointageService {
         return this.http.get<any>(environment.apiUrl+'/agent/controleexistance/'+matricule);
     }
 
+    public checkPointage(matricule : string,datepointage:string) : Observable<any> {
+        return this.http.get<any>(environment.apiUrl+'/agent/controleexistanceByDate/'+matricule+'/'+datepointage);
+    }
+
     public controlePointageSoir(matricule : string) : Observable<any> {
         return this.http.get<any>(environment.apiUrl+'/agent/controleupdate/'+matricule);
     }

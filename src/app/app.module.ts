@@ -136,6 +136,7 @@ import { ListGlobalAbsenceComponent } from './components/GestionAgent/list-globa
 import { ModifierMotifComponent } from './components/GestionAgent/modifier-motif/modifier-motif.component';
 import { RattrapageComponent } from './components/GestionPointage/rattrapage/rattrapage.component';
 import { MatSelectModule } from '@angular/material/select';
+import { GuideUtilisateurComponent } from './components/guide/guide-utilisateur/guide-utilisateur.component';
 
 
 @NgModule({
@@ -271,6 +272,7 @@ import { MatSelectModule } from '@angular/material/select';
         ListGlobalAbsenceComponent,
         ModifierMotifComponent,
         RattrapageComponent,
+        GuideUtilisateurComponent,
 
 
 

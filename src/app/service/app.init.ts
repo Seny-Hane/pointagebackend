@@ -7,7 +7,7 @@ export function initializeKeycloak(keycloak: KeycloakService):()=> Promise<boole
                 //url: 'http://localhost:8080/auth',
                 // en production
                   url: 'http://digipost.sn.post:8082/auth',
-                //  url:'http://10.10.3.138:8080',
+               //  url:'http/10.6.4.44:8082/auth/',
               //  url: 'http://10.14.14.232:8180/auth',
                 // en production
                   realm: 'Digital-Poste',

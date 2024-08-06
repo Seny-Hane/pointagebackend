@@ -140,7 +140,7 @@
                         <small class="ng-dirty ng-invalid" *ngIf="submitted && !utilisateur.matricule">Matricule doit etre du format 123456A.</small>
                     </div>
                     <div class="field col">
-                        <label for="reference">Reference</label>
+                        <label for="nom">Reference</label>
                         <input type="text" pInputText id="reference" [(ngModel)]="utilisateur.reference" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !utilisateur.reference}"/>
                         <small class="ng-dirty ng-invalid" *ngIf="submitted && !utilisateur.reference">Reference est obligatoire.</small>
                     </div>
@@ -154,7 +154,7 @@
                 </div>
                 <div class="p-formgrid grid">
                     <div class="field col">
-                        <label>Service</label>
+                        <label for="nom">Service <span style="color: red"> *</span></label>
                         <br>
                         <p-autoComplete placeholder="Choisir un service" appendTo="body"  [(ngModel)]="utilisateur.service" [size]="2" [virtualScroll]="true"
                                         [suggestions]="filtereddirections" (completeMethod)="filterDirections($event)" field="nomservice" [dropdown]="true" ></p-autoComplete>
@@ -173,7 +173,7 @@
 
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <button pButton pRipple label="Save" [disabled]="!utilisateur.nom || !utilisateur.prenom || !utilisateur.email  || !utilisateur.matricule  || !utilisateur.service || !utilisateur.reference"  icon="pi pi-check" class="p-button-text" (click)="saveUser(utilisateur)"></button>
+                <button pButton pRipple label="Save" [disabled]="!utilisateur.nom || !utilisateur.prenom || !utilisateur.email  || !utilisateur.matricule  || !utilisateur.service"  icon="pi pi-check" class="p-button-text" (click)="saveUser(utilisateur)"></button>
             </ng-template>
         </p-dialog>
         <p-dialog [(visible)]="productDialog2" [style]="{width: '700px'}" header="Modifier Utilisateurs" [modal]="true" class="p-fluid">
@@ -233,7 +233,7 @@
 
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <button pButton pRipple label="Save" [disabled]="!utilisateur.nom || !utilisateur.prenom || !utilisateur.email || !utilisateur.matricule || !utilisateur.reference"  icon="pi pi-check" class="p-button-text" (click)="saveUser(utilisateur)"></button>
+                <button pButton pRipple label="Save" [disabled]="!utilisateur.nom || !utilisateur.prenom || !utilisateur.email || !utilisateur.matricule "  icon="pi pi-check" class="p-button-text" (click)="saveUser(utilisateur)"></button>
             </ng-template>
         </p-dialog>
 

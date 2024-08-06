@@ -37,8 +37,15 @@ export class UserService {
     updateUser(userId: number,Role:Roles[]): Observable<any> {
         return this.http.post<any>(environment.apiUrl +'/userRole/affectGroupRoleToUser/'+userId, Role,this.httpOptions)
     }
+    updateGroupRoleToUser(Role:Roles[]): Observable<any> {
+        return this.http.post<any>(environment.apiUrl +'/userRole/affectGroupRoleToUser',Role,this.httpOptions)
+    }
+
     RemoveRoleToUser(Role:Roles[]): Observable<any> {
         return this.http.patch<any>(environment.apiUrl +'/userRole/deleteGroupRoleToUser', Role,this.httpOptions)
+    }
+    RemoveGroupRoleToUser(userId: number,Role:Roles[]): Observable<any> {
+        return this.http.patch<any>(environment.apiUrl +'/userRole/deleteGroupRoleToUser/'+userId,Role,this.httpOptions)
     }
 
 

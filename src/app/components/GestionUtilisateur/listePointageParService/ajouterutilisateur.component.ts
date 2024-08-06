@@ -31,6 +31,7 @@ export class AjouterutilisateurComponent implements OnInit {
     username:any;
     user : any;
     d1: string;
+    hasAccess: boolean;
     d2: string;
     result : any;
     selectedPointages: Pointage[];
@@ -46,7 +47,7 @@ export class AjouterutilisateurComponent implements OnInit {
     selectedDate: Date
     matricule: string;
     selectedPointage: any;
-    
+
 
   constructor(private pointageService: PointageService,public keycloak: KeycloakService,
               private http: HttpClient, private datepipe: DatePipe,
@@ -57,7 +58,7 @@ export class AjouterutilisateurComponent implements OnInit {
               private userService: UserService,
               private messageService: MessageService,) {
 
-      this.addagent= new Agent();          
+      this.addagent= new Agent();
       this.keycloak.loadUserProfile().then( res =>
       {
           // console.log(res);
@@ -138,9 +139,9 @@ ngOnInit(): void {
     //      }
     //      else if(data == true){
     //        this.agentService.addPointageSortie(this.pointage.agent.matricule,pointageTest).subscribe(data => {
- 
+
     //          // this.hideDialog();
-             
+
     //          this.messageService.add({severity: 'success', summary: 'Succes', detail: this.pointage.agent.prenomagent+' '+this.pointage.agent.nomagent+' a pointé avec succés. ', life: 8000});
     //          // this.pointageSubject.next();
     //          this.pointage.agent.matricule=undefined;
@@ -152,8 +153,8 @@ ngOnInit(): void {
     //      console.log(error)
     //      }
     //    })
-    //  }) 
-//  }    
+    //  })
+//  }
     PointageNow() {
       console.log(this.selectedPointage)
       const heureArriveeValue = this.FormControlPointage.get('heurearrivee')?.value;
@@ -161,7 +162,7 @@ ngOnInit(): void {
       console.log('heureDescentValue:', heureDescentValue);
 
       let selectedDateDescente: Date | undefined = undefined;
-            
+
                 const [heureDescent, minutesDescent] = heureDescentValue.split(':').map(Number);
                 selectedDateDescente = new Date();
                 selectedDateDescente.setHours(heureDescent);
@@ -169,20 +170,20 @@ ngOnInit(): void {
                 console.log(selectedDateDescente);
 
                 let heurARRIVEE=this.selectedPointage.heurearrivee
-      
+
                 const [hours, minutes] =  heurARRIVEE.split(':').map(Number);
                 const selectedDate = new Date();
                 selectedDate.setHours(hours);
                 selectedDate.setMinutes(minutes);
-                console.log(selectedDate);          
-      
+                console.log(selectedDate);
+
                 this.selectedPointage.heurearrivee = selectedDate;
                console.log(this.selectedPointage)
 
       // Mettre à jour l'objet pointage avec l'heure de descente sélectionnée
         this.selectedPointage.heuredescente = selectedDateDescente;
         console.log(this.selectedPointage)
-  
+
       // Vérifier si l'agent a déjà pointé le soir
       // this.pointageService.controlePointageSoir(this.selectedPointage.agent.matricule).subscribe(data => {
       //   if (!data) {
@@ -202,12 +203,12 @@ ngOnInit(): void {
                   this.result = this.result.filter(use => use.agent.service?.codeservice == this.user.service?.codeservice);
                   this.tourner=false;
                   return data;
-    
+
                 })
               }
               this.ngOnInit();
               this.FormControlPointage.reset();
-              
+
             },
             error => {
               console.error(error);
@@ -220,7 +221,30 @@ ngOnInit(): void {
     //     this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Une erreur s\'est produite lors de la vérification du pointage.', life: 8000 });
     //   });
     // }
-  
+
+    isAdmin() {
+        this.hasAccess = false
+        if (this.keycloak.getUserRoles().includes("ROLE_DRH")) {
+            this.hasAccess = true
+
+        }
+        //  console.log(this.hasAccess)
+        return this.hasAccess
+
+
+    }
+    isChefService() {
+        this.hasAccess = false
+        if (this.keycloak.getUserRoles().includes("ROLE_CHEFDESERVICE")) {
+            this.hasAccess = true
+
+        }
+
+        return this.hasAccess
+
+
+    }
+
 
 
 

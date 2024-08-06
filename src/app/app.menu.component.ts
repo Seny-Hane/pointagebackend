@@ -89,7 +89,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Gestion Pointage',
                 rootroles: this.findRole(['ROLE_DRH','ROLE_AGENT','ROLE_VIGILE','ROLE_SUPERVISEUR','ROLE_CHEFDESERVICE']),
                 items: [
-                    {label: 'Pointage', icon: 'pi pi-fw pi-pencil', routerLink: ['/gestion/pointage'], roles: this.findRole(['ROLE_AGENT','ROLE_DRH','ROLE_VIGILE'])},
+                    {label: 'Pointage', icon: 'pi pi-fw pi-pencil', routerLink: ['/gestion/pointage'], roles: this.findRole(['ROLE_AGENT','ROLE_DRH','ROLE_CHEFDESERVICE','ROLE_VIGILE'])},
                     {label: 'Liste des Présents', icon: 'pi pi-fw pi pi-list', routerLink: ['/gestion/listpointage'], roles: this.findRole(['ROLE_DRH'])}, /*A commenter avant de deployer*/
                     {label: 'Supervision en temps réel', icon: 'pi pi-fw pi-history', routerLink: ['/gestion/supervisionpointage'], roles: this.findRole(['ROLE_DRH','ROLE_SUPERVISEUR'])},
                     {label: 'Rapport par Service', icon: 'pi pi-fw pi pi pi-file', routerLink: ['/rapport/rapportpointage'], roles: this.findRole(['ROLE_DRH','ROLE_SUPERVISEUR'])},
@@ -130,6 +130,14 @@ export class AppMenuComponent implements OnInit {
                     {label: 'Périodiques Par Service', icon: 'pi pi-fw  pi pi-file', routerLink: ['/gestion/absenceperiodiqueparservice'], roles: this.findRole(['ROLE_DRH','ROLE_SUPERVISEUR'])},
                     {label: "Rapport d'Absence", icon: 'pi pi-fw  pi pi-file', routerLink: ['/gestion/ListAgentAbsByService'], roles: this.findRole(['ROLE_CHEFDESERVICE','ROLE_DRH'])},
                     {label: "Historique ", icon: 'pi pi-fw  pi pi-file', routerLink: ['/gestion/AllLiseAbs'], roles: this.findRole(['ROLE_CHEFDESERVICE','ROLE_DRH','ROLE_SUPERVISEUR'])},
+
+                ]
+            },
+            {
+                label: 'Guide Utilisateur',
+                rootroles: this.findRole(['ROLE_CHEFDESERVICE','ROLE_SUPERVISEUR','ROLE_DRH','ROLE_AGENT']),
+                items: [
+                    {label: 'manuel utilisateur', icon: 'pi pi-fw  pi pi-file', routerLink: ['guide/guideutilisateur'], roles: this.findRole(['ROLE_DRH','ROLE_CHEFDESERVICE','ROLE_AGENT','ROLE_SUPERVISEUR'],)},
 
                 ]
             }

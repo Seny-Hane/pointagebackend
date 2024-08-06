@@ -8,8 +8,8 @@
 <div class="grid" *ngIf="pointages">
     <div class="col-12">
         <div class="card">
-            <p-toast></p-toast>
-            <p-toolbar styleClass="mb-4">
+<!--            <p-toast></p-toast>-->
+<!--            <p-toolbar styleClass="mb-4">-->
 <!--                <ng-template pTemplate="left">-->
 <!--                    <div class="my-2">-->
 <!--                        <p-calendar inputId="icon" showIcon="true" dateFormat="dd-mm-yy" placeholder="Choisir une date" [(ngModel)]="date1" (onSelect)="getListPointageByDate(date1)"></p-calendar>-->
@@ -26,8 +26,8 @@
                 <!--                                <ng-template pTemplate="right">-->
                 <!--&lt;!&ndash;                                    <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>&ndash;&gt;-->
                 <!--                                    <button pButton pRipple label="All"  class="p-button-help" (click)="getAllPointage()"></button>-->
-                <!--                                </ng-template>-->
-            </p-toolbar>
+<!--                &lt;!&ndash;                                </ng-template>&ndash;&gt;-->
+<!--            </p-toolbar>-->
             <div *ngIf="tourner==true">
                 <h5 class="tourner">Veuillez Patienter...</h5>
                 <p-progressSpinner class="tourner"></p-progressSpinner>
@@ -35,11 +35,12 @@
 <!--            <div *ngIf="erreur==true && tourner==false" class="alert alert-danger" >
                 Serveur Indisponible
             </div>-->
-            <p-table #dt *ngIf="erreur==false && tourner==false"  [value]="pointages" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['agent.matricule','agent.nomagent','agent.service.nomservice','agent.prenomagent', 'heurearrivee', 'heuredesente', 'motif.motif']" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Affiche {first} à {last} de {totalRecords} entrées" [(selection)]="selectedPointages" selectionMode="multiple" [rowHover]="true" dataKey="idpointage">
+            <p-table #dt *ngIf="erreur==false && tourner==false"  [value]="pointages" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['agent.matricule','agent.nomagent','agent.prenomagent', 'heurearrivee', 'heuredesente', 'motif.motif']" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Affiche {first} à {last} de {totalRecords} entrées" [(selection)]="selectedPointages" selectionMode="multiple" [rowHover]="true" dataKey="idpointage">
 
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                        <h5 class="m-0">Liste des présents du {{this.today}}</h5>
+                        <h3 class="m-0">Journée du <b>{{this.today}}</b></h3>
+                        <h3 class="m-auto" style="color:#0b5ed7">Liste des présents</h3>
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Rechercher..." >
@@ -54,8 +55,8 @@
                         <th>Matricule </th>
                         <th>Prénom </th>
                         <th>Nom </th>
-                        <th pSortableColumn="agent.service.nomservice">Service <p-sortIcon field="agent.service.nomservice"></p-sortIcon></th>
-                        <th pSortableColumn="datepointage">Date Pointage <p-sortIcon field="datepointage"></p-sortIcon></th>
+<!--                        <th pSortableColumn="agent.service.nomservice">Service <p-sortIcon field="agent.service.nomservice"></p-sortIcon></th>-->
+<!--                        <th pSortableColumn="datepointage">Date Pointage <p-sortIcon field="datepointage"></p-sortIcon></th>-->
                         <th pSortableColumn="heurearrivee">Heure d'arrivée <p-sortIcon field="heurearrivee"></p-sortIcon></th>
                         <th pSortableColumn="heuredescente">Heure de Descente <p-sortIcon field="heuresortie"></p-sortIcon></th>
                         <th pSortableColumn="cumulheure">Cumul Heure <p-sortIcon field="cumulheure"></p-sortIcon></th>
@@ -79,14 +80,14 @@
                             <span class="p-column-title">Nom</span>
                             {{pointage.agent.nomagent}}
                         </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">Service</span>
-                            {{pointage.agent.service.nomservice}}
-                        </td>
-                        <td style="width:14%; min-width:8rem;">
-                            <span class="p-column-title">Date Pointage</span>
-                            {{pointage.datepointage}}
-                        </td>
+<!--                        <td style="width:14%; min-width:10rem;">-->
+<!--                            <span class="p-column-title">Service</span>-->
+<!--                            {{pointage.agent.service.nomservice}}-->
+<!--                        </td>-->
+<!--                        <td style="width:14%; min-width:8rem;">-->
+<!--                            <span class="p-column-title">Date Pointage</span>-->
+<!--                            {{pointage.datepointage}}-->
+<!--                        </td>-->
                         <td style="width:14%; min-width:8rem;">
                             <span class="p-column-title">Heure d'arrivée</span>
                             {{pointage.heurearrivee }}
@@ -108,11 +109,11 @@
                         <!--                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="handleDeleteAgent(agent)"></button>-->
                         <!--                            </div>-->
                         <!--                        </td>-->
-                        
+
                     </tr>
                 </ng-template>
             </p-table>
         </div>
-       
+
     </div>
 </div>
