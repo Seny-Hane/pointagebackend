@@ -135,9 +135,9 @@ export class AppMenuComponent implements OnInit {
             },
             {
                 label: 'Guide Utilisateur',
-                rootroles: this.findRole(['ROLE_CHEFDESERVICE','ROLE_SUPERVISEUR','ROLE_DRH','ROLE_AGENT']),
+                rootroles: this.findRole(['ROLE_CHEFDESERVICE','ROLE_SUPERVISEUR','ROLE_AGENT']),
                 items: [
-                    {label: 'manuel utilisateur', icon: 'pi pi-fw  pi pi-file', routerLink: ['guide/guideutilisateur'], roles: this.findRole(['ROLE_DRH','ROLE_CHEFDESERVICE','ROLE_AGENT','ROLE_SUPERVISEUR'],)},
+                    {label: 'manuel utilisateur', icon: 'pi pi-fw  pi pi-file', routerLink: ['guide/guideutilisateur'], roles: this.findRole(['ROLE_CHEFDESERVICE','ROLE_AGENT','ROLE_SUPERVISEUR'],)},
 
                 ]
             }
