@@ -4,28 +4,17 @@ package com.example.pointageperrsonnel.Services;
 import com.example.pointageperrsonnel.DTO.UserDTO;
 import com.example.pointageperrsonnel.Entity.Role;
 import com.example.pointageperrsonnel.Entity.User;
-import com.example.pointageperrsonnel.Entity.UserRole;
 import com.example.pointageperrsonnel.KeycloakSecurity.KeyCloakService;
 import com.example.pointageperrsonnel.Repository.RoleRepository;
 import com.example.pointageperrsonnel.Repository.ServiceRepository;
 import com.example.pointageperrsonnel.Repository.UserRepository;
-import com.example.pointageperrsonnel.Repository.UserRoleRepository;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import javassist.NotFoundException;
-import jdk.nashorn.internal.runtime.options.Option;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.PersistenceException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional

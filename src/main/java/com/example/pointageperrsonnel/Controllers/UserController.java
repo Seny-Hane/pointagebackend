@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,8 @@ public class UserController {
 
     @Autowired
     private KeyCloakService keyCloakService;
+
+
     UserMapper userMapper;
 
     //Liste de tous les users
@@ -116,6 +119,22 @@ public class UserController {
     public User save(@RequestBody User user){
         return userRepository.save(user);
     }*/
+
+//    @PostMapping("/reset-password/{userId}")
+//    public void resetPassword(@PathVariable String userId) {
+//        keyCloakService.sendResetPassword(userId);
+//    }
+//
+//    @PostMapping("/send-verification-link/{userId}")
+//    public void sendVerificationLink(@PathVariable String userId) {
+//        keyCloakService.sendVerificationLink(userId);
+//    }
+//
+//    @PostMapping("/reset-password/username/{username}")
+//    public void resetPasswordByUsername(@PathVariable String username) {
+//        keyCloakService.sendResetPasswordByUsername(username);
+//    }
+
 
 
 }

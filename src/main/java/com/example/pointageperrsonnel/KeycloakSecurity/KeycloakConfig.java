@@ -4,12 +4,6 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.SecurityFilterChain;
 
 public class KeycloakConfig {
 
@@ -20,7 +14,7 @@ public class KeycloakConfig {
     final static String clientId = "Backend_Pointage";
     final static String clientSecret = "2454520b-3b80-4a76-a8a0-132fbe96c71c";
    // final static String clientSecret = "ab85cc96-76ed-4e94-8dad-d1b01e8748b5";
-        final static String userName = "diago";
+   final static String userName = "diago";
     final static String password = "1234";
 
     public KeycloakConfig(){}

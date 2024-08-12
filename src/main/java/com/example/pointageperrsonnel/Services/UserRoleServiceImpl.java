@@ -3,18 +3,17 @@ package com.example.pointageperrsonnel.Services;
 import com.example.pointageperrsonnel.Entity.Role;
 import com.example.pointageperrsonnel.Entity.User;
 import com.example.pointageperrsonnel.Entity.UserRole;
-import com.example.pointageperrsonnel.Entity.UserRoleId;
 import com.example.pointageperrsonnel.KeycloakSecurity.KeyCloakService;
 import com.example.pointageperrsonnel.Repository.RoleRepository;
 import com.example.pointageperrsonnel.Repository.UserRepository;
 import com.example.pointageperrsonnel.Repository.UserRoleRepository;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserRoleServiceImpl implements UserRoleService{
@@ -111,11 +110,9 @@ public class UserRoleServiceImpl implements UserRoleService{
             }
             counter++;
         }
-
     }
-
     @Override
-    public String affectGroupRoleToUser2(int idUser, List<Role> roles) {
+    public String affectGroupRoleToUser2(int idUser, List<Role> roles) throws NotFoundException {
         String message = null;
         int size = roles.size();
         int counter = 1;
@@ -142,7 +139,7 @@ public class UserRoleServiceImpl implements UserRoleService{
     }
 
     @Override
-    public void affectGroupRoleToUser(List<UserRole> userRoles) {
+    public void affectGroupRoleToUser(List<UserRole> userRoles) throws NotFoundException {
         int size = userRoles.size();
         int counter = 0;
         List<UserRole> temp = new ArrayList<>();

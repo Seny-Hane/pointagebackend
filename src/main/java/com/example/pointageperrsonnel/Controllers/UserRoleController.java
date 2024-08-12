@@ -4,6 +4,7 @@ import com.example.pointageperrsonnel.Entity.Role;
 import com.example.pointageperrsonnel.Entity.UserRole;
 import com.example.pointageperrsonnel.Repository.UserRoleRepository;
 import com.example.pointageperrsonnel.Services.UserRoleServiceImpl;
+import javassist.NotFoundException;
 import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,12 +35,12 @@ public class UserRoleController {
     }
 
     @PostMapping(value = "/affectGroupRoleToUser")
-    public void affectGroupRoleToUser(@RequestBody List<UserRole> userRoles){
+    public void affectGroupRoleToUser(@RequestBody List<UserRole> userRoles) throws NotFoundException {
         userRoleService.affectGroupRoleToUser(userRoles);
     }
 
     @PostMapping(value = "/affectGroupRoleToUser/{idUser}")
-    public String affectGroupRoleToUser2(@PathVariable int idUser, @RequestBody List<Role> userRoles){
+    public String affectGroupRoleToUser2(@PathVariable int idUser, @RequestBody List<Role> userRoles) throws NotFoundException {
         return userRoleService.affectGroupRoleToUser2(idUser, userRoles);
     }
 

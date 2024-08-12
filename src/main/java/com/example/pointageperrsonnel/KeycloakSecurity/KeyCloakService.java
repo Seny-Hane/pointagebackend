@@ -3,20 +3,24 @@ package com.example.pointageperrsonnel.KeycloakSecurity;
 import com.example.pointageperrsonnel.DTO.UserDTO;
 import com.example.pointageperrsonnel.Entity.User;
 import com.example.pointageperrsonnel.Services.UserMapper;
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
-import org.keycloak.admin.client.resource.RoleResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
-//AJOUT
-import static com.example.pointageperrsonnel.KeycloakSecurity.KeycloakConfig.*;
+
+import static com.example.pointageperrsonnel.KeycloakSecurity.KeycloakConfig.keycloak;
+import static com.example.pointageperrsonnel.KeycloakSecurity.KeycloakConfig.realm;
 
 @AllArgsConstructor
 @Service
@@ -170,17 +174,70 @@ public class KeyCloakService {
         }
     }*/
 
-    public void sendVerificationLink(String userId){
+//        public void sendVerificationLink(String userId){
+//            UsersResource usersResource = getInstance();
+//            usersResource.get(userId)
+//                    .sendVerifyEmail();
+//        }
+//
+//        public void sendResetPassword(String userId){
+//            UsersResource usersResource = getInstance();
+//            usersResource.get(userId)
+//                    .executeActionsEmail(Arrays.asList("UPDATE_PASSWORD"));
+//        }
+@PostConstruct
+public void init() {
+    UsersResource usersResource = getInstance();
+    usersResource = keycloak.realm("Digital-Poste").users();
+}
+
+    public void sendVerificationLink(String userId) {
         UsersResource usersResource = getInstance();
-        usersResource.get(userId)
-                .sendVerifyEmail();
+        try {
+            UserRepresentation user = usersResource.get(userId).toRepresentation();
+            if (user != null) {
+                usersResource.get(userId).sendVerifyEmail();
+                System.out.println("Verification email sent to user: " + userId);
+            } else {
+                System.out.println("User not found: " + userId);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error sending verification email to user: " + userId);
+        }
     }
 
-    public void sendResetPassword(String userId){
+    public void sendResetPassword(String userId) {
         UsersResource usersResource = getInstance();
+        try {
+            UserRepresentation user = usersResource.get(userId).toRepresentation();
+            if (user != null) {
+                usersResource.get(userId).executeActionsEmail(Arrays.asList("UPDATE_PASSWORD"));
+                System.out.println("Reset password email sent to user: " + userId);
+            } else {
+                System.out.println("User not found: " + userId);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error sending reset password email to user: " + userId);
+        }
+    }
 
-        usersResource.get(userId)
-                .executeActionsEmail(Arrays.asList("UPDATE_PASSWORD"));
+    public void sendResetPasswordByUsername(String username) {
+        UsersResource usersResource = getInstance();
+        try {
+            List<UserRepresentation> users = usersResource.search(username);
+            if (!users.isEmpty()) {
+                String userId = users.get(0).getId();
+                sendResetPassword(userId);
+                System.out.println("Reset password email sent to user: " + userId);
+            } else {
+                System.out.println("User not found: " + username);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error sending reset password email to user: " + username);
+        }
     }
 
     private UsersResource getInstance() {
@@ -216,29 +273,41 @@ public class KeyCloakService {
 //        );
 //        user.roles().realmLevel().add(roleToAdd);
 //    }
-    public void addRealmRoleToUser(String userName, String role_name) {
-        List<UserRepresentation> users = KeycloakConfig.getInstance()
-                .realm(realm)
-                .users()
-                .search(userName);
-        if (!users.isEmpty()) {
-            String userId = users.get(0).getId();
-            UserResource user = KeycloakConfig.getInstance()
+        public void addRealmRoleToUser(String userName, String roleName) throws NotFoundException {
+        try {
+            // Rechercher les utilisateurs par nom d'utilisateur
+            List<UserRepresentation> users = KeycloakConfig.getInstance()
                     .realm(realm)
                     .users()
-                    .get(userId);
-            RoleRepresentation roleToAdd = KeycloakConfig.getInstance()
-                    .realm(realm)
-                    .roles()
-                    .get(role_name)
-                    .toRepresentation();
-            user.roles().realmLevel().add(Collections.singletonList(roleToAdd));
-        } else {
-            // Gérer le cas où aucun utilisateur correspondant n'a été trouvé
-            System.out.println("Aucun utilisateur trouvé avec le nom : " + userName);
-            System.out.println("Aucun role trouvé avec le nom : " +role_name);
+                    .search(userName);
+
+            // Vérifier si des utilisateurs ont été trouvés
+            if (!users.isEmpty()) {
+                String userId = users.get(0).getId();
+                UserResource user = KeycloakConfig.getInstance()
+                        .realm(realm)
+                        .users()
+                        .get(userId);
+
+                // Rechercher le rôle par nom de rôle
+                RoleRepresentation roleToAdd = KeycloakConfig.getInstance()
+                        .realm(realm)
+                        .roles()
+                        .get(roleName)
+                        .toRepresentation();
+
+                // Ajouter le rôle à l'utilisateur
+                user.roles().realmLevel().add(Collections.singletonList(roleToAdd));
+            } else {
+                // Gérer le cas où aucun utilisateur correspondant n'a été trouvé
+                System.out.println("Aucun utilisateur trouvé avec le nom : " + userName);
+            }
+        } catch (Exception e) {
+            // Gérer les autres exceptions
+            System.out.println("Erreur lors de l'ajout du rôle : " + e.getMessage());
         }
     }
+
 
     public List<String> getAllRoles(){
         List<String> availableRoles = KeycloakConfig.getInstance()
